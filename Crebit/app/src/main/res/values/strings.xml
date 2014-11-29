@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Crebit</string>
+    <string name="mobileNumber">Number:</string>
+    <string name="password">Password:</string>
+    <string name="newUser">New User ?</string>
+    <string name="crebitWallet">Crebit Wallet</string>
+    <string name="login">  Login </string>
+    <string name="forgotPassword"><u>Forgot Password</u></string>
+    <string name="forgotPasswd">Forgot Password</string>
+    <string name="signUp"><u>SignUp</u></string>
+    <string name="hello_world">Hello world!</string>
+    <string name="EnterNumber">Enter your mobile number here to reset password. </string>
+    <string name="mobile">Mobile</string>
+    <string name="bitBlue">BitBlue Technologies - 2014</string>
+    <string name="signupRegister">Sign Up/ Register</string>
+    <string name="accType"><u>Select Account Type</u></string>
+    <string name="name">Name</string>
+    <string name="mobNum">Mobile Number</string>
+    <string name="passwd">Password</string>
+    <string name="existingUser">Existing User/ Sign In</string>
+
+    <string-array name="accountType">
+        <item>Enterprise</item>
+        <item>Personal</item>
+    </string-array>
+
+    <string name="services">Services</string>
+    <string name="transactionSummary">Transaction Summary</string>
+    <string name="balanceSummary">Balance Summary</string>
+    <string name="bankAccountPay">Bank Account Pay</string>
+    <string name="updates">Updates</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string-array name="services">
+        <item>Services</item>
+        <item>Transaction Summary</item>
+        <item>Balance Summary</item>
+        <item>Bank Account Pay</item>
+        <item>Updates</item>
+        <item>Margin</item>
+    </string-array>
+</resources>

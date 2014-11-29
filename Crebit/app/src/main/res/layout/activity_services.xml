@@ -1,0 +1,89 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.bitblue.crebit.services.Services">
+
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/ib_postPaid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/crebit"/>
+
+        <ImageButton
+            android:id="@+id/ib_prePaid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/crebit"
+            android:layout_toRightOf="@+id/ib_postPaid"/>
+
+        <ImageButton
+            android:id="@+id/ib_dataCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/ib_prePaid"
+            android:src="@drawable/crebit" />
+
+        <ImageButton
+            android:id="@+id/ib_dth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ib_prePaid"
+            android:src="@drawable/crebit" />
+
+        <ImageButton
+            android:id="@+id/ib_insurance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ib_postPaid"
+            android:layout_toRightOf="@id/ib_dth"
+            android:src="@drawable/crebit" />
+
+        <ImageButton
+            android:id="@+id/ib_electricity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ib_dataCard"
+            android:layout_toRightOf="@id/ib_insurance"
+            android:src="@drawable/crebit" />
+
+        <ImageButton
+            android:id="@+id/ib_gasBill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/crebit"
+            android:layout_below="@+id/ib_dth"/>
+
+        <ImageButton
+            android:id="@+id/ib_broadBand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/ib_dth"
+            android:layout_below="@+id/ib_insurance"
+            android:src="@drawable/crebit" />
+
+        <ImageButton
+            android:id="@+id/ib_FundTransfer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/crebit"
+            android:layout_toRightOf="@+id/ib_broadBand"
+            android:layout_below="@+id/ib_electricity"/>
+
+    </RelativeLayout>
+
+    <fragment
+        android:id="@+id/navigation_drawer"
+        android:layout_width="@dimen/navigation_drawer_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:name="com.bitblue.crebit.services.NavigationDrawerFragment"
+        tools:layout="@layout/fragment_navigation_drawer" />
+
+</android.support.v4.widget.DrawerLayout>
