@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.bitblue.crebit.services.Services;
+import com.bitblue.crebit.services.service;
 
 
 public class LoginActivity extends ActionBarActivity implements View.OnClickListener {
@@ -49,7 +49,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 if (mNumber.getText() != null && passwd.getText().toString() != null) {
                     mobileNumber = mNumber.getText().toString();
                     password = passwd.getText().toString();
-                    Intent openServies=new Intent(LoginActivity.this, Services.class);
+                    Intent openServies=new Intent(LoginActivity.this, service.class);
                     startActivity(openServies);
                 }
                 else{

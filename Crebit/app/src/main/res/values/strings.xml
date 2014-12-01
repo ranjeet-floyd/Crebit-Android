@@ -31,15 +31,36 @@
     <string name="balanceSummary">Balance Summary</string>
     <string name="bankAccountPay">Bank Account Pay</string>
     <string name="updates">Updates</string>
+    <string name="margin">Margin</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string-array name="services">
-        <item>Services</item>
-        <item>Transaction Summary</item>
-        <item>Balance Summary</item>
-        <item>Bank Account Pay</item>
-        <item>Updates</item>
-        <item>Margin</item>
-    </string-array>
+    <string name="userName">UserName</string>
+    <string name="changePassword">Change Password</string>
+    <string name="balance">Balance</string>
+    <string name="postPaid">PostPaid</string>
+    <string name="prePaid">PrePaid</string>
+    <string name="dataCard">Data Card</string>
+    <string name="dth">DTH</string>
+    <string name="insurance">Insurance</string>
+    <string name="electricity">Electricity</string>
+    <string name="gasBill">Gas Bill</string>
+    <string name="broadBand">BroadBand</string>
+    <string name="fundTransfer">Fund Transfer</string>
+    <string name="drawer_open">Open drawer</string>
+    <string name="drawer_close">Close drawer</string>
+    <string name="fromDate">From Date</string>
+    <string name="toDate">To Date</string>
+    <string name="status">Status</string>
+    <string name="type">Type</string>
+    <string name="update1">Send Money To Anywhere Across India\n
+                           Upto  Rs.5000 Charges: 1% And\n
+                           Above Rs.5000 Charges: 0.5%\n
+                           Timing: Monday to Friday 9:00 AM to 6:00 PM\n
+                                   Saturday: 9:00 AM to 4:00 PM\n</string>
+    <string name="update2">Utility Bill: Rs.5 Charges\n
+                           https://www.facebook.com/\n
+                           crebitwalletsupport@crebit.in\n
+                           Ph: 0250-3297961\n
+                           Monday to Friday 10:00 AM to 4:30 PM\n</string>
+    <string name="update3">Create personal Account and get Rs. 10 cash back\n</string>
 </resources>

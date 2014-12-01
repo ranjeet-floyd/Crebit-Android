@@ -32,6 +32,10 @@
             android:name="com.bitblue.crebit.services.Services"
             android:label="@string/services" >
         </activity>
+        <activity
+            android:name="com.bitblue.crebit.services.service"
+            android:label="" >
+        </activity>
     </application>
 
 </manifest>
