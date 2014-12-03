@@ -2,14 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    tools:context="com.bitblue.crebit.SignUp">
     android:background="@color/black">
-
     <LinearLayout
-        android:id="@+id/signUpForm"
+        android:id="@+id/ll_dth"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="280dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -18,106 +15,85 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_accType"
+            android:id="@+id/tv_dth_operator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
-            android:text="@string/accType"
+            android:text=" Operator"
             android:textColor="@color/black"
             android:textSize="15dp" />
 
         <Spinner
-            android:id="@+id/sp_accType"
+            android:id="@+id/sp_dth_operator"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginBottom="15dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/rounded_spinner"
-            android:entries="@array/accountType"></Spinner>
+            android:entries="@array/dth_operator"></Spinner>
 
         <TextView
-            android:id="@+id/tv_name"
+            android:id="@+id/tv_dth_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="@string/name"
+            android:text=" Number"
             android:textColor="@color/black"
             android:textSize="15dp" />
 
         <EditText
-            android:id="@+id/et_name"
+            android:id="@+id/et_dth_number"
             android:layout_width="340dp"
             android:layout_height="35dp"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/rounded_edit_text"
-            android:hint="  Enter Name "
-            android:imeOptions="actionNext"
-            android:singleLine="true" />
-
-        <TextView
-            android:id="@+id/tv_mobNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="@string/mobNum"
-            android:textColor="@color/black"
-            android:textSize="15dp" />
-
-        <EditText
-            android:id="@+id/et_mobNum"
-            android:layout_width="340dp"
-            android:layout_height="35dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/rounded_edit_text"
-            android:hint="  Enter Mobile Number "
-            android:imeOptions="actionNext"
+            android:hint="  Enter Number "
             android:inputType="phone"
+            android:imeOptions="actionNext"
             android:singleLine="true" />
 
         <TextView
-            android:id="@+id/tv_passwd"
+            android:id="@+id/tv_dth_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="@string/passwd"
+            android:text=" Amount"
             android:textColor="@color/black"
             android:textSize="15dp" />
 
         <EditText
-            android:id="@+id/et_passwd"
+            android:id="@+id/et_dth_amount"
             android:layout_width="340dp"
             android:layout_height="35dp"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/rounded_edit_text"
-            android:hint=" Enter Password "
+            android:hint="  Enter Amount "
             android:imeOptions="actionDone"
-            android:inputType="textPassword"
+            android:inputType="phone"
             android:singleLine="true" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/signUpForm"
+        android:layout_below="@+id/ll_dth"
         android:layout_gravity="center_vertical"
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/b_signUpSubmit"
+            android:id="@+id/b_dth_recharge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/rounded_button"
-            android:text="Submit"
+            android:text="Recharge"
             android:textColor="@color/white" />
 
     </LinearLayout>

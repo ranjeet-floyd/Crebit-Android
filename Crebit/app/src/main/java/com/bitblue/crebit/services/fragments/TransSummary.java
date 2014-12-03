@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.TextView;
 
 import com.bitblue.crebit.DatePickerFragment;
 import com.bitblue.crebit.R;
@@ -17,8 +16,11 @@ import com.bitblue.crebit.R;
 import java.util.Calendar;
 
 public class TransSummary extends Fragment implements View.OnClickListener {
-    TextView from, to, fromDate, toDate;
     Button from_Date, to_Date;
+    private int cur = 0;
+
+    private static final int FROM_DATE = 1;
+    private static final int TO_DATE = 2;
 
     public TransSummary() {
     }
@@ -33,22 +35,27 @@ public class TransSummary extends Fragment implements View.OnClickListener {
     }
 
     public void initViews(View view) {
-        from_Date = (Button) view.findViewById(R.id.b_from);
-        to_Date = (Button) view.findViewById(R.id.b_to);
-        from = (TextView) view.findViewById(R.id.tv_ts_from);
-        to = (TextView) view.findViewById(R.id.tv_ts_to);
-        fromDate = (TextView) view.findViewById(R.id.tv_fromDate);
-        toDate = (TextView) view.findViewById(R.id.tv_toDate);
-
+        from_Date = (Button) view.findViewById(R.id.b_ts_from);
+        to_Date = (Button) view.findViewById(R.id.b_ts_to);
         from_Date.setOnClickListener(this);
         to_Date.setOnClickListener(this);
-
-
     }
 
     @Override
     public void onClick(View view) {
-        showDatePicker();
+        switch (view.getId()) {
+            case R.id.b_ts_from:
+                cur = FROM_DATE;
+                showDatePicker();
+                from_Date.setText("");
+                break;
+            case R.id.b_ts_to:
+                cur = TO_DATE;
+                showDatePicker();
+                to_Date.setText("");
+                break;
+        }
+
     }
 
     private void showDatePicker() {
@@ -73,6 +80,10 @@ public class TransSummary extends Fragment implements View.OnClickListener {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
+            if (cur == FROM_DATE)
+                from_Date.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+            else
+                to_Date.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
         }
     };
 

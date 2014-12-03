@@ -2,167 +2,253 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context="com.bitblue.crebit.services.fragments.Service">
 
     <RelativeLayout
-        android:id="@+id/rl_fs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/ib_postPaid"
-            android:layout_width="wrap_content"
+        <TextView android:id="@+id/Service"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/crebit"
-            android:layout_marginTop="15dp" />
+            android:gravity="center_horizontal"
+            android:text="Select a Service"
+            android:textSize="25dp"
+            android:textColor="@color/white" />
 
-        <TextView
-            android:id="@+id/tv_postPaid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/postPaid"
-            android:layout_below="@+id/ib_postPaid"
-            android:layout_marginLeft="25dp" />
+        <ScrollView android:id="@+id/servicescroll"
+            android:layout_below="@+id/Service"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/ib_prePaid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/crebit"
-            android:layout_toRightOf="@+id/ib_postPaid"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp" />
+            <LinearLayout
+                android:id="@+id/rl_fs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_prePaid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/prePaid"
-            android:layout_below="@+id/ib_postPaid"
-            android:layout_marginLeft="145dp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/ib_dataCard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/ib_prePaid"
-            android:src="@drawable/crebit"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_dataCard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/dataCard"
-            android:layout_below="@+id/ib_postPaid"
-            android:layout_marginLeft="260dp" />
+                        <ImageButton
+                            android:id="@+id/ib_postPaid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/crebit" />
 
-        <ImageButton
-            android:id="@+id/ib_dth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_postPaid"
-            android:src="@drawable/crebit"
-            android:layout_marginTop="15dp" />
+                        <TextView
+                            android:id="@+id/tv_postPaid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/postPaid"
+                            android:textColor="@color/white_smoke"/>
+                    </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_dth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/dth"
-            android:layout_below="@+id/ib_dth"
-            android:layout_marginLeft="40dp" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/ib_insurance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_postPaid"
-            android:layout_toRightOf="@id/ib_dth"
-            android:src="@drawable/crebit"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp" />
+                        <ImageButton
+                            android:id="@+id/ib_prePaid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/crebit" />
 
-        <TextView
-            android:id="@+id/tv_insurance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/insurance"
-            android:layout_below="@+id/ib_dth"
-            android:layout_marginLeft="145dp" />
+                        <TextView
+                            android:id="@+id/tv_prePaid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/prePaid"
+                            android:textColor="@color/white_smoke"/>
+                    </LinearLayout>
+                </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/ib_electricity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_postPaid"
-            android:layout_toRightOf="@id/ib_insurance"
-            android:src="@drawable/crebit"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_electricity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/electricity"
-            android:layout_below="@+id/ib_dth"
-            android:layout_marginLeft="260dp" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/ib_gasBill"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/crebit"
-            android:layout_below="@+id/tv_dth"
-            android:layout_marginTop="15dp" />
+                        <ImageButton
+                            android:id="@+id/ib_insurance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/crebit" />
 
-        <TextView
-            android:id="@+id/tv_gasBill"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/gasBill"
-            android:layout_below="@+id/ib_gasBill"
-            android:layout_marginLeft="30dp" />
+                        <TextView
+                            android:id="@+id/tv_insurance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/insurance"
+                            android:textColor="@color/white_smoke"/>
+                    </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/ib_broadBand"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/ib_dth"
-            android:layout_below="@+id/tv_dth"
-            android:src="@drawable/crebit"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_broadBand"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/broadBand"
-            android:layout_below="@+id/ib_gasBill"
-            android:layout_marginLeft="140dp" />
+                        <ImageButton
+                            android:id="@+id/ib_electricity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/crebit" />
 
-        <ImageButton
-            android:id="@+id/ib_FundTransfer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/crebit"
-            android:layout_toRightOf="@+id/ib_broadBand"
-            android:layout_below="@+id/tv_dth"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp" />
+                        <TextView
+                            android:id="@+id/tv_electricity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/electricity"
+                            android:textColor="@color/white_smoke"/>
+                    </LinearLayout>
+                </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_fundTransfer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/fundTransfer"
-            android:layout_below="@+id/ib_gasBill"
-            android:layout_marginLeft="250dp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/ib_gasBill"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/crebit" />
+
+                        <TextView
+                            android:id="@+id/tv_gasBill"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gasBill"
+                            android:textColor="@color/white_smoke"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/ib_broadband"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/crebit" />
+
+                        <TextView
+                            android:id="@+id/tv_broadband"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ib_postPaid"
+                            android:text="@string/broadBand"
+                            android:textColor="@color/white_smoke"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/ib_datacard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/crebit" />
+
+                        <TextView
+                            android:id="@+id/tv_datacard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ib_postPaid"
+                            android:text="@string/dataCard"
+                            android:textColor="@color/white_smoke"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/ib_dth"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/crebit" />
+
+                        <TextView
+                            android:id="@+id/tv_dth"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ib_postPaid"
+                            android:text="@string/dth"
+                            android:textColor="@color/white_smoke"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/ib_fundTransfer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/crebit" />
+
+                        <TextView
+                            android:id="@+id/tv_fundTransfer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/ib_postPaid"
+                            android:text="@string/fundTransfer"
+                            android:textColor="@color/white_smoke"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
     </RelativeLayout>
-
 </FrameLayout>

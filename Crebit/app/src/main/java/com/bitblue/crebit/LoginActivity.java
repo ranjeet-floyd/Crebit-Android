@@ -6,36 +6,34 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.bitblue.crebit.services.service;
 
 
 public class LoginActivity extends ActionBarActivity implements View.OnClickListener {
-
+    TextView existinguser;
     EditText mNumber, passwd;
     Button login, forgotPass, signUp;
-    String mobileNumber, password;
+    String mobileNumber, password, logoutmessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.crebit);
+        logoutmessage = getIntent().getStringExtra("logout");
         initViews();
     }
 
     public void initViews() {
+        existinguser = (TextView) findViewById(R.id.existingUser);
+        existinguser.setText(logoutmessage);
+        existinguser.setTextColor(getResources().getColor(R.color.red));
         mNumber = (EditText) findViewById(R.id.et_mobileNumber);
         passwd = (EditText) findViewById(R.id.et_password);
         login = (Button) findViewById(R.id.b_login);
         forgotPass = (Button) findViewById(R.id.b_forgot_pass);
         signUp = (Button) findViewById(R.id.b_signUp);
-/*        mNumber.setOnTouchListener(this);
-        passwd.setOnTouchListener(this);*/
-        mNumber.setOnClickListener(this);
-        passwd.setOnClickListener(this);
         login.setOnClickListener(this);
         forgotPass.setOnClickListener(this);
         signUp.setOnClickListener(this);
@@ -49,10 +47,9 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 if (mNumber.getText() != null && passwd.getText().toString() != null) {
                     mobileNumber = mNumber.getText().toString();
                     password = passwd.getText().toString();
-                    Intent openServies=new Intent(LoginActivity.this, service.class);
-                    startActivity(openServies);
-                }
-                else{
+                    Intent openServices = new Intent(LoginActivity.this, service.class);
+                    startActivity(openServices);
+                } else {
 
 
                 }
@@ -70,23 +67,4 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
         }
     }
-
-/*    @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        switch (view.getId()) {
-            case R.id.et_mobileNumber:
-                if (passwd.getText().toString().equals(""))
-                    passwd.setHint("  Password");
-                mNumber.setHint("");
-                break;
-            case R.id.et_password:
-                if (mNumber.getText().toString().equals(""))
-                    mNumber.setHint("  Mobile Number");
-                passwd.setHint("");
-                break;
-
-        }
-        return true;
-    }*/
-
 }

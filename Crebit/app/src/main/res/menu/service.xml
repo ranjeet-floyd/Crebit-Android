@@ -1,9 +1,29 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.bitblue.crebit.services.service">
-    <item android:id="@+id/action_example" android:title=""
-        app:showAsAction="withText|ifRoom" />
-    <item android:id="@+id/action_settings" android:title=""
-        android:orderInCategory="100" app:showAsAction="never" />
+    tools:context="com.bitblue.crebit.services.Services">
+    <item
+        android:icon="@drawable/crebit"
+        android:id="@+id/mi_userName"
+        android:title="@string/userName"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:icon="@drawable/crebit"
+        android:id="@+id/mi_chgPasswd"
+        android:title="@string/changePassword"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:icon="@drawable/crebit"
+        android:id="@+id/mi_balance"
+        android:title="@string/balance"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:icon="@drawable/crebit"
+        android:id="@+id/mi_logout"
+        android:title="@string/logout"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
 </menu>

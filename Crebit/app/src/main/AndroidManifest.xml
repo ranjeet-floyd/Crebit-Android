@@ -17,24 +17,47 @@
         <activity
             android:name="com.bitblue.crebit.LoginActivity"
             android:icon="@drawable/crebit"
-            android:label="@string/crebitWallet" >
-        </activity>
+            android:label="@string/crebitWallet" />
         <activity
             android:name="com.bitblue.crebit.ForgotPass"
-            android:label="@string/forgotPasswd" >
-        </activity>
+            android:label="@string/forgotPasswd" />
         <activity
             android:name="com.bitblue.crebit.SignUp"
             android:label="@string/signupRegister"
-            android:windowSoftInputMode="adjustPan" >
-        </activity>
-        <activity
-            android:name="com.bitblue.crebit.services.Services"
-            android:label="@string/services" >
-        </activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.bitblue.crebit.services.service"
-            android:label="" >
+            android:label="" />
+        <activity
+            android:name="com.bitblue.crebit.services.activities.PostPaid"
+            android:label="@string/title_activity_post_paid" />
+        <activity
+            android:name="com.bitblue.crebit.services.activities.PrePaid"
+            android:label="@string/title_activity_pre_paid" />
+        <activity
+            android:name="com.bitblue.crebit.services.activities.Datacard"
+            android:label="@string/title_activity_datacard" />
+        <activity
+            android:name="com.bitblue.crebit.services.activities.Dth"
+            android:label="@string/title_activity_dth" />
+        <activity
+            android:name="com.bitblue.crebit.services.activities.Insurance"
+            android:label="@string/title_activity_insurance" />
+        <activity
+            android:name="com.bitblue.crebit.services.activities.Electricity"
+            android:label="@string/title_activity_electricity" />
+        <activity
+            android:name="com.bitblue.crebit.services.activities.GasBill"
+            android:label="@string/title_activity_gas_bill" />
+        <activity
+            android:name="com.bitblue.crebit.services.activities.BroadBand"
+            android:label="@string/title_activity_broad_band" />
+        <activity
+            android:name="com.bitblue.crebit.services.activities.FundTransfer"
+            android:label="@string/title_activity_fund_transfer" />
+        <activity
+            android:name="com.bitblue.crebit.services.menuitem.ChangePassword"
+            android:label="@string/title_activity_change_password" >
         </activity>
     </application>
 
