@@ -102,6 +102,7 @@
                 android:textColor="@color/blue_ivy"
                 android:textStyle="bold" />
         </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout

@@ -27,12 +27,14 @@ public class service extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
+    String username;
+    MenuItem miusername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service);
-
+        username = getIntent().getStringExtra("username");
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -126,6 +128,7 @@ public class service extends ActionBarActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(0, 0, 0, username);
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
             getMenuInflater().inflate(R.menu.service, menu);
             restoreActionBar();
@@ -137,9 +140,6 @@ public class service extends ActionBarActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
-            case R.id.mi_userName:
-                break;
             case R.id.mi_chgPasswd:
                 Intent openchgPassActivity = new Intent(service.this, ChangePassword.class);
                 startActivity(openchgPassActivity);

@@ -9,18 +9,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView android:id="@+id/Service"
+        <TextView
+            android:id="@+id/Service"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="Select a Service"
-            android:textSize="25dp"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="25dp" />
 
-        <ScrollView android:id="@+id/servicescroll"
-            android:layout_below="@+id/Service"
+        <ScrollView
+            android:id="@+id/servicescroll"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/Service">
 
             <LinearLayout
                 android:id="@+id/rl_fs"
@@ -30,21 +32,24 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:gravity="center_horizontal"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
                         <ImageButton
                             android:id="@+id/ib_postPaid"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
                             android:src="@drawable/crebit" />
 
                         <TextView
@@ -52,66 +57,71 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/postPaid"
-                            android:textColor="@color/white_smoke"/>
+                            android:textColor="@color/white_smoke" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
                         <ImageButton
                             android:id="@+id/ib_prePaid"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/crebit" />
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/crebit"/>
 
                         <TextView
                             android:id="@+id/tv_prePaid"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/prePaid"
-                            android:textColor="@color/white_smoke"/>
+                            android:textColor="@color/white_smoke" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:gravity="center_horizontal"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
                         <ImageButton
                             android:id="@+id/ib_insurance"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/crebit" />
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/crebit"/>
 
                         <TextView
                             android:id="@+id/tv_insurance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/insurance"
-                            android:textColor="@color/white_smoke"/>
+                            android:textColor="@color/white_smoke" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
                         <ImageButton
                             android:id="@+id/ib_electricity"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
                             android:src="@drawable/crebit" />
 
                         <TextView
@@ -119,26 +129,29 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/electricity"
-                            android:textColor="@color/white_smoke"/>
+                            android:textColor="@color/white_smoke" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:gravity="center_horizontal"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
                         <ImageButton
                             android:id="@+id/ib_gasBill"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
                             android:src="@drawable/crebit" />
 
                         <TextView
@@ -146,19 +159,20 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/gasBill"
-                            android:textColor="@color/white_smoke"/>
+                            android:textColor="@color/white_smoke" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
                         <ImageButton
                             android:id="@+id/ib_broadband"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
                             android:src="@drawable/crebit" />
 
                         <TextView
@@ -167,27 +181,30 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/ib_postPaid"
                             android:text="@string/broadBand"
-                            android:textColor="@color/white_smoke"/>
+                            android:textColor="@color/white_smoke" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:gravity="center_horizontal"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
                         <ImageButton
                             android:id="@+id/ib_datacard"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/crebit" />
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/crebit"/>
 
                         <TextView
                             android:id="@+id/tv_datacard"
@@ -195,20 +212,21 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/ib_postPaid"
                             android:text="@string/dataCard"
-                            android:textColor="@color/white_smoke"/>
+                            android:textColor="@color/white_smoke" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
                         <ImageButton
                             android:id="@+id/ib_dth"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/crebit" />
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/crebit"/>
 
                         <TextView
                             android:id="@+id/tv_dth"
@@ -216,27 +234,27 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/ib_postPaid"
                             android:text="@string/dth"
-                            android:textColor="@color/white_smoke"/>
+                            android:textColor="@color/white_smoke" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
                         <ImageButton
                             android:id="@+id/ib_fundTransfer"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/crebit" />
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/crebit"/>
 
                         <TextView
                             android:id="@+id/tv_fundTransfer"
@@ -244,7 +262,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/ib_postPaid"
                             android:text="@string/fundTransfer"
-                            android:textColor="@color/white_smoke"/>
+                            android:textColor="@color/white_smoke" />
                     </LinearLayout>
                 </LinearLayout>
 
