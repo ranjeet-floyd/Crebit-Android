@@ -1,17 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.bitblue.crebit.services.Services">
+    tools:context="com.bitblue.crebit.servicespage.Services">
     <item
         android:icon="@drawable/crebit"
         android:id="@+id/mi_chgPasswd"
         android:title="@string/changePassword"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
-    <item
-        android:icon="@drawable/crebit"
-        android:id="@+id/mi_balance"
-        android:title="@string/balance"
         android:orderInCategory="100"
         app:showAsAction="never" />
     <item

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context="com.bitblue.crebit.SignUp">
+    tools:context="com.bitblue.crebit.loginpage.SignUp">
     android:background="@color/black">
 
     <LinearLayout
@@ -28,14 +28,14 @@
             android:textColor="@color/black"
             android:textSize="15dp" />
 
-        <Spinner
-            android:id="@+id/sp_accType"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
+        <Button
+            android:id="@+id/b_accType"
+            android:layout_width="340dp"
+            android:layout_height="40dp"
             android:layout_marginBottom="15dp"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/rounded_spinner"
-            android:entries="@array/accountType"></Spinner>
+            android:text="--Select--"
+            android:background="@android:drawable/btn_dropdown"></Button>
 
         <TextView
             android:id="@+id/tv_name"

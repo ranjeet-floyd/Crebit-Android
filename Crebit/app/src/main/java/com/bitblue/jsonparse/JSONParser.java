@@ -7,7 +7,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -16,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,18 +22,15 @@ public class JSONParser {
     static InputStream is = null;
     static JSONArray jsonArray = null;
     static String json = "";
-    HashMap<String,String> parameters;
+    HashMap<String, String> parameters;
+
     public JSONParser() {
     }
 
 
-    public JSONArray makeHttpRequest(String url,HashMap<String,String> params) {
+    public JSONArray makeHttpPostRequest(String url, List<NameValuePair> nameValuePairs) {
         DefaultHttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(url);
-        List<NameValuePair> nameValuePairs=new ArrayList<NameValuePair>();
-        nameValuePairs.add(new BasicNameValuePair("Mobile",params.get("Mobile")));
-        nameValuePairs.add(new BasicNameValuePair("Pass",params.get("Pass")));
-        nameValuePairs.add(new BasicNameValuePair("Version",params.get("Version")));
         try {
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
         } catch (UnsupportedEncodingException e) {

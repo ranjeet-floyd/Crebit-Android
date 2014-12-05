@@ -25,8 +25,8 @@
         <item> Transaction ID </item>
     </string-array>
     <string-array name="accountType">
-        <item> Enterprise </item>
-        <item> Personal </item>
+        <item>Enterprise</item>
+        <item>Personal</item>
     </string-array>
     <string-array name="status">
         <item> Success </item>
@@ -126,14 +126,14 @@
     <string name="transactionSummary">Transaction Summary</string>
     <string name="balanceSummary">Balance Summary</string>
     <string name="bankAccountPay">Bank Account Pay</string>
-    <string name="logout">LogOut</string>
+    <string name="logout">Log Out</string>
     <string name="updates">Updates</string>
     <string name="margin">Margin</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="userName">UserName</string>
     <string name="changePassword">Change Password</string>
-    <string name="balance">Balance</string>
+    <string name="balance"> Balance: </string>
     <string name="postPaid">PostPaid</string>
     <string name="prePaid">PrePaid</string>
     <string name="dataCard">Data Card</string>
