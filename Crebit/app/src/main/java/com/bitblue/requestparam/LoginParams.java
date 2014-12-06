@@ -8,6 +8,9 @@ public class LoginParams implements Serializable {
     private String Pass;
     private String Version;
 
+    public LoginParams() {
+    }
+
     public String getPass() {
         return Pass;
     }

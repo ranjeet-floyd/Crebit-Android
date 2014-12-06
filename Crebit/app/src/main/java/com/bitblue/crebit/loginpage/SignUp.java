@@ -32,12 +32,12 @@ import java.util.List;
 
 public class SignUp extends ActionBarActivity implements View.OnClickListener {
     private JSONParser jsonParser = new JSONParser();
-    private JSONArray jsonArray = null;
+    private JSONArray jsonArray;
     private TextView tvaccType, tvname, tvmobNum, tvpasswd;
     private EditText etname, etmobNum, etpasswd;
     private Button bSignUpSubmit, baccType;
-    private String uType, name, mobilenumber, password;
-    private int userType, status;
+    private String name, mobilenumber, password, status;
+    private int userType;
     private ArrayAdapter<String> adapter;
     private String[] items;
     private List<NameValuePair> nameValuePairs;
@@ -66,25 +66,20 @@ public class SignUp extends ActionBarActivity implements View.OnClickListener {
         baccType = (Button) findViewById(R.id.b_accType);
         bSignUpSubmit.setOnClickListener(this);
         baccType.setOnClickListener(this);
-        etname.setOnClickListener(this);
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_dropdown_item, items);
-
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.et_name:
-                if(etname==null)
-                    etname.setCursorVisible(true);
-                break;
             case R.id.b_accType:
                 new AlertDialog.Builder(this)
                         .setTitle("Select Account")
                         .setAdapter(adapter, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int position) {
-                                uType = items[position];
+                                userType = position + 1;
                                 baccType.setText(items[position]);
                                 dialog.dismiss();
                             }
@@ -94,27 +89,28 @@ public class SignUp extends ActionBarActivity implements View.OnClickListener {
                 name = etname.getText().toString();
                 mobilenumber = etmobNum.getText().toString();
                 password = etpasswd.getText().toString();
-                if (Check.ifNull(name)) {
-                    etpasswd.setHintTextColor(getResources().getColor(R.color.red));
-                    break;
+                if (baccType.getText().equals("--Select--")) {
+                    tvaccType.setTextColor(getResources().getColor(R.color.red));
                 }
-                if (Check.ifNull(mobilenumber)) {
-                    etmobNum.setHintTextColor(getResources().getColor(R.color.red));
-                    break;
+                if (Check.ifNull(name)) {
+                    etname.setHintTextColor(getResources().getColor(R.color.red));
                 }
                 if (Check.ifNull(password)) {
                     etpasswd.setHintTextColor(getResources().getColor(R.color.red));
-                    break;
                 }
                 if (Check.ifNumberInCorrect(mobilenumber)) {
-                    etmobNum.setText("Enter correct number");
-                    etmobNum.setTextColor(getResources().getColor(R.color.red));
+                    etmobNum.setText("");
+                    etmobNum.setHint(" Enter correct number");
+                    etmobNum.setHintTextColor(getResources().getColor(R.color.red));
                     break;
                 }
+
+                new storeData().execute();
+                break;
         }
     }
 
-    private class retrieveData extends AsyncTask<String, String, String> {
+    private class storeData extends AsyncTask<String, String, String> {
         ProgressDialog dialog = new ProgressDialog(SignUp.this);
 
         @Override
@@ -128,29 +124,42 @@ public class SignUp extends ActionBarActivity implements View.OnClickListener {
 
         @Override
         protected String doInBackground(String... strings) {
+            signUpParams = new SignUpParams(userType, name, password, mobilenumber);
             nameValuePairs = new ArrayList<NameValuePair>();
-            nameValuePairs.add(new BasicNameValuePair("UserType", uType));
+            nameValuePairs.add(new BasicNameValuePair("UserType", String.valueOf(userType)));
             nameValuePairs.add(new BasicNameValuePair("Name", name));
             nameValuePairs.add(new BasicNameValuePair("Pass", password));
             nameValuePairs.add(new BasicNameValuePair("Mobile", mobilenumber));
             jsonArray = jsonParser.makeHttpPostRequest(API.DHS_SIGNUP, nameValuePairs);
             try {
                 JsonResponse = jsonArray.getJSONObject(0);
-                signUpResponse = new SignUpResponse(JsonResponse.getString("Status"));
+                signUpResponse = new SignUpResponse(JsonResponse.getString("status"));
                 status = signUpResponse.getStatus();
-                if (status == 1) {
-                } else if (status == 2) {
-
-                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return null;
+            return status;
         }
 
         @Override
-        protected void onPostExecute(String name) {
+        protected void onPostExecute(String status) {
             dialog.dismiss();
+            checkstatus();
+        }
+    }
+
+    private void checkstatus() {
+        if (status.equals("2")) {
+            new AlertDialog.Builder(SignUp.this)
+                    .setTitle("Success")
+                    .setMessage("\t\t\tRegistration Successful\n" +
+                            "\t\t\tProceed to login page ")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    }).create().show();
         }
     }
 }

@@ -12,13 +12,11 @@ import android.widget.TextView;
 
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
-import com.bitblue.crebit.loginpage.login.LoginCredentials;
 import com.bitblue.crebit.servicespage.service;
 import com.bitblue.jsonparse.JSONParser;
 import com.bitblue.nullcheck.Check;
 import com.bitblue.requestparam.LoginParams;
 import com.bitblue.response.LoginResponse;
-import com.bitblue.sqlite.SQLiteHelper;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -44,9 +42,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     private JSONObject JsonResponse;
     private LoginResponse loginResponse;
     private List<NameValuePair> nameValuePairs;
-    private LoginCredentials logincred;
-    private boolean isNumberExists, isPasswordCorrect;
-    private SQLiteHelper sqLiteHelper = new SQLiteHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,17 +73,15 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             case R.id.b_login:
                 mobile = mNumber.getText().toString();
                 pass = passwd.getText().toString();
-                if (Check.ifNull(mobile)) {
+                if (Check.ifNumberInCorrect(mobile)) {
                     mNumber.setHint(" Mobile Number Required");
                     mNumber.setHintTextColor(getResources().getColor(R.color.red));
-                    break;
                 }
                 if (Check.ifNull(pass)) {
                     passwd.setHint(" Password Required");
                     passwd.setHintTextColor(getResources().getColor(R.color.red));
                     break;
                 }
-                isNumberExists = sqLiteHelper.isNumberExists(mobile);
                 new retrieveData().execute();
                 break;
 

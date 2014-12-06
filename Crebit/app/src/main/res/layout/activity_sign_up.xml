@@ -55,6 +55,7 @@
             android:layout_marginTop="5dp"
             android:background="@drawable/rounded_edit_text"
             android:hint="  Enter Name "
+            android:inputType="text"
             android:imeOptions="actionNext"
             android:singleLine="true" />
 

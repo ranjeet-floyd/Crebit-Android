@@ -3,11 +3,14 @@ package com.bitblue.response;
 public class SignUpResponse {
     private String Status;
 
+    public SignUpResponse() {
+    }
+
     public SignUpResponse(String status) {
         Status = status;
     }
 
-    public int getStatus() {
-        return Integer.parseInt(Status);
+    public String getStatus() {
+        return Status;
     }
 }

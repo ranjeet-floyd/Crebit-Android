@@ -6,7 +6,7 @@ public class Check {
     }
 
     public static boolean ifNumberInCorrect(String number) {
-        return (number.length() > 10 || number.length() < 10);
+        return (number.length() > 10 || number.length() < 10 || number.equals(""));
 
     }
 }

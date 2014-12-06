@@ -13,6 +13,9 @@ public class LoginResponse implements Serializable {
     private String name;
     private String userKey;
 
+    public LoginResponse() {
+    }
+
     public LoginResponse(boolean isSupported, boolean isActive, String userID, String availableBalance, boolean isUpdated, boolean isDataUpdated, String name, String userKey) {
         this.isSupported = isSupported;
         this.isActive = isActive;

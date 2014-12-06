@@ -1,19 +1,22 @@
 package com.bitblue.requestparam;
 
 public class SignUpParams {
-    private String UserType;
+    private int UserType;
     private String Name;
     private String Pass;
     private String Mobile;
 
-    public SignUpParams(String userType, String name, String pass, String mobile) {
+    public SignUpParams() {
+    }
+
+    public SignUpParams(int userType, String name, String pass, String mobile) {
         UserType = userType;
         Name = name;
         Pass = pass;
         Mobile = mobile;
     }
 
-    public String getUserType() {
+    public int getUserType() {
         return UserType;
     }
 
