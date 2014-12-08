@@ -3,6 +3,7 @@ package com.bitblue.crebit.servicespage.activities;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bitblue.IDs.prePaid;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.jsonparse.JSONParser;
@@ -31,13 +33,12 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
     private TextView operator, number, amount;
     private EditText et_number, et_amount;
     private Button recharge, operatorType;
-    private String UserId;
-    private String Key;
-    private String TransactionType;
-    private String OperatorId;
-    private String Number;
+    private TextView transId, message, statcode, availablebal;
+
+    private String UserId, Key, OperatorId, Number;
     private double Amount;
-    private String Source;
+    private static final String SOURCE = "2";
+
     private String[] items;
     private ArrayAdapter<String> adapter;
     private JSONParser jsonParser;
@@ -45,11 +46,14 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
     private PrePaidResponse prePaidResponse;
     private PrePaidParams prePaidParams;
     private List<NameValuePair> nameValuePairs;
-    private String TransId;
-    private String Message;
+
+    private String TransId, Message;
     private int StatusCode;
     private String AvailableBalance;
-    private String InsuranceDob;
+
+    private SharedPreferences prefs;
+    private final static String MY_PREFS = "mySharedPrefs";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,10 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
         operator = (TextView) findViewById(R.id.tv_pre_operator);
         number = (TextView) findViewById(R.id.tv_pre_number);
         amount = (TextView) findViewById(R.id.tv_pre_amount);
+        transId = (TextView) findViewById(R.id.tv_prepd_TransId);
+        message = (TextView) findViewById(R.id.tv_prepd_Message);
+        statcode = (TextView) findViewById(R.id.tv_prepd_StatusCode);
+        availablebal = (TextView) findViewById(R.id.tv_prepd_AvailableBalance);
 
         et_number = (EditText) findViewById(R.id.et_pre_number);
         et_amount = (EditText) findViewById(R.id.et_pre_amount);
@@ -74,6 +82,10 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
         operatorType.setOnClickListener(this);
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_dropdown_item, items);
+
+        prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE);
+        UserId = prefs.getString("userId", "");
+        Key = prefs.getString("userKey", "");
     }
 
     @Override
@@ -85,7 +97,7 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
                         .setAdapter(adapter, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int position) {
-                                OperatorId = String.valueOf(position + 1);
+                                OperatorId = prePaid.getPrePaidOperatorId(position);
                                 operatorType.setText(items[position]);
                                 dialog.dismiss();
                             }
@@ -110,6 +122,8 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
                     et_number.setHintTextColor(getResources().getColor(R.color.red));
                     break;
                 }
+                new retrievedata().execute();
+
                 break;
 
         }
@@ -129,20 +143,20 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
         @Override
         protected String doInBackground(String... params) {
             jsonParser = new JSONParser();
-            prePaidParams = new PrePaidParams(UserId, Key, TransactionType, OperatorId, Number, Amount, Source);
+            prePaidParams = new PrePaidParams(UserId, Key, OperatorId, Number, Amount, SOURCE);
             nameValuePairs = new ArrayList<NameValuePair>();
             nameValuePairs.add(new BasicNameValuePair("UserId", UserId));
             nameValuePairs.add(new BasicNameValuePair("Key", Key));
-            nameValuePairs.add(new BasicNameValuePair("TransactionType", TransactionType));
             nameValuePairs.add(new BasicNameValuePair("OperatorId", OperatorId));
             nameValuePairs.add(new BasicNameValuePair("Number", Number));
             nameValuePairs.add(new BasicNameValuePair("Amount", String.valueOf(Amount)));
+            nameValuePairs.add(new BasicNameValuePair("Source",SOURCE));
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_SERVICE, nameValuePairs);
             try {
-                prePaidResponse = new PrePaidResponse(jsonResponse.getString("TransId"),
-                        jsonResponse.getString("Message"),
-                        jsonResponse.getInt("StatusCode"),
-                        jsonResponse.getString("AvailableBalance"));
+                prePaidResponse = new PrePaidResponse(jsonResponse.getString("transId"),
+                        jsonResponse.getString("message"),
+                        jsonResponse.getInt("statusCode"),
+                        jsonResponse.getString("availableBalance"));
 
                 TransId = prePaidResponse.getTransId();
                 Message = prePaidResponse.getMessage();
@@ -156,7 +170,41 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
 
         @Override
         protected void onPostExecute(String StatusCode) {
-            if (StatusCode.equals("")) {
+            if (StatusCode.equals("0")) {
+                new AlertDialog.Builder(PrePaid.this)
+                        .setTitle("Error")
+                        .setMessage("Request Not Completed.")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
+            } else if (StatusCode.equals("1")) {
+                new AlertDialog.Builder(PrePaid.this)
+                        .setTitle("Success")
+                        .setMessage("Request Not Completed.")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
+                transId.setText("TransId: " + TransId);
+                message.setText("Message: " + Message);
+                statcode.setText("StatusCode: " + StatusCode);
+                availablebal.setText("AvailableBalance: " + AvailableBalance);
+            } else if (StatusCode.equals("2")) {
+                new AlertDialog.Builder(PrePaid.this)
+                        .setTitle("Error")
+                        .setMessage("Insufficient Balance")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
+                dialog.dismiss();
             }
         }
     }

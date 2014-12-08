@@ -3,6 +3,7 @@ package com.bitblue.crebit.servicespage.activities;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -32,18 +33,15 @@ public class Electricity extends ActionBarActivity implements View.OnClickListen
     private Button serviceId, Bu;
     private EditText custAccNo;
 
-    private String UserId;
-    private String Key;
+    private String UserId, Key;
     private int ServiceId;
     private String CusAcc;
     private int BU;
     private String CyDiv;
     private double Amount;
-    private String CusMob;
-    private String DueDate;
+    private String CusMob, DueDate;
 
-    private String Status;
-    private String AvaiBal;
+    private String Status, AvaiBal;
 
     private String[] service;
     private String[] bu;
@@ -54,6 +52,9 @@ public class Electricity extends ActionBarActivity implements View.OnClickListen
     private ElectricityResponse electricityResponse;
     private ElectricityParams electricityParams;
     private List<NameValuePair> nameValuePairs;
+
+    private SharedPreferences prefs;
+    private final static String MY_PREFS = "mySharedPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class Electricity extends ActionBarActivity implements View.OnClickListen
         accNo = (TextView) findViewById(R.id.tv_elec_cust_acc_no);
 
         serviceId = (Button) findViewById(R.id.b_elec_service);
-        Bu = (Button) findViewById(R.id.b_elec_operator);
+        Bu = (Button) findViewById(R.id.b_elec_BU);
 
         custAccNo = (EditText) findViewById(R.id.et_elec_cust_acc_no);
 
@@ -80,6 +81,10 @@ public class Electricity extends ActionBarActivity implements View.OnClickListen
                 android.R.layout.simple_spinner_dropdown_item, service);
         buadapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_dropdown_item, bu);
+
+        prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE);
+        UserId = prefs.getString("userId", "");
+        Key = prefs.getString("userKey", "");
     }
 
     @Override
@@ -97,7 +102,7 @@ public class Electricity extends ActionBarActivity implements View.OnClickListen
                             }
                         }).create().show();
                 break;
-            case R.id.b_elec_operator:
+            case R.id.b_elec_BU:
                 new AlertDialog.Builder(this)
                         .setTitle("Select Operator")
                         .setAdapter(buadapter, new DialogInterface.OnClickListener() {
@@ -163,7 +168,7 @@ public class Electricity extends ActionBarActivity implements View.OnClickListen
                         jsonResponse.getString("AvaiBal"));
 
                 Status = electricityResponse.getStatus();
-                AvaiBal=electricityResponse.getAvaiBal();
+                AvaiBal = electricityResponse.getAvaiBal();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

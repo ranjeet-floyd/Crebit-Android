@@ -2,6 +2,7 @@ package com.bitblue.crebit.loginpage;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -37,11 +38,13 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     private String logoutmessage;
     private String mobile, pass;
     private String Version = "1.0";
-    private String userName, availableBalance;
+    private String userName, availableBalance, userId, userKey;
+    private boolean isActive;
     private LoginParams loginParams;
     private JSONObject JsonResponse;
     private LoginResponse loginResponse;
     private List<NameValuePair> nameValuePairs;
+    private final static String MY_PREFS = "mySharedPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +131,16 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                         JsonResponse.getString("userKey"));
                 userName = loginResponse.getName();
                 availableBalance = loginResponse.getAvailableBalance();
+                userId = loginResponse.getUserID();
+                userKey = loginResponse.getUserKey();
+                isActive = loginResponse.isActive();
+                SharedPreferences.Editor prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE).edit();
+                prefs.putString("userId", userId);
+                prefs.putString("userKey", userKey);
+                prefs.putString("availableBalance", availableBalance);
+                prefs.putString("userName", userName);
+                prefs.putBoolean("isActive", isActive);
+                prefs.commit();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -137,15 +150,12 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         @Override
         protected void onPostExecute(String name) {
             dialog.dismiss();
-            userName = name;
-            openServiceIntent(userName);
+            openServiceIntent();
         }
     }
 
-    public void openServiceIntent(String name) {
+    public void openServiceIntent() {
         Intent openService = new Intent(LoginActivity.this, service.class);
-        openService.putExtra("username", name);
-        openService.putExtra("availableBalance", availableBalance);
         startActivity(openService);
     }
 }

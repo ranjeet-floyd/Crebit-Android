@@ -2,6 +2,7 @@ package com.bitblue.crebit.servicespage;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -28,22 +29,27 @@ public class service extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
-    String username, availableBalance;
+    private String username, availableBalance;
+    private SharedPreferences prefs;
+    private final static String MY_PREFS = "mySharedPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service);
-        username = getIntent().getStringExtra("username");
-        availableBalance = getIntent().getStringExtra("availableBalance");
-        if(availableBalance.equals("null"))
-        {availableBalance="0";}
+        prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE);
+        username = prefs.getString("userName", "");
+        availableBalance = prefs.getString("availableBalance", "null");
+        if (availableBalance.equals("null")) {
+            availableBalance = "0";
+        }
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
     }
 
     @Override

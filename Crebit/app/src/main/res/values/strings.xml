@@ -172,4 +172,16 @@
     <string name="title_activity_change_password">ChangePassword</string>
     <string name="title_activity_margin">Margin</string>
 
+    <string name="TransId"> TransId: </string>
+    <string name="Message"> Message: </string>
+    <string name="StatusCode"> StatusCode: </string>
+    <string name="AvailableBalance"> AvailableBalance: </string>
+
+    <string name="Operator">Operator </string>
+    <string name="Number">Number </string>
+    <string name="Amount">Amount </string>
+    <string name="Enter_Number">\tEnter Number </string>
+    <string name="Enter_Amount">\tEnter Amount </string>
+    <string name="Recharge">Recharge</string>
+    <string name="Service">Service</string>
 </resources>

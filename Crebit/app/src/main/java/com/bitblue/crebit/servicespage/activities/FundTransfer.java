@@ -1,6 +1,7 @@
 package com.bitblue.crebit.servicespage.activities;
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -30,12 +31,9 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
     private EditText et_number, et_amount;
     private Button transfer;
 
-    private String UserId;
-    private String Key;
-    private String MobileTo;
-    private String Amount;
-    private String Status;
-    private String AvailableBalance;
+    private String UserId, Key, MobileTo, Amount;
+
+    private String Status, AvailableBalance;
 
     private JSONParser jsonParser;
     private JSONArray jsonArray;
@@ -43,6 +41,9 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
     private FundTransferResponse fundTransferResponse;
     private FundTransferParams fundTransferParams;
     private List<NameValuePair> nameValuePairs;
+
+    private SharedPreferences prefs;
+    private final static String MY_PREFS = "mySharedPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,10 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
 
         transfer = (Button) findViewById(R.id.b_ft_recharge);
         transfer.setOnClickListener(this);
+
+        prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE);
+        UserId = prefs.getString("userId", "");
+        Key = prefs.getString("userKey", "");
     }
 
     @Override
@@ -105,7 +110,7 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
             nameValuePairs.add(new BasicNameValuePair("Amount", Amount));
             jsonArray = jsonParser.makeHttpPostRequest(API.DASHBOARD_TRANSFER, nameValuePairs);
             try {
-                jsonResponse=jsonArray.getJSONObject(0);
+                jsonResponse = jsonArray.getJSONObject(0);
                 fundTransferResponse = new FundTransferResponse(jsonResponse.getString("Status"),
                         jsonResponse.getString("AvailableBalance"));
 

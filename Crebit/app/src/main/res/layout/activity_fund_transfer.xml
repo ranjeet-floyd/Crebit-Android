@@ -20,19 +20,20 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="30dp"
-            android:text=" Number"
+            android:text="@string/Number"
             android:textColor="@color/black"
             android:textSize="15dp" />
 
         <EditText
             android:id="@+id/et_ft_number"
-            android:layout_width="340dp"
+            android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/rounded_edit_text"
-            android:hint="  Enter Number "
+            android:hint="@string/Enter_Number"
             android:imeOptions="actionNext"
             android:inputType="phone"
             android:singleLine="true" />
@@ -42,19 +43,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text=" Amount"
+            android:text="@string/Amount"
             android:textColor="@color/black"
             android:textSize="15dp" />
 
         <EditText
             android:id="@+id/et_ft_amount"
-            android:layout_width="340dp"
+            android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/rounded_edit_text"
-            android:hint="  Enter Amount "
+            android:hint="@string/Enter_Amount"
             android:imeOptions="actionDone"
             android:inputType="phone"
             android:singleLine="true" />

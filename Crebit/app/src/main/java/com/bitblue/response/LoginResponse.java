@@ -55,5 +55,9 @@ public class LoginResponse implements Serializable {
         return userKey;
     }
 
+    public String getUserID() {
+        return userID;
+    }
+
 
 }

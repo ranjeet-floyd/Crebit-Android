@@ -3,6 +3,7 @@ package com.bitblue.crebit.servicespage.activities;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -32,13 +33,9 @@ public class BroadBand extends ActionBarActivity implements View.OnClickListener
     private EditText et_number, et_amount;
     private Button recharge, operatorType;
 
-    private String UserId;
-    private String Key;
-    private String TransactionType;
-    private String OperatorId;
-    private String Number;
+    private String UserId, Key, OperatorId, Number;
     private double Amount;
-    private String Source;
+    private static final String SOURCE="2";
 
     private ArrayAdapter<String> adapter;
     private String[] items;
@@ -48,10 +45,12 @@ public class BroadBand extends ActionBarActivity implements View.OnClickListener
     private BroadBandParams broadBandParams;
     private List<NameValuePair> nameValuePairs;
 
-    private String TransId;
-    private String Message;
+    private String TransId, Message;
     private int StatusCode;
     private String AvailableBalance;
+
+    private SharedPreferences prefs;
+    private final static String MY_PREFS = "mySharedPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +74,10 @@ public class BroadBand extends ActionBarActivity implements View.OnClickListener
         operatorType.setOnClickListener(this);
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_dropdown_item, items);
+
+        prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE);
+        UserId = prefs.getString("userId", "");
+        Key = prefs.getString("userKey", "");
     }
 
     @Override
@@ -131,11 +134,10 @@ public class BroadBand extends ActionBarActivity implements View.OnClickListener
         @Override
         protected String doInBackground(String... params) {
             jsonParser = new JSONParser();
-            broadBandParams = new BroadBandParams(UserId, Key, TransactionType, OperatorId, Number, Amount, Source);
+            broadBandParams = new BroadBandParams(UserId, Key, OperatorId, Number, Amount, SOURCE);
             nameValuePairs = new ArrayList<NameValuePair>();
             nameValuePairs.add(new BasicNameValuePair("UserId", UserId));
             nameValuePairs.add(new BasicNameValuePair("Key", Key));
-            nameValuePairs.add(new BasicNameValuePair("TransactionType", TransactionType));
             nameValuePairs.add(new BasicNameValuePair("OperatorId", OperatorId));
             nameValuePairs.add(new BasicNameValuePair("Number", Number));
             nameValuePairs.add(new BasicNameValuePair("Amount", String.valueOf(Amount)));

@@ -2,7 +2,7 @@ package com.bitblue.nullcheck;
 
 public class Check {
     public static boolean ifNull(String var) {
-        return var.equals("");
+        return (var.equals("") || var.equals("--Select--"));
     }
 
     public static boolean ifEmpty(double amount) {

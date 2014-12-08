@@ -3,16 +3,14 @@ package com.bitblue.requestparam;
 public class BroadBandParams {
     private String UserId;
     private String Key;
-    private String TransactionType;
     private String OperatorId;
     private String Number;
     private double Amount;
     private String Source;
 
-    public BroadBandParams(String userId, String key, String transactionType, String operatorId, String number, double amount, String source) {
+    public BroadBandParams(String userId, String key, String operatorId, String number, double amount, String source) {
         UserId = userId;
         Key = key;
-        TransactionType = transactionType;
         OperatorId = operatorId;
         Number = number;
         Amount = amount;
@@ -25,10 +23,6 @@ public class BroadBandParams {
 
     public String getKey() {
         return Key;
-    }
-
-    public String getTransactionType() {
-        return TransactionType;
     }
 
     public String getOperatorId() {

@@ -3,6 +3,7 @@ package com.bitblue.crebit.servicespage.activities;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -32,16 +33,11 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
     private EditText et_number, et_amount;
     private Button recharge, operatorType;
 
-    private String UserId;
-    private String Key;
-    private String TransactionType;
-    private String OperatorId;
-    private String Number;
+    private String UserId, Key, TransactionType, OperatorId, Number;
     private double Amount;
     private String Source;
 
-    private String TransId;
-    private String Message;
+    private String TransId, Message;
     private int StatusCode;
     private String AvailableBalance;
 
@@ -53,11 +49,14 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
     private GasBillParams gasBillParams;
     private List<NameValuePair> nameValuePairs;
 
+    private SharedPreferences prefs;
+    private final static String MY_PREFS = "mySharedPrefs";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gas_bill);
-        items=getResources().getStringArray(R.array.gasbill_operator);
+        items = getResources().getStringArray(R.array.gasbill_operator);
         initViews();
     }
 
@@ -76,6 +75,9 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_dropdown_item, items);
 
+        prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE);
+        UserId = prefs.getString("userId", "");
+        Key = prefs.getString("userKey", "");
 
     }
 

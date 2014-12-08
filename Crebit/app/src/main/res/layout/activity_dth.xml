@@ -1,102 +1,157 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black">
-    <LinearLayout
-        android:id="@+id/ll_dth"
-        android:layout_width="match_parent"
-        android:layout_height="280dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/rounded_layout"
-        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_dth_operator"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:text=" Operator"
-            android:textColor="@color/black"
-            android:textSize="15dp" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/b_dth_operator"
-            android:layout_width="340dp"
-            android:layout_height="40dp"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="10dp"
-            android:text="--Select--"
-            android:background="@android:drawable/btn_dropdown"></Button>
+            <LinearLayout
+                android:id="@+id/ll_dth"
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rounded_layout"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_dth_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text=" Number"
-            android:textColor="@color/black"
-            android:textSize="15dp" />
+                <TextView
+                    android:id="@+id/tv_dth_operator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/Operator"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
 
-        <EditText
-            android:id="@+id/et_dth_number"
-            android:layout_width="340dp"
-            android:layout_height="35dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/rounded_edit_text"
-            android:hint="  Enter Number "
-            android:inputType="phone"
-            android:imeOptions="actionNext"
-            android:singleLine="true" />
+                <Button
+                    android:id="@+id/b_dth_operator"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:text="--Select--"></Button>
 
-        <TextView
-            android:id="@+id/tv_dth_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text=" Amount"
-            android:textColor="@color/black"
-            android:textSize="15dp" />
+                <TextView
+                    android:id="@+id/tv_dth_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/Number"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
 
-        <EditText
-            android:id="@+id/et_dth_amount"
-            android:layout_width="340dp"
-            android:layout_height="35dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/rounded_edit_text"
-            android:hint="  Enter Amount "
-            android:imeOptions="actionDone"
-            android:inputType="phone"
-            android:singleLine="true" />
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/et_dth_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/rounded_edit_text"
+                    android:hint="@string/Enter_Number"
+                    android:imeOptions="actionNext"
+                    android:inputType="phone"
+                    android:singleLine="true" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_dth"
-        android:layout_gravity="center_vertical"
-        android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_dth_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/Amount"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
 
-        <Button
-            android:id="@+id/b_dth_recharge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/rounded_button"
-            android:text="Recharge"
-            android:textColor="@color/white" />
+                <EditText
+                    android:id="@+id/et_dth_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/rounded_edit_text"
+                    android:hint="@string/Enter_Amount"
+                    android:imeOptions="actionDone"
+                    android:inputType="phone"
+                    android:singleLine="true" />
+            </LinearLayout>
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_dth"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/b_dth_recharge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/rounded_button"
+                    android:text="@string/Recharge"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_layout"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_dth_TransId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/TransId"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/tv_dth_Message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Message"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/tv_dth_StatusCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/StatusCode"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/tv_dth_AvailableBalance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/AvailableBalance"
+                    android:textSize="20dp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
