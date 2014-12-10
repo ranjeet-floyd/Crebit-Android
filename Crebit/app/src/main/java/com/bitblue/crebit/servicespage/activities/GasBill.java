@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bitblue.IDs.gasBill;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.jsonparse.JSONParser;
@@ -32,11 +33,11 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
     private TextView tvoperator, tvnumber, tvamount;
     private EditText et_number, et_amount;
     private Button recharge, operatorType;
+    private TextView transId, message, statcode, availablebal;
 
-    private String UserId, Key, TransactionType, OperatorId, Number;
+    private String UserId, Key, OperatorId, Number;
     private double Amount;
-    private String Source;
-
+    private static final String SOURCE = "2";
     private String TransId, Message;
     private int StatusCode;
     private String AvailableBalance;
@@ -64,6 +65,10 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
         tvoperator = (TextView) findViewById(R.id.tv_gas_operator);
         tvnumber = (TextView) findViewById(R.id.et_gas_number);
         tvamount = (TextView) findViewById(R.id.tv_gas_amount);
+        transId = (TextView) findViewById(R.id.tv_gas_TransId);
+        message = (TextView) findViewById(R.id.tv_gas_Message);
+        statcode = (TextView) findViewById(R.id.tv_gas_StatusCode);
+        availablebal = (TextView) findViewById(R.id.tv_gas_AvailableBalance);
 
         et_number = (EditText) findViewById(R.id.et_gas_number);
         et_amount = (EditText) findViewById(R.id.et_gas_amount);
@@ -90,7 +95,7 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
                         .setAdapter(adapter, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int position) {
-                                OperatorId = String.valueOf(position + 1);
+                                OperatorId = gasBill.getGasBillOperatorId(position);
                                 operatorType.setText(items[position]);
                                 dialog.dismiss();
                             }
@@ -116,12 +121,12 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
                     break;
                 }
 
-                new retrievedata().execute();
+                new retrievegasbilldata().execute();
                 break;
         }
     }
 
-    private class retrievedata extends AsyncTask<String, String, String> {
+    private class retrievegasbilldata extends AsyncTask<String, String, String> {
         ProgressDialog dialog = new ProgressDialog(GasBill.this);
 
         @Override
@@ -135,20 +140,20 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
         @Override
         protected String doInBackground(String... params) {
             jsonParser = new JSONParser();
-            gasBillParams = new GasBillParams(UserId, Key, TransactionType, OperatorId, Number, Amount, Source);
+            gasBillParams = new GasBillParams(UserId, Key, OperatorId, Number, Amount, SOURCE);
             nameValuePairs = new ArrayList<NameValuePair>();
             nameValuePairs.add(new BasicNameValuePair("UserId", UserId));
             nameValuePairs.add(new BasicNameValuePair("Key", Key));
-            nameValuePairs.add(new BasicNameValuePair("TransactionType", TransactionType));
             nameValuePairs.add(new BasicNameValuePair("OperatorId", OperatorId));
             nameValuePairs.add(new BasicNameValuePair("Number", Number));
             nameValuePairs.add(new BasicNameValuePair("Amount", String.valueOf(Amount)));
+            nameValuePairs.add(new BasicNameValuePair("Source", SOURCE));
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_SERVICE, nameValuePairs);
             try {
-                gasBillResponse = new GasBillResponse(jsonResponse.getString("TransId"),
-                        jsonResponse.getString("Message"),
-                        jsonResponse.getInt("StatusCode"),
-                        jsonResponse.getString("AvailableBalance"));
+                gasBillResponse = new GasBillResponse(jsonResponse.getString("transId"),
+                        jsonResponse.getString("message"),
+                        jsonResponse.getInt("statusCode"),
+                        jsonResponse.getString("availableBalance"));
 
                 TransId = gasBillResponse.getTransId();
                 Message = gasBillResponse.getMessage();
@@ -162,7 +167,41 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
 
         @Override
         protected void onPostExecute(String StatusCode) {
-            if (StatusCode.equals("")) {
+            if (StatusCode.equals("0")) {
+                new AlertDialog.Builder(GasBill.this)
+                        .setTitle("Error")
+                        .setMessage("Request Not Completed.")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
+            } else if (StatusCode.equals("1")) {
+                new AlertDialog.Builder(GasBill.this)
+                        .setTitle("Success")
+                        .setMessage("Request Completed.")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
+                transId.setText("TransId: " + TransId);
+                message.setText("Message: " + Message);
+                statcode.setText("StatusCode: " + StatusCode);
+                availablebal.setText("AvailableBalance: " + AvailableBalance);
+            } else if (StatusCode.equals("2")) {
+                new AlertDialog.Builder(GasBill.this)
+                        .setTitle("Error")
+                        .setMessage("Insufficient Balance")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
+                dialog.dismiss();
             }
         }
     }

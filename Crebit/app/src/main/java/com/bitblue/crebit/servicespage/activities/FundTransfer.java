@@ -1,6 +1,8 @@
 package com.bitblue.crebit.servicespage.activities;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,11 +29,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FundTransfer extends ActionBarActivity implements View.OnClickListener {
-    private TextView number, amount;
+    private TextView number, amount, status, availableBalance;
     private EditText et_number, et_amount;
     private Button transfer;
 
-    private String UserId, Key, MobileTo, Amount;
+    private String UserId, Key, MobileTo, Amount, UserTypeA, UserTypeB;
 
     private String Status, AvailableBalance;
 
@@ -55,6 +57,8 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
     private void initViews() {
         number = (TextView) findViewById(R.id.tv_ft_number);
         amount = (TextView) findViewById(R.id.tv_ft_amount);
+        status = (TextView) findViewById(R.id.tv_ft_status);
+        availableBalance = (TextView) findViewById(R.id.tv_ft_availableBalance);
 
         et_number = (EditText) findViewById(R.id.et_ft_number);
         et_amount = (EditText) findViewById(R.id.et_ft_amount);
@@ -65,6 +69,14 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
         prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE);
         UserId = prefs.getString("userId", "");
         Key = prefs.getString("userKey", "");
+
+        if (UserId.equals("1")) {
+            UserTypeA = "Enterprise";
+            UserTypeB = "Personal";
+        } else if (UserId.equals("2")) {
+            UserTypeA = "Personal";
+            UserTypeB = "Enterprise";
+        }
     }
 
     @Override
@@ -82,13 +94,13 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
                     et_number.setHintTextColor(getResources().getColor(R.color.red));
                     break;
                 }
-                new retrievedata().execute();
+                new retrievefundtransferdata().execute();
                 break;
 
         }
     }
 
-    private class retrievedata extends AsyncTask<String, String, String> {
+    private class retrievefundtransferdata extends AsyncTask<String, String, String> {
         ProgressDialog dialog = new ProgressDialog(FundTransfer.this);
 
         @Override
@@ -111,9 +123,8 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
             jsonArray = jsonParser.makeHttpPostRequest(API.DASHBOARD_TRANSFER, nameValuePairs);
             try {
                 jsonResponse = jsonArray.getJSONObject(0);
-                fundTransferResponse = new FundTransferResponse(jsonResponse.getString("Status"),
-                        jsonResponse.getString("AvailableBalance"));
-
+                fundTransferResponse = new FundTransferResponse(jsonResponse.getString("status"),
+                        jsonResponse.getString("availableBalance"));
                 Status = fundTransferResponse.getStatus();
                 AvailableBalance = fundTransferResponse.getAvailableBalance();
             } catch (JSONException e) {
@@ -124,7 +135,65 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(String Status) {
-            if (Status.equals("")) {
+            dialog.dismiss();
+            switch (Integer.parseInt(Status)) {
+                case 1:
+                case 2:
+                    new AlertDialog.Builder(FundTransfer.this)
+                            .setTitle("Success")
+                            .setMessage(" Transfer Completed. ")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).create().show();
+                    break;
+                case 3:
+                    new AlertDialog.Builder(FundTransfer.this)
+                            .setTitle("Error")
+                            .setMessage("Not Enough Balance")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).create().show();
+                    break;
+                case 4:
+                    new AlertDialog.Builder(FundTransfer.this)
+                            .setTitle("Error")
+                            .setMessage("Mobile Number Incorrect")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).create().show();
+                    break;
+                case 5:
+                    new AlertDialog.Builder(FundTransfer.this)
+                            .setTitle("Error")
+                            .setMessage(" Cannot Transfer From " + UserTypeA + " to " + UserTypeB)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).create().show();
+                    break;
+                case 6:
+                    new AlertDialog.Builder(FundTransfer.this)
+                            .setTitle("Error")
+                            .setMessage("Cannot Transfer to the same account")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).create().show();
+
+                    break;
             }
         }
     }

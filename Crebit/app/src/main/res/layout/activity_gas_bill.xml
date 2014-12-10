@@ -120,7 +120,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvTransId"
+                    android:id="@+id/tv_gas_TransId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/TransId"

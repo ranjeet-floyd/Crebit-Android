@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bitblue.IDs.broadBand;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.jsonparse.JSONParser;
@@ -32,10 +33,11 @@ public class BroadBand extends ActionBarActivity implements View.OnClickListener
     private TextView operator, number, amount;
     private EditText et_number, et_amount;
     private Button recharge, operatorType;
+    private TextView transId, message, statcode, availablebal;
 
     private String UserId, Key, OperatorId, Number;
     private double Amount;
-    private static final String SOURCE="2";
+    private static final String SOURCE = "2";
 
     private ArrayAdapter<String> adapter;
     private String[] items;
@@ -64,6 +66,10 @@ public class BroadBand extends ActionBarActivity implements View.OnClickListener
         operator = (TextView) findViewById(R.id.tv_bb_operator);
         number = (TextView) findViewById(R.id.tv_bb_number);
         amount = (TextView) findViewById(R.id.tv_bb_amount);
+        transId = (TextView) findViewById(R.id.tv_bb_TransId);
+        message = (TextView) findViewById(R.id.tv_bb_Message);
+        statcode = (TextView) findViewById(R.id.tv_bb_StatusCode);
+        availablebal = (TextView) findViewById(R.id.tv_bb_AvailableBalance);
 
         et_number = (EditText) findViewById(R.id.et_bb_number);
         et_amount = (EditText) findViewById(R.id.et_bb_amount);
@@ -89,7 +95,7 @@ public class BroadBand extends ActionBarActivity implements View.OnClickListener
                         .setAdapter(adapter, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int position) {
-                                OperatorId = String.valueOf(position + 1);
+                                OperatorId = broadBand.getBroadBandOperatorId(position);
                                 operatorType.setText(items[position]);
                                 dialog.dismiss();
                             }
@@ -115,12 +121,12 @@ public class BroadBand extends ActionBarActivity implements View.OnClickListener
                     break;
                 }
 
-                new retrievedata().execute();
+                new retrievebroadbanddata().execute();
                 break;
         }
     }
 
-    private class retrievedata extends AsyncTask<String, String, String> {
+    private class retrievebroadbanddata extends AsyncTask<String, String, String> {
         ProgressDialog dialog = new ProgressDialog(BroadBand.this);
 
         @Override
@@ -141,12 +147,13 @@ public class BroadBand extends ActionBarActivity implements View.OnClickListener
             nameValuePairs.add(new BasicNameValuePair("OperatorId", OperatorId));
             nameValuePairs.add(new BasicNameValuePair("Number", Number));
             nameValuePairs.add(new BasicNameValuePair("Amount", String.valueOf(Amount)));
+            nameValuePairs.add(new BasicNameValuePair("Source", SOURCE));
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_SERVICE, nameValuePairs);
             try {
-                broadBandResponse = new BroadBandResponse(jsonResponse.getString("TransId"),
-                        jsonResponse.getString("Message"),
-                        jsonResponse.getInt("StatusCode"),
-                        jsonResponse.getString("AvailableBalance"));
+                broadBandResponse = new BroadBandResponse(jsonResponse.getString("transId"),
+                        jsonResponse.getString("message"),
+                        jsonResponse.getInt("statusCode"),
+                        jsonResponse.getString("availableBalance"));
 
                 TransId = broadBandResponse.getTransId();
                 Message = broadBandResponse.getMessage();
@@ -160,7 +167,41 @@ public class BroadBand extends ActionBarActivity implements View.OnClickListener
 
         @Override
         protected void onPostExecute(String StatusCode) {
-            if (StatusCode.equals("")) {
+            if (StatusCode.equals("0")) {
+                new AlertDialog.Builder(BroadBand.this)
+                        .setTitle("Error")
+                        .setMessage("Request Not Completed.")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
+            } else if (StatusCode.equals("1")) {
+                new AlertDialog.Builder(BroadBand.this)
+                        .setTitle("Success")
+                        .setMessage("Request Completed.")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
+                transId.setText("TransId: " + TransId);
+                message.setText("Message: " + Message);
+                statcode.setText("StatusCode: " + StatusCode);
+                availablebal.setText("AvailableBalance: " + AvailableBalance);
+            } else if (StatusCode.equals("2")) {
+                new AlertDialog.Builder(BroadBand.this)
+                        .setTitle("Error")
+                        .setMessage("Insufficient Balance")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
+                dialog.dismiss();
             }
         }
     }

@@ -121,12 +121,12 @@ public class PostPaid extends ActionBarActivity implements View.OnClickListener 
                     break;
                 }
 
-                new retrievedata().execute();
+                new retrievepostpaiddata().execute();
                 break;
         }
     }
 
-    private class retrievedata extends AsyncTask<String, String, String> {
+    private class retrievepostpaiddata extends AsyncTask<String, String, String> {
         ProgressDialog dialog = new ProgressDialog(PostPaid.this);
 
         @Override
@@ -180,7 +180,7 @@ public class PostPaid extends ActionBarActivity implements View.OnClickListener 
             } else if (StatusCode.equals("1")) {
                 new AlertDialog.Builder(PostPaid.this)
                         .setTitle("Success")
-                        .setMessage("Request Not Completed.")
+                        .setMessage("Request Completed.")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {

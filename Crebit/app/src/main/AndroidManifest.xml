@@ -15,6 +15,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:launchMode = "singleInstance"
             android:name=".loginpage.LoginActivity"
             android:icon="@drawable/crebit"
             android:label="@string/crebitWallet" />
@@ -23,8 +24,7 @@
             android:label="@string/forgotPasswd" />
         <activity
             android:name=".loginpage.SignUp"
-            android:label="@string/signupRegister"
-            android:windowSoftInputMode="adjustPan" />
+            android:label="@string/signupRegister"/>
         <activity
             android:name="com.bitblue.crebit.servicespage.service"
             android:label="" />

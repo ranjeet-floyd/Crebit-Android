@@ -16,11 +16,11 @@ import android.view.ViewGroup;
 
 import com.bitblue.crebit.R;
 import com.bitblue.crebit.loginpage.LoginActivity;
-import com.bitblue.crebit.servicespage.fragments.BalSummary;
+import com.bitblue.crebit.servicespage.fragments.balanceSummary.BalSummary;
 import com.bitblue.crebit.servicespage.fragments.BankAccPay;
 import com.bitblue.crebit.servicespage.fragments.Margin;
 import com.bitblue.crebit.servicespage.fragments.Service;
-import com.bitblue.crebit.servicespage.fragments.TransSummary;
+import com.bitblue.crebit.servicespage.fragments.transactionSummary.TransSummary;
 import com.bitblue.crebit.servicespage.fragments.Updates;
 import com.bitblue.crebit.servicespage.menuitem.ChangePassword;
 import com.bitblue.crebit.servicespage.navDrawer.NavigationDrawerFragment;
@@ -61,6 +61,7 @@ public class service extends ActionBarActivity
                 fragment = new Service();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, fragment)
+                        .addToBackStack(null)
                         .commit();
 
                 break;
@@ -68,12 +69,14 @@ public class service extends ActionBarActivity
                 fragment = new TransSummary();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, fragment)
+                        .addToBackStack(null)
                         .commit();
                 break;
             case 2:
                 fragment = new BalSummary();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, fragment)
+                        .addToBackStack(null)
                         .commit();
                 break;
 
@@ -81,6 +84,7 @@ public class service extends ActionBarActivity
                 fragment = new BankAccPay();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, fragment)
+                        .addToBackStack(null)
                         .commit();
                 break;
 
@@ -88,18 +92,29 @@ public class service extends ActionBarActivity
                 fragment = new Updates();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, fragment)
+                        .addToBackStack(null)
                         .commit();
                 break;
             case 5:
                 fragment = new Margin();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, fragment)
+                        .addToBackStack(null)
                         .commit();
                 break;
 
             default:
                 break;
 
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            this.finish();
+        } else {
+            getSupportFragmentManager().popBackStack();
         }
     }
 

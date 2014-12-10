@@ -2,9 +2,9 @@ package com.bitblue.crebit.servicespage.listAdapter;
 
 public class OpMar {
 
-    private String operator = "";
-    private String op_type = "";
-    private String margin = "";
+    private String operator;
+    private String op_type;
+    private String margin;
 
     public String getOperator() {
         return operator;

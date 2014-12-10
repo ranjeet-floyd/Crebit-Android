@@ -1,49 +1,27 @@
 package com.bitblue.response;
 
+import org.json.JSONArray;
+
 public class TranSumResponse {
-    private String CBalance;
-    private String profit;
-    private String Amount;
-    private String Source;
-    private String TDate;
-    private String Status;
-    private String OperaterName;
+    private double TotalAmount;
+    private double TotalProfit;
+    private JSONArray TranSumResults;
 
-    public TranSumResponse(String CBalance, String profit, String amount, String source, String TDate, String status, String operaterName) {
-        this.CBalance = CBalance;
-        this.profit = profit;
-        Amount = amount;
-        Source = source;
-        this.TDate = TDate;
-        Status = status;
-        OperaterName = operaterName;
+    public TranSumResponse(double totalAmount, double totalProfit, JSONArray tranSumResults) {
+        TotalAmount = totalAmount;
+        TotalProfit = totalProfit;
+        TranSumResults = tranSumResults;
     }
 
-    public String getCBalance() {
-        return CBalance;
+    public double getTotalAmount() {
+        return TotalAmount;
     }
 
-    public String getProfit() {
-        return profit;
+    public double getTotalProfit() {
+        return TotalProfit;
     }
 
-    public String getAmount() {
-        return Amount;
-    }
-
-    public String getSource() {
-        return Source;
-    }
-
-    public String getTDate() {
-        return TDate;
-    }
-
-    public String getStatus() {
-        return Status;
-    }
-
-    public String getOperaterName() {
-        return OperaterName;
+    public JSONArray getTranSumResults() {
+        return TranSumResults;
     }
 }

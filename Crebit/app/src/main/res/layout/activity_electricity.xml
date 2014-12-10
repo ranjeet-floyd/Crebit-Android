@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black">
@@ -6,8 +7,8 @@
     <LinearLayout
         android:id="@+id/ll_elec"
         android:layout_width="match_parent"
-        android:layout_height="280dp"
-        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
@@ -21,7 +22,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
-            android:text="@string/services"
+            android:text="@string/Service"
             android:textColor="@color/black"
             android:textSize="15dp" />
 
@@ -32,72 +33,16 @@
             android:layout_marginBottom="15dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:text="--Select--"
-            android:background="@android:drawable/btn_dropdown"></Button>
-
-        <TextView
-            android:id="@+id/tv_elec_operator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:text="@string/Operator"
-            android:textColor="@color/black"
-            android:textSize="15dp" />
-
-        <Button
-            android:id="@+id/b_elec_BU"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="--Select--"
-            android:background="@android:drawable/btn_dropdown"></Button>
-
-        <TextView
-            android:id="@+id/tv_elec_cust_acc_no"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text=" Customer Account No."
-            android:textColor="@color/black"
-            android:textSize="15dp" />
-
-        <EditText
-            android:id="@+id/et_elec_cust_acc_no"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/rounded_edit_text"
-            android:hint="  Enter Account no. "
-            android:imeOptions="actionDone"
-            android:inputType="phone"
-            android:singleLine="true" />
+            android:background="@android:drawable/btn_dropdown"
+            android:text="--Select--"></Button>
     </LinearLayout>
 
-    <LinearLayout
+    <fragment
+        android:layout_below="@+id/ll_elec"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_elec"
-        android:layout_gravity="center_vertical"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/b_elec_getDetails"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/rounded_button"
-            android:text="Get Details"
-            android:textColor="@color/white" />
-
-    </LinearLayout>
-
+        android:name="com.bitblue.crebit.servicespage.fragments.electricity.MSEB"
+        tools:layout="@layout/fragment_mseb" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="25dp"

@@ -35,7 +35,6 @@ public class Insurance extends ActionBarActivity implements View.OnClickListener
     private Button recharge, operatorType;
     private TextView transId, message, statcode, availablebal;
 
-
     private String[] items;
     private ArrayAdapter<String> adapter;
     private JSONParser jsonParser;
@@ -121,13 +120,13 @@ public class Insurance extends ActionBarActivity implements View.OnClickListener
                     break;
                 }
 
-                new retrievedata().execute();
+                new retrieveinsurancedata().execute();
                 break;
 
         }
     }
 
-    private class retrievedata extends AsyncTask<String, String, String> {
+    private class retrieveinsurancedata extends AsyncTask<String, String, String> {
         ProgressDialog dialog = new ProgressDialog(Insurance.this);
 
         @Override
@@ -181,7 +180,7 @@ public class Insurance extends ActionBarActivity implements View.OnClickListener
             } else if (StatusCode.equals("1")) {
                 new AlertDialog.Builder(Insurance.this)
                         .setTitle("Success")
-                        .setMessage("Request Not Completed.")
+                        .setMessage("Request Completed.")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {

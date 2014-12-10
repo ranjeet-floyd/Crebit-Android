@@ -29,29 +29,31 @@
         <item>Personal</item>
     </string-array>
     <string-array name="status">
+        <item> Failed </item>
         <item> Success </item>
-        <item> Fail </item>
         <item> Pending </item>
         <item> In Progress </item>
-        <item> Refunded </item>
         <item> Reject </item>
         <item> Received </item>
-        <item> Awaiting </item>
-        <item> Not Known </item>
         <item> Others </item>
+        <item> Not Known </item>
+        <item> Awaiting </item>
+        <item> Refunded </item>
     </string-array>
     <string-array name="type">
         <item> PostPaid </item>
         <item> PrepPaid </item>
         <item> DTH </item>
         <item> Electricity Bill </item>
-        <item> Data Card </item>
-        <item> Insurance </item>
         <item> Gas Bill </item>
+        <item> Insurance </item>
         <item> BroadBand </item>
+        <item> Data Card </item>
         <item> Fund Transfer </item>
+        <item> Bank Transfer </item>
+        <item> Crebit Admin </item>
+        <item> Crebit Monthly </item>
         <item> Money Transfer </item>
-        <item> Monthly Charge </item>
         <item> Crebit Refund </item>
     </string-array>
     <string-array name="postpaid_operator">
@@ -114,6 +116,7 @@
     <string-array name="service">
         <item> MSEB </item>
         <item> Reliance(Mumbai) </item>
+        <item> TorrentPower </item>
     </string-array>
     <string-array name="gasbill_operator">
         <item> Mahanagar Gas Limited </item>
@@ -122,7 +125,6 @@
         <item> Tikona PostPaid </item>
     </string-array>
 
-    <string name="services">Services</string>
     <string name="transactionSummary">Transaction Summary</string>
     <string name="balanceSummary">Balance Summary</string>
     <string name="bankAccountPay">Bank Account Pay</string>
@@ -134,6 +136,7 @@
     <string name="userName">UserName</string>
     <string name="changePassword">Change Password</string>
     <string name="balance"> Balance: </string>
+    <string name="services"> Services </string>
     <string name="postPaid">PostPaid</string>
     <string name="prePaid">PrePaid</string>
     <string name="dataCard">Data Card</string>
@@ -171,17 +174,17 @@
     <string name="title_activity_fund_transfer">Fund Transfer</string>
     <string name="title_activity_change_password">ChangePassword</string>
     <string name="title_activity_margin">Margin</string>
-
     <string name="TransId"> TransId: </string>
     <string name="Message"> Message: </string>
     <string name="StatusCode"> StatusCode: </string>
     <string name="AvailableBalance"> AvailableBalance: </string>
-
-    <string name="Operator">Operator </string>
+    <string name="BU"> BU </string>
     <string name="Number">Number </string>
     <string name="Amount">Amount </string>
     <string name="Enter_Number">\tEnter Number </string>
     <string name="Enter_Amount">\tEnter Amount </string>
     <string name="Recharge">Recharge</string>
     <string name="Service">Service</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

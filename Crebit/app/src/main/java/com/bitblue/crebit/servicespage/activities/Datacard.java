@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bitblue.IDs.dataCard;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.jsonparse.JSONParser;
@@ -32,10 +33,11 @@ public class Datacard extends ActionBarActivity implements View.OnClickListener 
     private TextView tvoperator, tvnumber, tvamount;
     private EditText et_number, et_amount;
     private Button recharge, operatorType;
+    private TextView transId, message, statcode, availablebal;
 
     private String UserId, Key, OperatorId, Number;
     private double Amount;
-    private static final String SOURCE="2";
+    private static final String SOURCE = "2";
 
     private ArrayAdapter<String> adapter;
     private String[] items;
@@ -64,6 +66,10 @@ public class Datacard extends ActionBarActivity implements View.OnClickListener 
         tvoperator = (TextView) findViewById(R.id.tv_dc_operator);
         tvnumber = (TextView) findViewById(R.id.tv_dc_number);
         tvamount = (TextView) findViewById(R.id.tv_dc_amount);
+        transId = (TextView) findViewById(R.id.tv_dc_TransId);
+        message = (TextView) findViewById(R.id.tv_dc_Message);
+        statcode = (TextView) findViewById(R.id.tv_dc_StatusCode);
+        availablebal = (TextView) findViewById(R.id.tv_dc_AvailableBalance);
 
         et_number = (EditText) findViewById(R.id.et_dc_number);
         et_amount = (EditText) findViewById(R.id.et_dc_amount);
@@ -89,7 +95,7 @@ public class Datacard extends ActionBarActivity implements View.OnClickListener 
                         .setAdapter(adapter, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int position) {
-                                OperatorId = String.valueOf(position + 1);
+                                OperatorId = dataCard.getDataCardOperatorId(position);
                                 operatorType.setText(items[position]);
                                 dialog.dismiss();
                             }
@@ -115,13 +121,13 @@ public class Datacard extends ActionBarActivity implements View.OnClickListener 
                     break;
                 }
 
-                new retrievedata().execute();
+                new retrievedatacarddata().execute();
                 break;
 
         }
     }
 
-    private class retrievedata extends AsyncTask<String, String, String> {
+    private class retrievedatacarddata extends AsyncTask<String, String, String> {
         ProgressDialog dialog = new ProgressDialog(Datacard.this);
 
         @Override
@@ -142,12 +148,13 @@ public class Datacard extends ActionBarActivity implements View.OnClickListener 
             nameValuePairs.add(new BasicNameValuePair("OperatorId", OperatorId));
             nameValuePairs.add(new BasicNameValuePair("Number", Number));
             nameValuePairs.add(new BasicNameValuePair("Amount", String.valueOf(Amount)));
+            nameValuePairs.add(new BasicNameValuePair("Source", SOURCE));
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_SERVICE, nameValuePairs);
             try {
-                dataCardResponse = new DataCardResponse(jsonResponse.getString("TransId"),
-                        jsonResponse.getString("Message"),
-                        jsonResponse.getInt("StatusCode"),
-                        jsonResponse.getString("AvailableBalance"));
+                dataCardResponse = new DataCardResponse(jsonResponse.getString("transId"),
+                        jsonResponse.getString("message"),
+                        jsonResponse.getInt("statusCode"),
+                        jsonResponse.getString("availableBalance"));
 
                 TransId = dataCardResponse.getTransId();
                 Message = dataCardResponse.getMessage();
@@ -161,7 +168,41 @@ public class Datacard extends ActionBarActivity implements View.OnClickListener 
 
         @Override
         protected void onPostExecute(String StatusCode) {
-            if (StatusCode.equals("")) {
+            if (StatusCode.equals("0")) {
+                new AlertDialog.Builder(Datacard.this)
+                        .setTitle("Error")
+                        .setMessage("Request Not Completed.")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
+            } else if (StatusCode.equals("1")) {
+                new AlertDialog.Builder(Datacard.this)
+                        .setTitle("Success")
+                        .setMessage("Request Completed.")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
+                transId.setText("TransId: " + TransId);
+                message.setText("Message: " + Message);
+                statcode.setText("StatusCode: " + StatusCode);
+                availablebal.setText("AvailableBalance: " + AvailableBalance);
+            } else if (StatusCode.equals("2")) {
+                new AlertDialog.Builder(Datacard.this)
+                        .setTitle("Error")
+                        .setMessage("Insufficient Balance")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
+                dialog.dismiss();
             }
         }
     }

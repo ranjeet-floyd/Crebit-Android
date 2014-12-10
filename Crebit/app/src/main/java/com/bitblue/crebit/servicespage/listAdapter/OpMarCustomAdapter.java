@@ -48,7 +48,6 @@ public class OpMarCustomAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
         holder.operator.setText(OpMarArrayList.get(position).getOperator());
         holder.op_type.setText(OpMarArrayList.get(position).getOp_type());
         holder.margin.setText(OpMarArrayList.get(position).getMargin());

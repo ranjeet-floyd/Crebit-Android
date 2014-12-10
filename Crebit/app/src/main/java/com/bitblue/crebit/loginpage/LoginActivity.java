@@ -1,6 +1,8 @@
 package com.bitblue.crebit.loginpage;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -56,8 +58,13 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     public void initViews() {
         existinguser = (TextView) findViewById(R.id.existingUser);
-        existinguser.setText(logoutmessage);
-        existinguser.setTextColor(getResources().getColor(R.color.red));
+        if (logoutmessage == null)
+            existinguser.setText(R.string.existingUser);
+
+        else {
+            existinguser.setText(logoutmessage);
+            existinguser.setTextColor(getResources().getColor(R.color.red));
+        }
         mNumber = (EditText) findViewById(R.id.et_mobileNumber);
         passwd = (EditText) findViewById(R.id.et_password);
         login = (Button) findViewById(R.id.b_login);
@@ -150,7 +157,18 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         @Override
         protected void onPostExecute(String name) {
             dialog.dismiss();
-            openServiceIntent();
+            if (userName.equals("null")) {
+                new AlertDialog.Builder(LoginActivity.this)
+                        .setTitle("Error")
+                        .setMessage("Invalid Credentials")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
+            } else
+                openServiceIntent();
         }
     }
 

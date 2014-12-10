@@ -5,12 +5,16 @@ public class TranSumParams {
     private String Key;
     private String FromDate;
     private String ToDate;
+    private int StatusId;
+    private int TypeId;
 
-    public TranSumParams(String userId, String key, String fromDate, String toDate) {
+    public TranSumParams(String userId, String key, String fromDate, String toDate, int statusId, int typeId) {
         UserId = userId;
         Key = key;
         FromDate = fromDate;
         ToDate = toDate;
+        StatusId = statusId;
+        TypeId = typeId;
     }
 
     public String getUserId() {
@@ -27,5 +31,13 @@ public class TranSumParams {
 
     public String getToDate() {
         return ToDate;
+    }
+
+    public int getTypeId() {
+        return TypeId;
+    }
+
+    public int getStatusId() {
+        return StatusId;
     }
 }

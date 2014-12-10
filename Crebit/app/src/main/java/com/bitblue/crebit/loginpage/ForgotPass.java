@@ -54,7 +54,6 @@ public class ForgotPass extends ActionBarActivity implements View.OnClickListene
     public void initViews() {
         etmobileNumber = (EditText) findViewById(R.id.et_MobileNumber);
         bforgotPassword = (Button) findViewById(R.id.b_forgotpassSubmit);
-
         bforgotPassword.setOnClickListener(this);
     }
 
@@ -71,7 +70,6 @@ public class ForgotPass extends ActionBarActivity implements View.OnClickListene
                 }
                 new retrievePass().execute();
                 break;
-
         }
     }
 
@@ -114,7 +112,7 @@ public class ForgotPass extends ActionBarActivity implements View.OnClickListene
     public void notifyuser() {
         new AlertDialog.Builder(ForgotPass.this)
                 .setTitle("Password Recovery")
-                .setMessage("  A message has been sent to: " +mobileNumber+
+                .setMessage("  A message has been sent to: " + mobileNumber +
                         "\t\t\tCheck SMS for password. ")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
@@ -122,15 +120,14 @@ public class ForgotPass extends ActionBarActivity implements View.OnClickListene
                         dialogInterface.dismiss();
                     }
                 }).create().show();
-
         String title = "MESSAGE SENT";
-        String subject="Message Sent";
-        String body="Check received SMS for Password";
+        String subject = "Message Sent";
+        String body = "Check received SMS for Password";
         NM = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notify = new Notification(R.drawable.crebit, title, System.currentTimeMillis());
         PendingIntent pending = PendingIntent.getActivity(
                 getApplicationContext(), 0, new Intent(), 0);
-        notify.setLatestEventInfo(getApplicationContext(),subject, body, pending);
+        notify.setLatestEventInfo(getApplicationContext(), subject, body, pending);
         NM.notify(0, notify);
     }
 }

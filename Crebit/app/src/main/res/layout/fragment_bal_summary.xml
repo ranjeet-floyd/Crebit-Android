@@ -1,207 +1,191 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/balsumframe"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context="com.bitblue.crebit.servicespage.fragments.BalSummary">
+    tools:context="com.bitblue.crebit.servicespage.fragments.balanceSummary.BalSummary">
 
-    <RelativeLayout
-        android:id="@+id/rl_balsum"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
 
-        <LinearLayout
-            android:id="@+id/ll_balsum"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_layout">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/tv_balsum_BalanceSummary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/black"
-                android:gravity="center_horizontal"
-                android:text="Balance Summary"
-                android:textColor="@color/white"
-                android:textSize="25dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_balsum_datepicker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ll_balsum"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/rounded_layout"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_balsum_start_end_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="Select Start and End date"
-                android:textSize="15dp" />
-
-            <LinearLayout
-                android:id="@id/ll_balsum_datepicker"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal">
-
-                <Button
-                    android:id="@+id/b_balsum_from"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="50dp"
-                    android:background="@null"
-                    android:text="from"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_balsum_between"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="45dp"
-                    android:text="to"
-                    android:textSize="20dp" />
-
-                <Button
-                    android:id="@+id/b_balsum_to"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:text="to"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_balsum_select_type"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_below="@+id/ll_balsum_datepicker"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:weightSum="2">
-
-            <LinearLayout
-                android:id="@+id/ll_balsum_select"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginRight="1dp"
-                android:layout_weight="1"
-                android:background="@drawable/rounded_layout"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_balsum_select"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text=" Select : "
-                    android:textColor="@color/black"
-                    android:textSize="15dp" />
-
-                <Spinner
-                    android:id="@+id/sp_balsum_select"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/rounded_spinner"
-                    android:entries="@array/bs_status"></Spinner>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_balsum_type"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="1dp"
-                android:layout_weight="1"
-                android:background="@drawable/rounded_layout"
-                android:gravity="center_horizontal|center_vertical"
-                android:orientation="vertical">
-
-                <EditText
-                    android:id="@+id/et_balsum_type"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:entries="@array/type"
-                    android:hint=" Select "
-                    android:imeOptions="actionDone"
-                    android:inputType="phone"
-                    android:singleLine="true"></EditText>
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_balsum_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ll_balsum_select_type"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/b_balsum_search"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/rounded_button"
-                android:text="Search"
-                android:textColor="@color/white" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ll_balsum_search"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/rounded_layout"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="center_horizontal"
-                android:text="Total Amount Received"
-                android:textSize="15dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="Rs:"
-                android:textSize="25dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            android:background="@color/black"
-            android:gravity="center_horizontal">
-
-            <TextView
+            <RelativeLayout
+                android:id="@+id/rl_balsum"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/bitBlue"
-                android:textColor="@color/white" />
-        </LinearLayout>
-    </RelativeLayout>
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/ll_balsum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_layout">
+
+                    <TextView
+                        android:id="@+id/tv_balsum_BalanceSummary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/black"
+                        android:gravity="center_horizontal"
+                        android:text="Balance Summary"
+                        android:textColor="@color/white"
+                        android:textSize="25dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_balsum_datepicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_balsum"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_layout"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_balsum_start_end_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Select Start and End date"
+                        android:textSize="15dp" />
+
+                    <LinearLayout
+                        android:id="@id/ll_balsum_datepicker"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_horizontal">
+
+                        <Button
+                            android:id="@+id/b_balsum_from"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="30dp"
+                            android:background="@drawable/rounded_button"
+                            android:text="from"
+                            android:textColor="@color/white"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_balsum_between"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="30dp"
+                            android:text="to"
+                            android:textSize="20dp" />
+
+                        <Button
+                            android:id="@+id/b_balsum_to"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:background="@drawable/rounded_button"
+                            android:text="to"
+                            android:textColor="@color/white"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_balsum_select_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/ll_balsum_datepicker"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:id="@+id/ll_balsum_select"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_layout"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/b_balsum_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@android:drawable/btn_dropdown"
+                            android:text="--Select--"></Button>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_balsum_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_layout"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/et_balsum_type"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:entries="@array/type"
+                            android:hint=""
+                            android:imeOptions="actionDone"
+                            android:inputType="phone"
+                            android:singleLine="true"></EditText>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_balsum_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_balsum_select_type"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/b_balsum_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/rounded_button"
+                        android:text="Search"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </RelativeLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="@color/black"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bitBlue"
+            android:textColor="@color/white" />
+    </LinearLayout>
 
 
 </FrameLayout>

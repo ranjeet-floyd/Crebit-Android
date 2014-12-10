@@ -11,6 +11,8 @@ public class insurance {
             case 1:
                 operatorId = "61";
                 break;  //TATA AIG Life
+            default:
+                operatorId="";
         }
         return operatorId;
     }
