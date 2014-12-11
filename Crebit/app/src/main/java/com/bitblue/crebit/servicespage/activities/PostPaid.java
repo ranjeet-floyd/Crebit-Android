@@ -18,7 +18,9 @@ import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.jsonparse.JSONParser;
 import com.bitblue.nullcheck.Check;
+import com.bitblue.requestparam.MsebParams;
 import com.bitblue.requestparam.PostPaidParams;
+import com.bitblue.response.MsebResponse;
 import com.bitblue.response.PostPaidResponse;
 
 import org.apache.http.NameValuePair;
@@ -50,6 +52,8 @@ public class PostPaid extends ActionBarActivity implements View.OnClickListener 
     private String TransId, Message;
     private int StatusCode;
     private String AvailableBalance;
+    private MsebParams msebParams;
+    private MsebResponse msebResponse;
 
     private SharedPreferences prefs;
     private final static String MY_PREFS = "mySharedPrefs";
@@ -147,7 +151,7 @@ public class PostPaid extends ActionBarActivity implements View.OnClickListener 
             nameValuePairs.add(new BasicNameValuePair("OperatorId", OperatorId));
             nameValuePairs.add(new BasicNameValuePair("Number", Number));
             nameValuePairs.add(new BasicNameValuePair("Amount", String.valueOf(Amount)));
-            nameValuePairs.add(new BasicNameValuePair("Source",SOURCE));
+            nameValuePairs.add(new BasicNameValuePair("Source", SOURCE));
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_SERVICE, nameValuePairs);
             try {
                 postPaidResponse = new PostPaidResponse(jsonResponse.getString("transId"),
@@ -167,7 +171,7 @@ public class PostPaid extends ActionBarActivity implements View.OnClickListener 
 
         @Override
         protected void onPostExecute(String StatusCode) {
-            if (StatusCode.equals("0")) {
+            if (StatusCode.equals("0") || StatusCode.equals("-1")) {
                 new AlertDialog.Builder(PostPaid.this)
                         .setTitle("Error")
                         .setMessage("Request Not Completed.")

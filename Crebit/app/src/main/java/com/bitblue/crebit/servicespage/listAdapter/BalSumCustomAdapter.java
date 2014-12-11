@@ -52,12 +52,12 @@ public class BalSumCustomAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-      /*  holder.name.setText(balSumResultArrayList.get(position).getName());
+      holder.name.setText(balSumResultArrayList.get(position).getName());
         holder.amount.setText(balSumResultArrayList.get(position).getAmount());
         holder.contact.setText(balSumResultArrayList.get(position).getContact());
         holder.date.setText(balSumResultArrayList.get(position).getDate());
         holder.type.setText(balSumResultArrayList.get(position).getType());
-        holder.transid.setText(balSumResultArrayList.get(position).getTransactionId());*/
+        holder.transid.setText(balSumResultArrayList.get(position).getTransactionId());
         return convertView;
     }
 

@@ -1,25 +1,24 @@
-package com.bitblue.crebit.servicespage.activities;
+package com.bitblue.crebit.servicespage.activities.Electriciti;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.bitblue.IDs.prePaid;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.jsonparse.JSONParser;
 import com.bitblue.nullcheck.Check;
-import com.bitblue.requestparam.PrePaidParams;
-import com.bitblue.response.PrePaidResponse;
+import com.bitblue.requestparam.RelianceParams;
+import com.bitblue.response.RelianceResponse;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -29,61 +28,45 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PrePaid extends ActionBarActivity implements View.OnClickListener {
-    private TextView operator, number, amount;
-    private EditText et_number, et_amount;
-    private Button recharge, operatorType;
-    private TextView transId, message, statcode, availablebal;
-
-    private String UserId, Key, OperatorId, Number;
-    private double Amount;
-    private static final String SOURCE = "2";
-
-    private String[] items;
-    private ArrayAdapter<String> adapter;
+public class RelianceMum extends Activity implements View.OnClickListener {
+    private String UserId, Key, Account, Amount, Number, OperatorID = "41";
+    private static final String Source = "2";
+    TextView tvcustAccNo, tvcycCode, tvAmount;
+    EditText etcustAccNo, etcycCode, etAmount;
+    Button bpayBill;
     private JSONParser jsonParser;
     private JSONObject jsonResponse;
-    private PrePaidResponse prePaidResponse;
-    private PrePaidParams prePaidParams;
     private List<NameValuePair> nameValuePairs;
-
-    private String TransId, Message;
+    private RelianceParams relianceParams;
+    private RelianceResponse relianceResponse;
+    private String TransId, Message, AvailableBalance;
     private int StatusCode;
-    private String AvailableBalance;
-
     private SharedPreferences prefs;
     private final static String MY_PREFS = "mySharedPrefs";
-
+    private TextView transId, message, statcode, availablebal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pre_paid);
-        items = getResources().getStringArray(R.array.prepaid_operator);
+        setContentView(R.layout.activity_reliance_mum);
         initViews();
     }
 
     private void initViews() {
-        operator = (TextView) findViewById(R.id.tv_pre_operator);
-        number = (TextView) findViewById(R.id.tv_pre_number);
-        amount = (TextView) findViewById(R.id.tv_pre_amount);
-        transId = (TextView) findViewById(R.id.tv_prepd_TransId);
-        message = (TextView) findViewById(R.id.tv_prepd_Message);
-        statcode = (TextView) findViewById(R.id.tv_prepd_StatusCode);
-        availablebal = (TextView) findViewById(R.id.tv_prepd_AvailableBalance);
+        tvcustAccNo = (TextView) findViewById(R.id.tv_elec_reliance_cust_acc_no);
+        tvcycCode = (TextView) findViewById(R.id.tv_elec_reliance_cycode);
+        tvAmount = (TextView) findViewById(R.id.tv_elec_reliance_amount);
+        transId = (TextView) findViewById(R.id.tv_reliance_TransId);
+        message = (TextView) findViewById(R.id.tv_reliance_Message);
+        statcode = (TextView) findViewById(R.id.tv_reliance_StatusCode);
+        availablebal = (TextView) findViewById(R.id.tv_reliance_AvailableBalance);
+        etcustAccNo = (EditText) findViewById(R.id.et_elec_reliance_cust_acc_no);
+        etcycCode = (EditText) findViewById(R.id.et_elec_reliance_cycode);
+        etAmount = (EditText) findViewById(R.id.et_elec_reliance_amount);
 
-        et_number = (EditText) findViewById(R.id.et_pre_number);
-        et_amount = (EditText) findViewById(R.id.et_pre_amount);
-
-        recharge = (Button) findViewById(R.id.b_pre_recharge);
-        operatorType = (Button) findViewById(R.id.b_pre_operator);
-
-        recharge.setOnClickListener(this);
-        operatorType.setOnClickListener(this);
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_dropdown_item, items);
-
-        prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE);
+        bpayBill = (Button) findViewById(R.id.b_elec_reliance_payBill);
+        bpayBill.setOnClickListener(this);
+        prefs = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);
         UserId = prefs.getString("userId", "");
         Key = prefs.getString("userKey", "");
     }
@@ -91,46 +74,27 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.b_pre_operator:
-                new AlertDialog.Builder(this)
-                        .setTitle("Select Operator")
-                        .setAdapter(adapter, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int position) {
-                                OperatorId = prePaid.getPrePaidOperatorId(position);
-                                operatorType.setText(items[position]);
-                                dialog.dismiss();
-                            }
-                        }).create().show();
-                break;
-            case R.id.b_pre_recharge:
-                Number = et_number.getText().toString();
-                try {
-                    Amount = Double.parseDouble(et_amount.getText().toString());
-                } catch (Exception e) {
-                    Amount = 0;
+
+            case R.id.b_elec_reliance_payBill:
+                Number = etcustAccNo.getText().toString();
+                Account = etcycCode.getText().toString();
+                Amount = etAmount.getText().toString();
+                if (Check.ifAccountNumberIncorrect(Number)) {
+
                 }
-                if (operatorType.getText().equals("--Select--")) {
-                    operator.setTextColor(getResources().getColor(R.color.red));
+                if (Check.ifNull(Account)) {
+
                 }
-                if (Check.ifEmpty(Amount)) {
-                    et_amount.setHintTextColor(getResources().getColor(R.color.red));
+                if (Check.ifEmpty(Double.parseDouble(Amount))) {
                 }
-                if (Check.ifNumberInCorrect(Number)) {
-                    et_number.setText("");
-                    et_number.setHint(" Enter correct number");
-                    et_number.setHintTextColor(getResources().getColor(R.color.red));
-                    break;
-                }
-                new retrieveprepaiddata().execute();
+                new retrieveData().execute();
 
                 break;
-
         }
     }
 
-    private class retrieveprepaiddata extends AsyncTask<String, String, String> {
-        ProgressDialog dialog = new ProgressDialog(PrePaid.this);
+    private class retrieveData extends AsyncTask<String, String, String> {
+        ProgressDialog dialog = new ProgressDialog(RelianceMum.this);
 
         @Override
         protected void onPreExecute() {
@@ -143,25 +107,25 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
         @Override
         protected String doInBackground(String... params) {
             jsonParser = new JSONParser();
-            prePaidParams = new PrePaidParams(UserId, Key, OperatorId, Number, Amount, SOURCE);
+            relianceParams = new RelianceParams(UserId, Key, OperatorID, Number, Amount, Source);
             nameValuePairs = new ArrayList<NameValuePair>();
             nameValuePairs.add(new BasicNameValuePair("UserId", UserId));
             nameValuePairs.add(new BasicNameValuePair("Key", Key));
-            nameValuePairs.add(new BasicNameValuePair("OperatorId", OperatorId));
+            nameValuePairs.add(new BasicNameValuePair("OperatorId", OperatorID));
             nameValuePairs.add(new BasicNameValuePair("Number", Number));
             nameValuePairs.add(new BasicNameValuePair("Amount", String.valueOf(Amount)));
-            nameValuePairs.add(new BasicNameValuePair("Source", SOURCE));
+            nameValuePairs.add(new BasicNameValuePair("Source", Source));
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_SERVICE, nameValuePairs);
             try {
-                prePaidResponse = new PrePaidResponse(jsonResponse.getString("transId"),
+                relianceResponse = new RelianceResponse(jsonResponse.getString("transId"),
                         jsonResponse.getString("message"),
                         jsonResponse.getInt("statusCode"),
                         jsonResponse.getString("availableBalance"));
 
-                TransId = prePaidResponse.getTransId();
-                Message = prePaidResponse.getMessage();
-                StatusCode = prePaidResponse.getStatusCode();
-                AvailableBalance = prePaidResponse.getAvailableBalance();
+                TransId = relianceResponse.getTransId();
+                Message = relianceResponse.getMessage();
+                StatusCode = relianceResponse.getStatusCode();
+                AvailableBalance = relianceResponse.getAvailableBalance();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -170,8 +134,9 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
 
         @Override
         protected void onPostExecute(String StatusCode) {
+            dialog.dismiss();
             if (StatusCode.equals("0") || StatusCode.equals("-1")) {
-                new AlertDialog.Builder(PrePaid.this)
+                new AlertDialog.Builder(RelianceMum.this)
                         .setTitle("Error")
                         .setMessage("Request Not Completed.")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -181,7 +146,7 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
                             }
                         }).create().show();
             } else if (StatusCode.equals("1")) {
-                new AlertDialog.Builder(PrePaid.this)
+                new AlertDialog.Builder(RelianceMum.this)
                         .setTitle("Success")
                         .setMessage("Request Completed.")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -195,7 +160,7 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
                 statcode.setText("StatusCode: " + StatusCode);
                 availablebal.setText("AvailableBalance: " + AvailableBalance);
             } else if (StatusCode.equals("2")) {
-                new AlertDialog.Builder(PrePaid.this)
+                new AlertDialog.Builder(RelianceMum.this)
                         .setTitle("Error")
                         .setMessage("Insufficient Balance")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {

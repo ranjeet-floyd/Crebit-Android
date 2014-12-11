@@ -168,7 +168,7 @@ public class Datacard extends ActionBarActivity implements View.OnClickListener 
 
         @Override
         protected void onPostExecute(String StatusCode) {
-            if (StatusCode.equals("0")) {
+            if (StatusCode.equals("0") || StatusCode.equals("-1")) {
                 new AlertDialog.Builder(Datacard.this)
                         .setTitle("Error")
                         .setMessage("Request Not Completed.")

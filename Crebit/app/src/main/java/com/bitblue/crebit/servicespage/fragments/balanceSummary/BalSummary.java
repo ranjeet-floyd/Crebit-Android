@@ -3,11 +3,9 @@ package com.bitblue.crebit.servicespage.fragments.balanceSummary;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -19,7 +17,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
-import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.crebit.servicespage.fragments.DatePickerFragment;
 import com.bitblue.jsonparse.JSONParser;
@@ -27,14 +24,11 @@ import com.bitblue.requestparam.BalSumParams;
 import com.bitblue.response.BalSumResponse;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -182,9 +176,6 @@ public class BalSummary extends Fragment implements View.OnClickListener {
                 Bundle dates = new Bundle();
                 dates.putString("fromDate", fromDate);
                 dates.putString("toDate", toDate);
-
-                new retrieveData().execute();
-
                 BalSumResultFragment balSumResultFragment = new BalSumResultFragment();
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 balSumResultFragment.setArguments(dates);
@@ -195,45 +186,5 @@ public class BalSummary extends Fragment implements View.OnClickListener {
                 break;
         }
 
-    }
-
-    private class retrieveData extends AsyncTask<String, String, String> {
-        ProgressDialog dialog = new ProgressDialog(getActivity());
-
-        @Override
-        protected void onPreExecute() {
-            dialog.setMessage("Please Wait...");
-            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            dialog.setCancelable(false);
-            dialog.show();
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-
-            jsonParser = new JSONParser();
-            balSumParams = new BalSumParams(UserId, Key, fromDate, toDate);
-            nameValuePairs = new ArrayList<NameValuePair>();
-            nameValuePairs.add(new BasicNameValuePair("UserId", UserId));
-            nameValuePairs.add(new BasicNameValuePair("Key", Key));
-            nameValuePairs.add(new BasicNameValuePair("FromDate", fromDate));
-            nameValuePairs.add(new BasicNameValuePair("ToDate", toDate));
-            jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_BALANCE_USE, nameValuePairs);
-            try {
-                balSumResponse = new BalSumResponse(jsonResponse.getDouble("totalBalanceGiven"), jsonResponse.getDouble("totalBalanceTaken"),
-                        jsonResponse.getJSONArray("balanceUse"));
-                TotalBalanceGiven = balSumResponse.getTotalBalanceGiven();
-                balanceUseArr = balSumResponse.getBalUse();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-
-        @Override
-        protected void onPostExecute(String s) {
-            dialog.dismiss();
-        }
     }
 }

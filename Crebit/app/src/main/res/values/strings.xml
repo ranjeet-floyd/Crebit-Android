@@ -5,7 +5,7 @@
     <string name="mobileNumber">Number:</string>
     <string name="password">Password:</string>
     <string name="newUser">New User ?</string>
-    <string name="crebitWallet">\t\t\t\t\t\t\t\t\t\t\tCrebit\t\t Wallet</string>
+    <string name="crebitWallet">\t\t\t\t\t\t\t\t\t\t\tCrebit\t Wallet</string>
     <string name="login">  Login </string>
     <string name="forgotPassword"><u>Forgot Password</u></string>
     <string name="forgotPasswd">Forgot Password</string>
@@ -20,6 +20,12 @@
     <string name="passwd">Password</string>
     <string name="existingUser">Existing User/ Sign In</string>
 
+    <string-array name="city">
+        <item>Ahmedabad</item>
+        <item>Agra</item>
+        <item>Bhiwandi</item>
+        <item>Surat</item>
+    </string-array>
     <string-array name="bs_status">
         <item> Sender Number </item>
         <item> Transaction ID </item>
@@ -125,6 +131,7 @@
         <item> Tikona PostPaid </item>
     </string-array>
 
+    <string name="Operator">Operator</string>
     <string name="transactionSummary">Transaction Summary</string>
     <string name="balanceSummary">Balance Summary</string>
     <string name="bankAccountPay">Bank Account Pay</string>
@@ -186,5 +193,10 @@
     <string name="Recharge">Recharge</string>
     <string name="Service">Service</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_mseb">MSEB</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_reliance_mum">RelianceMum</string>
+    <string name="title_activity_torrent_power">TorrentPower</string>
 
 </resources>
