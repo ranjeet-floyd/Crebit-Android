@@ -6,6 +6,7 @@ public class API {
     public final static String DHS_CHANGE_PASSWORD = "http://crebit.in/dhs/changePassword";
     public final static String DHS_FORGOT_PASSWORD = "http://crebit.in/dhs/forgotpassword";
     public final static String DASHBOARD_TRANSACTION_DETAILS = "http://crebit.in/dashboard/tranDetails";
+    public final static String DASHBOARD_TRANSEARCH = "http://crebit.in/dashboard/tranSearch";
     public final static String DASHBOARD_SERVICE = "http://crebit.in/dashboard/service";
     public final static String DASHBOARD_BALANCE_USE = "http://crebit.in/dashboard/balanceUse";
     /* public final static String DASHBOARD_PROFIT="http://crebit.in/dashboard/profit";
@@ -20,6 +21,7 @@ public class API {
      public final static String DHS_ADMIN_MONTHLY="http://crebit.in/dhs/adminMonthly";*/
     public final static String DHS_GET_MSEB_CUS_DETAILS = "http://crebit.in/dhs/getMSEBCusDetails";
     public final static String DHS_TORRENT_POWER = "http://crebit.in/dhs/torrentPower";
+    public final static String DHS_BANK_ACC_PAY = "http://crebit.in/dashboard/bankReq";
 
 
 }

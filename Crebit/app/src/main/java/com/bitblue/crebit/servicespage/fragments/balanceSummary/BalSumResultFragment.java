@@ -1,7 +1,9 @@
 package com.bitblue.crebit.servicespage.fragments.balanceSummary;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,39 +12,40 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
-import com.bitblue.crebit.servicespage.listAdapter.BalSumResult;
+import com.bitblue.crebit.servicespage.service;
 import com.bitblue.jsonparse.JSONParser;
 import com.bitblue.requestparam.BalSumParams;
 import com.bitblue.response.BalSumResponse;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class BalSumResultFragment extends Fragment {
-    private TextView tvtotalbalgiven, tvbalgiven, tvbalSumName, tvBalSumAmount,
-            tvBalSumContact, tvBalSumDate, tvBalSumType, tvBalSumTransId;
-    private ListView resultList;
+    private TextView tvtotalbalgiven, tvbalgiven,tvbaltaken;
 
-    private String Name, Amount, Contact, Date, Type, TransId;
-    private Double TotalBalanceGiven;
+    private ListView resultList;
+    private Double TotalBalanceGiven, TotalBalanceTaken;
 
     private static final String SOURCE = "2";
-    private ArrayList<BalSumResult> balSumResultList;
+    private ArrayList<BalSumResult> balSumResultList = new ArrayList<BalSumResult>();
     private String UserId, Key, fromDate, toDate;
     private SharedPreferences prefs;
     private final static String MY_PREFS = "mySharedPrefs";
-
-    private JSONArray balanceUse;
+    private service Service;
     private JSONParser jsonParser;
-    private JSONObject jsonResponse;
+    private JSONObject jsonResponse, balanceUseArrobject;
     private BalSumParams balSumParams;
     private BalSumResponse balSumResponse;
-    private List<NameValuePair> nameValuePairs;
+    private BalSumResult balSumResult;
+    private ArrayList<NameValuePair> nameValuePairs;
+    private JSONArray balanceUseArr;
 
     public BalSumResultFragment() {
     }
@@ -57,25 +60,77 @@ public class BalSumResultFragment extends Fragment {
         UserId = prefs.getString("userId", "");
         Key = prefs.getString("userKey", "");
         initViews(view);
+        resultList = (ListView) view.findViewById(R.id.lv_balsum_result);
+        new retrieveData().execute();
         return view;
     }
 
     private void initViews(View view) {
         tvtotalbalgiven = (TextView) view.findViewById(R.id.tvtotalgiven);
         tvbalgiven = (TextView) view.findViewById(R.id.tvbalgiven);
-        tvbalSumName = (TextView) view.findViewById(R.id.tv_balsum_name);
-        tvBalSumAmount = (TextView) view.findViewById(R.id.tv_balsum_amount);
-        tvBalSumContact = (TextView) view.findViewById(R.id.tv_balsum_contact);
-        tvBalSumDate = (TextView) view.findViewById(R.id.tv_balsum_date);
-        tvBalSumType = (TextView) view.findViewById(R.id.tv_balsum_type);
-        tvBalSumTransId = (TextView) view.findViewById(R.id.tv_balsum_transId);
+        tvbaltaken = (TextView) view.findViewById(R.id.tvbaltaken);
 
-
-        //initialize the list
-
-       /* resultList = (ListView) view.findViewById(R.id.lv_balsum_result);
-        resultList.setAdapter(new BalSumCustomAdapter(getActivity(), balSumResultList));*/
     }
 
+    private class retrieveData extends AsyncTask<String, String, String> {
+        ProgressDialog dialog = new ProgressDialog(getActivity());
 
+        @Override
+        protected void onPreExecute() {
+            dialog.setMessage("Please Wait...");
+            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            dialog.setCancelable(false);
+            dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            jsonParser = new JSONParser();
+            balSumParams = new BalSumParams(UserId, Key, fromDate, toDate);
+            nameValuePairs = new ArrayList<NameValuePair>();
+            nameValuePairs.add(new BasicNameValuePair("UserId", UserId));
+            nameValuePairs.add(new BasicNameValuePair("Key", Key));
+            nameValuePairs.add(new BasicNameValuePair("FromDate", fromDate));
+            nameValuePairs.add(new BasicNameValuePair("ToDate", toDate));
+            jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_BALANCE_USE, nameValuePairs);
+            try {
+                balSumResponse = new BalSumResponse(jsonResponse.getDouble("totalBalanceGiven"),
+                        jsonResponse.getDouble("totalBalanceTaken"),
+                        jsonResponse.getJSONArray("balanceUse"));
+                TotalBalanceGiven = balSumResponse.getTotalBalanceGiven();
+                TotalBalanceTaken = balSumResponse.getTotalBalanceTaken();
+                balanceUseArr = balSumResponse.getBalUse();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            dialog.dismiss();
+            tvbalgiven.setText(String.valueOf(TotalBalanceGiven));
+            tvbaltaken.setText(String.valueOf(TotalBalanceTaken));
+            for (int i = 0; i < balanceUseArr.length(); i++) {
+                try {
+                    balanceUseArrobject = (JSONObject) balanceUseArr.get(i);
+                    balSumResult = new BalSumResult();
+                    balSumResult.setName(balanceUseArrobject.getString("name"));
+                    balSumResult.setAmount(balanceUseArrobject.getString("amount"));
+                    balSumResult.setContact(balanceUseArrobject.getString("contact"));
+                    balSumResult.setDate(balanceUseArrobject.getString("date"));
+                    balSumResult.setType(balanceUseArrobject.getInt("type"));
+                    balSumResult.setTransactionId(balanceUseArrobject.getString("transactionId"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                balSumResultList.add(balSumResult);
+            }
+            resultList.setAdapter(new BalSumCustomAdapter(getActivity(), balSumResultList));
+
+
+        }
+    }
 }
+

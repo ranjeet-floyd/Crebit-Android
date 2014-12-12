@@ -19,6 +19,7 @@ import android.widget.EditText;
 
 import com.bitblue.crebit.R;
 import com.bitblue.crebit.servicespage.fragments.DatePickerFragment;
+import com.bitblue.crebit.servicespage.service;
 import com.bitblue.jsonparse.JSONParser;
 import com.bitblue.requestparam.BalSumParams;
 import com.bitblue.response.BalSumResponse;
@@ -29,9 +30,9 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class BalSummary extends Fragment implements View.OnClickListener {
     Button from_Date, to_Date, btype, bsearch;
@@ -44,13 +45,18 @@ public class BalSummary extends Fragment implements View.OnClickListener {
     private static final int FROM_DATE = 1;
     private static final int TO_DATE = 2;
     private String[] items;
+
+    private ArrayList<BalSumResult> balSumResultList;
     private ArrayAdapter<String> adapter;
-    private JSONArray balanceUseArr;
+    private JSONArray balanceUse;
     private JSONParser jsonParser;
     private JSONObject jsonResponse, balanceUseArrobject;
     private BalSumParams balSumParams;
     private BalSumResponse balSumResponse;
-    private List<NameValuePair> nameValuePairs;
+    private BalSumResult balSumResult;
+    private ArrayList<NameValuePair> nameValuePairs;
+    private JSONArray balanceUseArr;
+    private service Service;
     private SharedPreferences prefs;
     private final static String MY_PREFS = "mySharedPrefs";
 
@@ -173,16 +179,18 @@ public class BalSummary extends Fragment implements View.OnClickListener {
                         }).create().show();
                 break;
             case R.id.b_balsum_search:
-                Bundle dates = new Bundle();
-                dates.putString("fromDate", fromDate);
-                dates.putString("toDate", toDate);
+                Bundle args = new Bundle();
+                args.putString("fromDate", fromDate);
+                args.putString("toDate", toDate);
+
                 BalSumResultFragment balSumResultFragment = new BalSumResultFragment();
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                balSumResultFragment.setArguments(dates);
+                balSumResultFragment.setArguments(args);
                 ft.replace(R.id.balsumframe, balSumResultFragment);
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 ft.addToBackStack(null);
                 ft.commit();
+
                 break;
         }
 

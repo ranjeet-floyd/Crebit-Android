@@ -10,7 +10,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/ll_balsum_balgiven"
+            android:id="@+id/ll_transumvalue_totalprofitamount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -21,49 +21,61 @@
             android:weightSum="2">
 
             <TextView
-                android:id="@+id/tvtotalgiven"
+                android:id="@+id/tvtransumValuetotalprofit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Bal Given Rs:"
-                android:textSize="15dp"/>
+                android:text="Total Profit Rs:"
+                android:textSize="15dp" />
 
             <TextView
-                android:id="@+id/tvbalgiven"
+                android:id="@+id/tvtransumValueprofit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="100"
-                android:textStyle="bold"
+                android:layout_weight="1"
+                android:text="0.0"
                 android:textSize="15dp"
-                android:layout_weight="1"/>
-            <TextView
-                android:id="@+id/tvtotaltaken"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Bal taken Rs:"
-                android:textSize="15dp"/>
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvbaltaken"
+                android:id="@+id/tvtransumValuetotalamount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="100"
+                android:text="Total Amount Rs:"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/tvtransumValueamount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:text="0.0"
                 android:textSize="15dp"
-                android:layout_weight="1"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
-        <ListView
-            android:id="@+id/lv_balsum_result"
+        <LinearLayout
+            android:id="@+id/transumValueheader"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/ll_balsum_balgiven"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/black"></ListView>
+            android:layout_below="@+id/ll_transumvalue_totalprofitamount"
+            android:layout_marginTop="10dp">
+
+            <ListView
+                android:id="@+id/lv_transumvalue_result"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/ll_transumvalue_totalprofitamount"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/black"></ListView>
+        </LinearLayout>
+
+
     </RelativeLayout>
 </FrameLayout>

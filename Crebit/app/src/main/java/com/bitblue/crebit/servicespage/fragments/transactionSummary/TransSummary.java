@@ -3,13 +3,10 @@ package com.bitblue.crebit.servicespage.fragments.transactionSummary;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +18,6 @@ import android.widget.TextView;
 
 import com.bitblue.IDs.status;
 import com.bitblue.IDs.type;
-import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.crebit.servicespage.fragments.DatePickerFragment;
 import com.bitblue.jsonparse.JSONParser;
@@ -29,24 +25,21 @@ import com.bitblue.requestparam.TranSumParams;
 import com.bitblue.response.TranSumResponse;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class TransSummary extends Fragment implements View.OnClickListener {
     private TextView tvfromto, tvstatus, tvtype, tvCbalance, tvprofit, tvamount, tvsource, tvtransdate, tvstat, tvopname;
-    private Button from_Date, to_Date, bstatus, btype, search, mobsearch;
-    private EditText mobNum;
+    private Button from_Date, to_Date, bstatus, btype, search, valuesearch;
+    private EditText etvalue;
 
-    private String fromDate, toDate, stat, typ, mobileNumber;
+    private String fromDate, toDate, stat, typ, value;
     private int cur;
     private static final int FROM_DATE = 1;
     private static final int TO_DATE = 2;
@@ -64,9 +57,6 @@ public class TransSummary extends Fragment implements View.OnClickListener {
     private JSONArray jsonArray, TranSumResults;
     private TranSumParams tranSumParams;
     private TranSumResponse tranSumResponse;
-
-    private SharedPreferences prefs;
-    private final static String MY_PREFS = "mySharedPrefs";
     private double TotalAmount, TotalProfit;
 
     public TransSummary() {
@@ -94,8 +84,8 @@ public class TransSummary extends Fragment implements View.OnClickListener {
         bstatus = (Button) view.findViewById(R.id.b_ts_status);
         btype = (Button) view.findViewById(R.id.b_ts_type);
         search = (Button) view.findViewById(R.id.b_ts_search);
-        mobsearch = (Button) view.findViewById(R.id.b_ts_srch_mobnum);
-        mobNum = (EditText) view.findViewById(R.id.et_ts_mobnum);
+        valuesearch = (Button) view.findViewById(R.id.b_ts_srch_value);
+        etvalue = (EditText) view.findViewById(R.id.et_ts_value);
 
         from_Date.setOnClickListener(this);
         to_Date.setOnClickListener(this);
@@ -103,15 +93,11 @@ public class TransSummary extends Fragment implements View.OnClickListener {
         btype.setOnClickListener(this);
 
         search.setOnClickListener(this);
-        mobsearch.setOnClickListener(this);
+        valuesearch.setOnClickListener(this);
         statusAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_dropdown_item, statlist);
         typeAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_dropdown_item, typelist);
-
-        prefs = this.getActivity().getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);
-        UserId = prefs.getString("userId", "");
-        Key = prefs.getString("userKey", "");
     }
 
     private void showDatePicker() {
@@ -139,14 +125,14 @@ public class TransSummary extends Fragment implements View.OnClickListener {
             Date from = null;
             Date to = null;
             if (cur == FROM_DATE) {
-                from_Date.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                from_Date.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
                 fromDate = from_Date.getText().toString();
 
             }
             if (cur == TO_DATE) {
-                to_Date.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                to_Date.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
                 toDate = to_Date.getText().toString();
-                SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yyyy");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
                 try {
                     from = sdf.parse(from_Date.getText().toString());
                     to = sdf.parse(toDate);
@@ -207,101 +193,36 @@ public class TransSummary extends Fragment implements View.OnClickListener {
                         }).create().show();
                 break;
             case R.id.b_ts_search:
-                stat = bstatus.getText().toString();
-                typ = btype.getText().toString();
+                Bundle args1 = new Bundle();
+                args1.putString("fromDate", fromDate);
+                args1.putString("toDate", toDate);
+                args1.putInt("StatusId", StatusId);
+                args1.putInt("TypeId", TypeId);
                 FromDate = from_Date.getText().toString();
                 ToDate = to_Date.getText().toString();
 
-                new retrieveTransactionData().execute();
-            case R.id.b_ts_srch_mobnum:
-                mobileNumber = mobNum.getText().toString();
+                TransSumResultFragment transSumResultFragment = new TransSumResultFragment();
+                FragmentTransaction ft1 = getFragmentManager().beginTransaction();
+                transSumResultFragment.setArguments(args1);
+                ft1.replace(R.id.transumframe, transSumResultFragment);
+                ft1.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                ft1.addToBackStack(null);
+                ft1.commit();
+                break;
+            case R.id.b_ts_srch_value:
+                value = etvalue.getText().toString();
+                Bundle args2 = new Bundle();
+                args2.putString("Value", value);
+                TranSumValueResultFragment transSumvalueResultFragment = new TranSumValueResultFragment();
+                FragmentTransaction ft2 = getFragmentManager().beginTransaction();
+                transSumvalueResultFragment.setArguments(args2);
+                ft2.replace(R.id.transumframe, transSumvalueResultFragment);
+                ft2.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                ft2.addToBackStack(null);
+                ft2.commit();
                 break;
         }
 
     }
-
-    private class retrieveTransactionData extends AsyncTask<String, String, String> {
-        ProgressDialog dialog = new ProgressDialog(getActivity());
-
-        @Override
-        protected void onPreExecute() {
-            dialog.setMessage("Please wait ...");
-            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            dialog.setCancelable(false);
-            dialog.show();
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            tranSumParams = new TranSumParams(UserId, Key, FromDate, ToDate, StatusId, TypeId);
-            nameValuePairs = new ArrayList<NameValuePair>();
-            nameValuePairs.add(new BasicNameValuePair("UserId", UserId));
-            nameValuePairs.add(new BasicNameValuePair("Key", Key));
-            nameValuePairs.add(new BasicNameValuePair("FromDate", FromDate));
-            nameValuePairs.add(new BasicNameValuePair("ToDate", ToDate));
-            nameValuePairs.add(new BasicNameValuePair("StatusId", String.valueOf(StatusId)));
-            nameValuePairs.add(new BasicNameValuePair("TypeId", String.valueOf(TypeId)));
-            jsonArray = jsonParser.makeHttpPostRequest(API.DASHBOARD_TRANSACTION_DETAILS, nameValuePairs);
-            try {
-                jsonResponse = jsonArray.getJSONObject(0);
-                tranSumResponse = new TranSumResponse(jsonResponse.getDouble("totalAmount"),
-                        jsonResponse.getDouble("totalProfit"), jsonResponse.getJSONArray("dL_TransactionReturns"));
-
-                TotalAmount = tranSumResponse.getTotalAmount();
-                TotalProfit = tranSumResponse.getTotalProfit();
-                TranSumResults = tranSumResponse.getTranSumResults();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return Status;
-        }
-
-
-        @Override
-        protected void onPostExecute(String status) {
-            dialog.dismiss();
-            if (status.equals("0")) {
-                new AlertDialog.Builder(getActivity())
-                        .setTitle("Error")
-                        .setMessage("Request Not Completed.")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        }).create().show();
-            } else if (status.equals("1")) {
-                new AlertDialog.Builder(getActivity())
-                        .setTitle("Success")
-                        .setMessage("Request Completed.")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        }).create().show();
-                tvCbalance.setText("Available Cbalance: " + CBalance);
-                tvprofit.setText("Profit: " + profit);
-                tvamount.setText("Amount: " + Amount);
-                tvsource.setText("Source: " + Source);
-                tvtransdate.setText("TDate: " + TDate);
-                tvstat.setText("Status: " + Status);
-                tvopname.setText("Operator Name: " + OperaterName);
-
-            } else if (status.equals("2")) {
-                new AlertDialog.Builder(getActivity())
-                        .setTitle("Error")
-                        .setMessage("Insufficient Balance")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        }).create().show();
-                dialog.dismiss();
-            }
-        }
-    }
-
 }
 

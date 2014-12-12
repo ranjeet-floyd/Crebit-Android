@@ -7,6 +7,13 @@ public class TranSumParams {
     private String ToDate;
     private int StatusId;
     private int TypeId;
+    private String Value;
+
+    public TranSumParams(String userId, String key, String value) {
+        UserId = userId;
+        Key = key;
+        Value = value;
+    }
 
     public TranSumParams(String userId, String key, String fromDate, String toDate, int statusId, int typeId) {
         UserId = userId;
@@ -39,5 +46,9 @@ public class TranSumParams {
 
     public int getStatusId() {
         return StatusId;
+    }
+
+    public String getValue() {
+        return Value;
     }
 }

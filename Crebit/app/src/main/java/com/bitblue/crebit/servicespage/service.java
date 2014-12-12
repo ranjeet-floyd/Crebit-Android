@@ -18,7 +18,7 @@ import com.bitblue.crebit.R;
 import com.bitblue.crebit.loginpage.LoginActivity;
 import com.bitblue.crebit.servicespage.fragments.balanceSummary.BalSummary;
 import com.bitblue.crebit.servicespage.fragments.BankAccPay;
-import com.bitblue.crebit.servicespage.fragments.Margin;
+import com.bitblue.crebit.servicespage.fragments.margin.Margin;
 import com.bitblue.crebit.servicespage.fragments.Service;
 import com.bitblue.crebit.servicespage.fragments.transactionSummary.TransSummary;
 import com.bitblue.crebit.servicespage.fragments.Updates;

@@ -1,6 +1,7 @@
 package com.bitblue.crebit.servicespage.activities;
 
-import android.app.ActivityGroup;
+import android.app.Activity;
+import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TabHost;
@@ -12,17 +13,21 @@ import com.bitblue.crebit.servicespage.activities.Electriciti.RelianceMum;
 import com.bitblue.crebit.servicespage.activities.Electriciti.TorrentPower;
 
 
-public class Electricity extends ActivityGroup {
+public class Electricity extends Activity {
+    private Bundle savedInstanceState;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.savedInstanceState=savedInstanceState;
         setContentView(R.layout.activity_electricity);
         initViews();
     }
 
     private void initViews() {
         TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost);
-        tabHost.setup(this.getLocalActivityManager());
+        LocalActivityManager mLocalActivityManager = new LocalActivityManager(this, false);
+        mLocalActivityManager.dispatchCreate(savedInstanceState);
+        tabHost.setup(mLocalActivityManager);
         TabSpec mseb = tabHost.newTabSpec("MSEB");
         mseb.setIndicator("MSEB");
         mseb.setContent(new Intent(this, MSEB.class));

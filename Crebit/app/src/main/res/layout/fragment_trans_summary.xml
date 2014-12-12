@@ -1,6 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/transumframe"
     android:layout_height="match_parent"
     tools:context="com.bitblue.crebit.servicespage.fragments.transactionSummary.TransSummary">
 
@@ -223,7 +224,7 @@
                         android:weightSum="2">
 
                         <EditText
-                            android:id="@+id/et_ts_mobnum"
+                            android:id="@+id/et_ts_value"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"
@@ -235,7 +236,7 @@
                             android:singleLine="true" />
 
                         <Button
-                            android:id="@+id/b_ts_srch_mobnum"
+                            android:id="@+id/b_ts_srch_value"
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
                             android:layout_marginRight="5dp"
