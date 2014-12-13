@@ -20,19 +20,13 @@ import com.bitblue.IDs.status;
 import com.bitblue.IDs.type;
 import com.bitblue.crebit.R;
 import com.bitblue.crebit.servicespage.fragments.DatePickerFragment;
-import com.bitblue.jsonparse.JSONParser;
-import com.bitblue.requestparam.TranSumParams;
-import com.bitblue.response.TranSumResponse;
-
-import org.apache.http.NameValuePair;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.bitblue.crebit.servicespage.fragments.transactionSummary.Result.TranSumValueResultFragment;
+import com.bitblue.crebit.servicespage.fragments.transactionSummary.Result.TransSumResultFragment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class TransSummary extends Fragment implements View.OnClickListener {
     private TextView tvfromto, tvstatus, tvtype, tvCbalance, tvprofit, tvamount, tvsource, tvtransdate, tvstat, tvopname;
@@ -43,21 +37,13 @@ public class TransSummary extends Fragment implements View.OnClickListener {
     private int cur;
     private static final int FROM_DATE = 1;
     private static final int TO_DATE = 2;
-    private String UserId, Key, FromDate, ToDate;
+    private String FromDate, ToDate;
     private int StatusId, TypeId;
-    private String CBalance, profit, Amount, Source, TDate, Status, OperaterName;
 
     private String[] statlist;
     private ArrayAdapter<String> statusAdapter;
     private String[] typelist;
     private ArrayAdapter<String> typeAdapter;
-    private List<NameValuePair> nameValuePairs;
-    private JSONParser jsonParser;
-    private JSONObject jsonResponse;
-    private JSONArray jsonArray, TranSumResults;
-    private TranSumParams tranSumParams;
-    private TranSumResponse tranSumResponse;
-    private double TotalAmount, TotalProfit;
 
     public TransSummary() {
     }
@@ -69,7 +55,6 @@ public class TransSummary extends Fragment implements View.OnClickListener {
                 false);
         statlist = getResources().getStringArray(R.array.status);
         typelist = getResources().getStringArray(R.array.type);
-
         initViews(view);
         return view;
     }
@@ -174,7 +159,6 @@ public class TransSummary extends Fragment implements View.OnClickListener {
                             public void onClick(DialogInterface dialog, int position) {
                                 bstatus.setText(statlist[position]);
                                 StatusId = status.getStatusId(position);
-                                stat = bstatus.getText().toString();
                                 dialog.dismiss();
                             }
                         }).create().show();
@@ -187,19 +171,28 @@ public class TransSummary extends Fragment implements View.OnClickListener {
                             public void onClick(DialogInterface dialog, int position) {
                                 btype.setText(typelist[position]);
                                 TypeId = type.getTypeId(position);
-                                typ = btype.getText().toString();
                                 dialog.dismiss();
                             }
                         }).create().show();
                 break;
             case R.id.b_ts_search:
+                if (from_Date.getText().toString().equals("from") || to_Date.getText().toString().equals("to")) {
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("Error")
+                            .setMessage("Enter Date")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).create().show();
+                    break;
+                }
                 Bundle args1 = new Bundle();
                 args1.putString("fromDate", fromDate);
                 args1.putString("toDate", toDate);
                 args1.putInt("StatusId", StatusId);
                 args1.putInt("TypeId", TypeId);
-                FromDate = from_Date.getText().toString();
-                ToDate = to_Date.getText().toString();
 
                 TransSumResultFragment transSumResultFragment = new TransSumResultFragment();
                 FragmentTransaction ft1 = getFragmentManager().beginTransaction();
@@ -211,6 +204,12 @@ public class TransSummary extends Fragment implements View.OnClickListener {
                 break;
             case R.id.b_ts_srch_value:
                 value = etvalue.getText().toString();
+                if (value.equals("")) {
+                    etvalue.setText("");
+                    etvalue.setHint(" Enter Number");
+                    etvalue.setHintTextColor(getResources().getColor(R.color.red));
+                    break;
+                }
                 Bundle args2 = new Bundle();
                 args2.putString("Value", value);
                 TranSumValueResultFragment transSumvalueResultFragment = new TranSumValueResultFragment();

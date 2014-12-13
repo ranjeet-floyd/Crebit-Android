@@ -135,7 +135,7 @@
                             android:layout_marginRight="5dp"
                             android:background="@android:drawable/btn_dropdown"
                             android:gravity="center"
-                            android:text="--Select--"></Button>
+                            android:text="Select"></Button>
                     </LinearLayout>
 
                     <LinearLayout
@@ -167,7 +167,7 @@
                             android:layout_marginRight="5dp"
                             android:background="@android:drawable/btn_dropdown"
                             android:gravity="center"
-                            android:text="--Select--"></Button>
+                            android:text="Select"></Button>
                     </LinearLayout>
                 </LinearLayout>
 

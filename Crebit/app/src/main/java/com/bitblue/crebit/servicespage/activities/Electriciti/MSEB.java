@@ -80,6 +80,7 @@ public class MSEB extends Activity implements View.OnClickListener {
         lleleccustno = (LinearLayout) findViewById(R.id.ll_elec_mseb_cust_mobno);
         bBu.setOnClickListener(this);
         bGetDetails.setOnClickListener(this);
+        bpaybill.setOnClickListener(this);
 
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         prefs = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);
@@ -117,7 +118,7 @@ public class MSEB extends Activity implements View.OnClickListener {
                 }
                 new retrieveDataforGetDetails().execute();
                 break;
-            case R.id.b_elec_torpow_paybill:
+            case R.id.b_elec_mseb_paybill:
                 CusMob = etcusMobNo.getText().toString();
                 if (Check.ifNumberInCorrect(CusMob)) {
                     etcusMobNo.setText("");

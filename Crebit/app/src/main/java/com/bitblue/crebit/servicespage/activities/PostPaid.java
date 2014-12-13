@@ -35,7 +35,6 @@ public class PostPaid extends ActionBarActivity implements View.OnClickListener 
     private TextView operator, number, amount;
     private EditText et_number, et_amount;
     private Button recharge, operatorType;
-    private TextView transId, message, statcode, availablebal;
 
     private String UserId, Key, OperatorId, Number;
     private double Amount;
@@ -70,10 +69,6 @@ public class PostPaid extends ActionBarActivity implements View.OnClickListener 
         operator = (TextView) findViewById(R.id.tv_popd_operator);
         number = (TextView) findViewById(R.id.tv_popd_number);
         amount = (TextView) findViewById(R.id.tv_popd_amount);
-        transId = (TextView) findViewById(R.id.tv_popd_TransId);
-        message = (TextView) findViewById(R.id.tv_popd_Message);
-        statcode = (TextView) findViewById(R.id.tv_popd_StatusCode);
-        availablebal = (TextView) findViewById(R.id.tv_popd_AvailableBalance);
 
         et_number = (EditText) findViewById(R.id.et_popd_number);
         et_amount = (EditText) findViewById(R.id.et_popd_amount);
@@ -171,6 +166,7 @@ public class PostPaid extends ActionBarActivity implements View.OnClickListener 
 
         @Override
         protected void onPostExecute(String StatusCode) {
+            dialog.dismiss();
             if (StatusCode.equals("0") || StatusCode.equals("-1")) {
                 new AlertDialog.Builder(PostPaid.this)
                         .setTitle("Error")
@@ -184,17 +180,16 @@ public class PostPaid extends ActionBarActivity implements View.OnClickListener 
             } else if (StatusCode.equals("1")) {
                 new AlertDialog.Builder(PostPaid.this)
                         .setTitle("Success")
-                        .setMessage("Request Completed.")
+                        .setMessage("Request Completed.\n" +
+                                "Transaction ID: " + TransId +
+                                "\nMessage: " + Message +
+                                "\nAvailable Balance: " + AvailableBalance)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.dismiss();
                             }
                         }).create().show();
-                transId.setText("TransId: " + TransId);
-                message.setText("Message: " + Message);
-                statcode.setText("StatusCode: " + StatusCode);
-                availablebal.setText("AvailableBalance: " + AvailableBalance);
             } else if (StatusCode.equals("2")) {
                 new AlertDialog.Builder(PostPaid.this)
                         .setTitle("Error")

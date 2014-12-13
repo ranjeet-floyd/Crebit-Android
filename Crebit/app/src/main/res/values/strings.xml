@@ -35,7 +35,7 @@
         <item>Personal</item>
     </string-array>
     <string-array name="status">
-        <item> Select </item>
+        <item> All </item>
         <item> Failed </item>
         <item> Success </item>
         <item> Pending </item>
@@ -48,7 +48,7 @@
         <item> Refunded </item>
     </string-array>
     <string-array name="type">
-        <item> Select </item>
+        <item> All </item>
         <item> PostPaid </item>
         <item> PrepPaid </item>
         <item> DTH </item>
@@ -60,7 +60,7 @@
         <item> Fund Transfer </item>
         <item> Bank Transfer </item>
         <item> Crebit Admin </item>
-        <item> Crebit Monthly </item>
+        <item> Crebit Monthly Charge </item>
         <item> Money Transfer </item>
         <item> Crebit Refund </item>
     </string-array>
