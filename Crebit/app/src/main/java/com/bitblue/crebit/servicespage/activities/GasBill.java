@@ -35,7 +35,7 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
     private Button recharge, operatorType;
     private TextView transId, message, statcode, availablebal;
 
-    private String UserId, Key, OperatorId, Number;
+    private String UserId, Key, OperatorId, Number, Account = "";
     private double Amount;
     private static final String SOURCE = "2";
     private String TransId, Message;
@@ -146,6 +146,7 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
             nameValuePairs.add(new BasicNameValuePair("Key", Key));
             nameValuePairs.add(new BasicNameValuePair("OperatorId", OperatorId));
             nameValuePairs.add(new BasicNameValuePair("Number", Number));
+            nameValuePairs.add(new BasicNameValuePair("account", Account));
             nameValuePairs.add(new BasicNameValuePair("Amount", String.valueOf(Amount)));
             nameValuePairs.add(new BasicNameValuePair("Source", SOURCE));
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_SERVICE, nameValuePairs);
@@ -167,10 +168,14 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
 
         @Override
         protected void onPostExecute(String StatusCode) {
+            dialog.dismiss();
             if (StatusCode.equals("0") || StatusCode.equals("-1")) {
                 new AlertDialog.Builder(GasBill.this)
                         .setTitle("Error")
-                        .setMessage("Request Not Completed.")
+                        .setMessage("Request Not Completed." +
+                                "\n TransID: " + TransId +
+                                "\nMessage: " + Message +
+                                "\nStatus Code: " + StatusCode)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -180,7 +185,10 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
             } else if (StatusCode.equals("1")) {
                 new AlertDialog.Builder(GasBill.this)
                         .setTitle("Success")
-                        .setMessage("Request Completed.")
+                        .setMessage("Request Not Completed." +
+                                "\n TransID: " + TransId +
+                                "\nMessage: " + Message +
+                                "\nStatus Code: " + StatusCode)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -201,7 +209,6 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
                                 dialogInterface.dismiss();
                             }
                         }).create().show();
-                dialog.dismiss();
             }
         }
     }

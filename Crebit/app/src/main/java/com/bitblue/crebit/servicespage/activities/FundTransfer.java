@@ -87,6 +87,7 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
                 Amount = et_amount.getText().toString();
                 if (Check.ifNull(Amount)) {
                     et_amount.setHintTextColor(getResources().getColor(R.color.red));
+                    break;
                 }
                 if (Check.ifNumberInCorrect(MobileTo)) {
                     et_number.setText("");
@@ -116,10 +117,10 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
             jsonParser = new JSONParser();
             fundTransferParams = new FundTransferParams(UserId, Key, MobileTo, Amount);
             nameValuePairs = new ArrayList<NameValuePair>();
-            nameValuePairs.add(new BasicNameValuePair("UserId", UserId));
-            nameValuePairs.add(new BasicNameValuePair("Key", Key));
-            nameValuePairs.add(new BasicNameValuePair("MobileTo", MobileTo));
-            nameValuePairs.add(new BasicNameValuePair("Amount", Amount));
+            nameValuePairs.add(new BasicNameValuePair("userId", UserId));
+            nameValuePairs.add(new BasicNameValuePair("key", Key));
+            nameValuePairs.add(new BasicNameValuePair("mobileTo", MobileTo));
+            nameValuePairs.add(new BasicNameValuePair("amount", Amount));
             jsonArray = jsonParser.makeHttpPostRequest(API.DASHBOARD_TRANSFER, nameValuePairs);
             try {
                 jsonResponse = jsonArray.getJSONObject(0);
@@ -141,7 +142,8 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
                 case 2:
                     new AlertDialog.Builder(FundTransfer.this)
                             .setTitle("Success")
-                            .setMessage(" Transfer Completed. ")
+                            .setMessage(" Transfer Completed. " +
+                                    "\n Available Balance" + AvailableBalance)
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -152,7 +154,8 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
                 case 3:
                     new AlertDialog.Builder(FundTransfer.this)
                             .setTitle("Error")
-                            .setMessage("Not Enough Balance")
+                            .setMessage("Not Enough Balance" +
+                                    "\n Available Balance" + AvailableBalance)
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {

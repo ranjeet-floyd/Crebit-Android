@@ -35,8 +35,8 @@ public class BroadBand extends ActionBarActivity implements View.OnClickListener
     private Button recharge, operatorType;
     private TextView transId, message, statcode, availablebal;
 
-    private String UserId, Key, OperatorId, Number;
-    private double Amount;
+    private String UserId, Key, OperatorId, Number, Account = "";
+    private String Amount;
     private static final String SOURCE = "2";
 
     private ArrayAdapter<String> adapter;
@@ -104,14 +104,14 @@ public class BroadBand extends ActionBarActivity implements View.OnClickListener
             case R.id.b_bb_recharge:
                 Number = et_number.getText().toString();
                 try {
-                    Amount = Double.parseDouble(et_amount.getText().toString());
+                    Amount = et_amount.getText().toString();
                 } catch (Exception e) {
-                    Amount = 0;
+                    Amount = "0";
                 }
                 if (operatorType.getText().equals("--Select--")) {
                     operator.setTextColor(getResources().getColor(R.color.red));
                 }
-                if (Check.ifEmpty(Amount)) {
+                if (Check.ifNull(Amount)) {
                     et_amount.setHintTextColor(getResources().getColor(R.color.red));
                 }
                 if (Check.ifNumberInCorrect(Number)) {
@@ -146,7 +146,8 @@ public class BroadBand extends ActionBarActivity implements View.OnClickListener
             nameValuePairs.add(new BasicNameValuePair("Key", Key));
             nameValuePairs.add(new BasicNameValuePair("OperatorId", OperatorId));
             nameValuePairs.add(new BasicNameValuePair("Number", Number));
-            nameValuePairs.add(new BasicNameValuePair("Amount", String.valueOf(Amount)));
+            nameValuePairs.add(new BasicNameValuePair("account", Account));
+            nameValuePairs.add(new BasicNameValuePair("Amount", Amount));
             nameValuePairs.add(new BasicNameValuePair("Source", SOURCE));
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_SERVICE, nameValuePairs);
             try {
@@ -167,10 +168,14 @@ public class BroadBand extends ActionBarActivity implements View.OnClickListener
 
         @Override
         protected void onPostExecute(String StatusCode) {
+            dialog.dismiss();
             if (StatusCode.equals("0") || StatusCode.equals("-1")) {
                 new AlertDialog.Builder(BroadBand.this)
                         .setTitle("Error")
-                        .setMessage("Request Not Completed.")
+                        .setMessage("Request Not Completed." +
+                                "\nTransaction ID: " + TransId +
+                                "\nMessage: " + Message +
+                                "\nAvailable Balance: " + AvailableBalance)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -180,7 +185,10 @@ public class BroadBand extends ActionBarActivity implements View.OnClickListener
             } else if (StatusCode.equals("1")) {
                 new AlertDialog.Builder(BroadBand.this)
                         .setTitle("Success")
-                        .setMessage("Request Completed.")
+                        .setMessage("Request Completed.\n" +
+                                "Transaction ID: " + TransId +
+                                "\nMessage: " + Message +
+                                "\nAvailable Balance: " + AvailableBalance)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -201,7 +209,6 @@ public class BroadBand extends ActionBarActivity implements View.OnClickListener
                                 dialogInterface.dismiss();
                             }
                         }).create().show();
-                dialog.dismiss();
             }
         }
     }

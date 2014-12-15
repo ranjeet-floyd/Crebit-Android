@@ -33,7 +33,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@android:drawable/btn_dropdown"
-            android:text="--Select--"></Button>
+            android:text="Select"></Button>
 
         <TextView
             android:id="@+id/tv_elec_mseb_cust_acc_no"
@@ -88,12 +88,15 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
         android:orientation="vertical">
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text=""/>
+
+        <TextView android:id="@+id/tv_elec_mseb_Not_Exceeded"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="20dp"/>
+
         <TextView
-            android:id="@+id/tv_elec_mseb_errorDueDate"
+            android:id="@+id/tv_elec_mseb_Bill_Amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -102,13 +105,31 @@
             android:textSize="20dp" />
 
         <TextView
-            android:id="@+id/tv_elec_mseb_error_date"
+            android:id="@+id/tv_elec_mseb_DueDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Test"
-            android:textColor="@color/red"
-            android:textSize="15dp" />
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tv_elec_mseb_BillMonth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tv_elec_mseb_ConsumptionUnits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Test"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
     </LinearLayout>
 
     <LinearLayout

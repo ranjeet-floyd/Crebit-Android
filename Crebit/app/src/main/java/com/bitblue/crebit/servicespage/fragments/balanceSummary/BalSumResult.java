@@ -1,22 +1,21 @@
 package com.bitblue.crebit.servicespage.fragments.balanceSummary;
 
 public class BalSumResult {
+    private int count;
     private String Name;
     private String Amount;
     private String Contact;
     private String Date;
-    private int Type;
     private String TransactionId;
 
     public BalSumResult() {
     }
 
-    public BalSumResult(String name, String amount, String contact, String date, int type, String transactionId) {
+    public BalSumResult(String name, String amount, String contact, String date, String transactionId) {
         Name = name;
         Amount = amount;
         Contact = contact;
         Date = date;
-        Type = type;
         TransactionId = transactionId;
     }
 
@@ -34,10 +33,6 @@ public class BalSumResult {
 
     public void setDate(String date) {
         Date = date;
-    }
-
-    public void setType(int type) {
-        Type = type;
     }
 
     public void setTransactionId(String transactionId) {
@@ -60,11 +55,16 @@ public class BalSumResult {
         return Date;
     }
 
-    public int getType() {
-        return Type;
-    }
-
     public String getTransactionId() {
         return TransactionId;
     }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
 }

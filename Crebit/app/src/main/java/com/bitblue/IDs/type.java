@@ -6,7 +6,7 @@ public class type {
     public static int getTypeId(int position) {
         switch (position) {
             case 0:
-                typeID = -1;
+                typeID = -1;  //All
                 break;
             case 1:
                 typeID = 1;  //postpaid

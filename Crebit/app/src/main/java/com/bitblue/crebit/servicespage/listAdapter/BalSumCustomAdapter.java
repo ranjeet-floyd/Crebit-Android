@@ -45,7 +45,6 @@ public class BalSumCustomAdapter extends BaseAdapter {
             holder.amount = (TextView) convertView.findViewById(R.id.tv_balsum_list_amount);
             holder.contact = (TextView) convertView.findViewById(R.id.tv_balsum_list_contact);
             holder.date = (TextView) convertView.findViewById(R.id.tv_balsum_list_date);
-            holder.type = (TextView) convertView.findViewById(R.id.tv_balsum_list_type);
             holder.transid = (TextView) convertView.findViewById(R.id.tv_balsum_list_transId);
             convertView.setTag(holder);
         } else {
@@ -56,12 +55,11 @@ public class BalSumCustomAdapter extends BaseAdapter {
         holder.amount.setText(balSumResultArrayList.get(position).getAmount());
         holder.contact.setText(balSumResultArrayList.get(position).getContact());
         holder.date.setText(balSumResultArrayList.get(position).getDate());
-        holder.type.setText(balSumResultArrayList.get(position).getType());
         holder.transid.setText(balSumResultArrayList.get(position).getTransactionId());
         return convertView;
     }
 
     static class ViewHolder {
-        TextView name, amount, contact, date, type, transid;
+        TextView name, amount, contact, date, transid;
     }
 }

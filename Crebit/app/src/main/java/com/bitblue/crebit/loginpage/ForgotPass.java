@@ -63,7 +63,7 @@ public class ForgotPass extends ActionBarActivity implements View.OnClickListene
             case R.id.b_forgotpassSubmit:
                 mobileNumber = etmobileNumber.getText().toString();
                 if (Check.ifNumberInCorrect(mobileNumber)) {
-                    etmobileNumber.setText("");
+                    clearField(etmobileNumber);
                     etmobileNumber.setHint(" Enter Correct Number");
                     etmobileNumber.setHintTextColor(getResources().getColor(R.color.red));
                     break;
@@ -129,5 +129,8 @@ public class ForgotPass extends ActionBarActivity implements View.OnClickListene
                 getApplicationContext(), 0, new Intent(), 0);
         notify.setLatestEventInfo(getApplicationContext(), subject, body, pending);
         NM.notify(0, notify);
+    }
+    private void clearField(EditText et){
+        et.setText("");
     }
 }

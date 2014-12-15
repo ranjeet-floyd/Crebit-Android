@@ -42,7 +42,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:drawable/btn_dropdown"
-                    android:text="--Select--"></Button>
+                    android:text="Select"></Button>
 
                 <TextView
                     android:id="@+id/tv_popd_number"

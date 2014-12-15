@@ -29,16 +29,15 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class TransSummary extends Fragment implements View.OnClickListener {
-    private TextView tvfromto, tvstatus, tvtype, tvCbalance, tvprofit, tvamount, tvsource, tvtransdate, tvstat, tvopname;
+    private TextView tvfromto, tvstatus, tvtype;
     private Button from_Date, to_Date, bstatus, btype, search, valuesearch;
     private EditText etvalue;
 
-    private String fromDate, toDate, stat, typ, value;
+    private String fromDate, toDate, value;
     private int cur;
     private static final int FROM_DATE = 1;
     private static final int TO_DATE = 2;
-    private String FromDate, ToDate;
-    private int StatusId, TypeId;
+    private int StatusId = -1, TypeId = -1;
 
     private String[] statlist;
     private ArrayAdapter<String> statusAdapter;
@@ -126,7 +125,7 @@ public class TransSummary extends Fragment implements View.OnClickListener {
                 }
                 if (to.before(from)) {
                     new AlertDialog.Builder(getActivity())
-                            .setTitle("Error")
+                            .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
                             .setMessage("Enter Proper Range")
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
@@ -178,7 +177,7 @@ public class TransSummary extends Fragment implements View.OnClickListener {
             case R.id.b_ts_search:
                 if (from_Date.getText().toString().equals("from") || to_Date.getText().toString().equals("to")) {
                     new AlertDialog.Builder(getActivity())
-                            .setTitle("Error")
+                            .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
                             .setMessage("Enter Date")
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override

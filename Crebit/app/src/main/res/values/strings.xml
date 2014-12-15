@@ -19,6 +19,7 @@
     <string name="mobNum">Mobile Number</string>
     <string name="passwd">Password</string>
     <string name="existingUser">Existing User/ Sign In</string>
+    <string name="comment">Refund request</string>
 
     <string-array name="city">
         <item>Ahmedabad</item>
@@ -200,5 +201,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_reliance_mum">RelianceMum</string>
     <string name="title_activity_torrent_power">TorrentPower</string>
+    <string name="title_activity_check_status">CheckStatus</string>
 
 </resources>

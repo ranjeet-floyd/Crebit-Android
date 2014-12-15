@@ -28,14 +28,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class BalSumResultFragment extends Fragment {
-    private TextView tvtotalbalgiven, tvbalgiven,tvbaltaken;
+    private TextView tvtotalbalgiven, tvbalgiven, tvbaltaken;
 
     private ListView resultList;
     private Double TotalBalanceGiven, TotalBalanceTaken;
 
     private static final String SOURCE = "2";
     private ArrayList<BalSumResult> balSumResultList = new ArrayList<BalSumResult>();
-    private String UserId, Key, fromDate, toDate;
+    private String UserId, Key, fromDate, toDate, TypeId, Value;
     private SharedPreferences prefs;
     private final static String MY_PREFS = "mySharedPrefs";
     private service Service;
@@ -59,6 +59,8 @@ public class BalSumResultFragment extends Fragment {
         toDate = getArguments().getString("toDate");
         UserId = prefs.getString("userId", "");
         Key = prefs.getString("userKey", "");
+        TypeId = prefs.getString("TypeId", "");
+        Value = prefs.getString("Value", "");
         initViews(view);
         resultList = (ListView) view.findViewById(R.id.lv_balsum_result);
         new retrieveData().execute();
@@ -66,7 +68,6 @@ public class BalSumResultFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        tvtotalbalgiven = (TextView) view.findViewById(R.id.tvtotalgiven);
         tvbalgiven = (TextView) view.findViewById(R.id.tvbalgiven);
         tvbaltaken = (TextView) view.findViewById(R.id.tvbaltaken);
 
@@ -87,12 +88,15 @@ public class BalSumResultFragment extends Fragment {
         protected String doInBackground(String... strings) {
 
             jsonParser = new JSONParser();
-            balSumParams = new BalSumParams(UserId, Key, fromDate, toDate);
+            balSumParams = new BalSumParams(UserId, Key, fromDate, toDate, TypeId, Value);
             nameValuePairs = new ArrayList<NameValuePair>();
             nameValuePairs.add(new BasicNameValuePair("UserId", UserId));
             nameValuePairs.add(new BasicNameValuePair("Key", Key));
             nameValuePairs.add(new BasicNameValuePair("FromDate", fromDate));
             nameValuePairs.add(new BasicNameValuePair("ToDate", toDate));
+            nameValuePairs.add(new BasicNameValuePair("TypeId", TypeId));
+            nameValuePairs.add(new BasicNameValuePair("Value", Value));
+
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_BALANCE_USE, nameValuePairs);
             try {
                 balSumResponse = new BalSumResponse(jsonResponse.getDouble("totalBalanceGiven"),
@@ -116,11 +120,11 @@ public class BalSumResultFragment extends Fragment {
                 try {
                     balanceUseArrobject = (JSONObject) balanceUseArr.get(i);
                     balSumResult = new BalSumResult();
+                    balSumResult.setCount(i+1);
                     balSumResult.setName(balanceUseArrobject.getString("name"));
                     balSumResult.setAmount(balanceUseArrobject.getString("amount"));
                     balSumResult.setContact(balanceUseArrobject.getString("contact"));
                     balSumResult.setDate(balanceUseArrobject.getString("date"));
-                    balSumResult.setType(balanceUseArrobject.getInt("type"));
                     balSumResult.setTransactionId(balanceUseArrobject.getString("transactionId"));
                 } catch (JSONException e) {
                     e.printStackTrace();

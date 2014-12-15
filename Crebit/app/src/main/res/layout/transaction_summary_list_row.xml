@@ -45,7 +45,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="50dp"
@@ -72,7 +73,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="CBalance" />
+                android:text="Current Balance" />
 
             <TextView
                 android:id="@+id/tv_transum_list_cBalance"
@@ -139,7 +140,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Source" />
+                android:text="Number" />
 
             <TextView
                 android:id="@+id/tv_tranSum_list_source"
@@ -221,7 +222,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="50dp"
@@ -243,7 +245,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="50dp"
@@ -297,7 +300,7 @@
                 android:background="@drawable/rounded_button"
                 android:textColor="@color/white"
                 android:text="Check Status"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

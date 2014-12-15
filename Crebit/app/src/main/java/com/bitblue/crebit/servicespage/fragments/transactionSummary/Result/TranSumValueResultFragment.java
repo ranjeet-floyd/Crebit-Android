@@ -14,9 +14,8 @@ import android.widget.TextView;
 
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
-import com.bitblue.crebit.servicespage.fragments.transactionSummary.adapter.TranSumValueCustomAdapter;
-import com.bitblue.crebit.servicespage.fragments.transactionSummary.adapter.TransSumCustomAdapter;
 import com.bitblue.crebit.servicespage.fragments.transactionSummary.TransSumResult;
+import com.bitblue.crebit.servicespage.fragments.transactionSummary.adapter.TransSumCustomAdapter;
 import com.bitblue.jsonparse.JSONParser;
 import com.bitblue.requestparam.TranSumParams;
 import com.bitblue.response.TranSumResponse;
@@ -42,7 +41,6 @@ public class TranSumValueResultFragment extends Fragment {
     private TransSumResult transSumValueResult;
     private ArrayList<NameValuePair> nameValuePairs;
     private ArrayList<TransSumResult> transSumValueResultList = new ArrayList<TransSumResult>();
-    TranSumValueCustomAdapter tranSumValueCustomAdapter = new TranSumValueCustomAdapter();
     private SharedPreferences prefs;
     private final static String MY_PREFS = "mySharedPrefs";
     private String UserId, Key;
@@ -106,7 +104,6 @@ public class TranSumValueResultFragment extends Fragment {
             return null;
         }
 
-
         @Override
         protected void onPostExecute(String status) {
             dialog.dismiss();
@@ -115,6 +112,7 @@ public class TranSumValueResultFragment extends Fragment {
                 try {
                     tranValueResArrObject = (JSONObject) tranValueResArr.get(i);
                     transSumValueResult = new TransSumResult();
+                    transSumValueResult.setCount(i+1);
                     transSumValueResult.setId(tranValueResArrObject.getString("id"));
                     transSumValueResult.setcBalance(tranValueResArrObject.getString("cBalance"));
                     transSumValueResult.setAmount(tranValueResArrObject.getString("amount"));

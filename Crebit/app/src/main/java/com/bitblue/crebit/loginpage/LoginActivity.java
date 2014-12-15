@@ -43,7 +43,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     private String logoutmessage;
     private String mobile, pass;
     private String Version = "1.0";
-    private String userName, availableBalance, userId, userKey;
+    private String userName, availableBalance, userId, userKey, uType;
     private boolean isActive;
     private LoginParams loginParams;
     private JSONObject JsonResponse;
@@ -57,7 +57,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         logoutmessage = getIntent().getStringExtra("logout");
         initViews();
-            showAlertDialog();
+        showAlertDialog();
     }
 
 
@@ -70,13 +70,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     public void initViews() {
         existinguser = (TextView) findViewById(R.id.existingUser);
-        if (logoutmessage == null)
-            existinguser.setText(R.string.existingUser);
-
-        else {
-            existinguser.setText(logoutmessage);
-            existinguser.setTextColor(getResources().getColor(R.color.red));
-        }
         mNumber = (EditText) findViewById(R.id.et_mobileNumber);
         passwd = (EditText) findViewById(R.id.et_password);
         login = (Button) findViewById(R.id.b_login);
@@ -88,7 +81,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     }
 
     @Override
-
     public void onClick(View view) {
 
         switch (view.getId()) {
@@ -98,6 +90,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 if (Check.ifNumberInCorrect(mobile)) {
                     mNumber.setHint(" Mobile Number Required");
                     mNumber.setHintTextColor(getResources().getColor(R.color.red));
+                    break;
                 }
                 if (Check.ifNull(pass)) {
                     passwd.setHint(" Password Required");
@@ -106,7 +99,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 }
                 new retrieveData().execute();
                 break;
-
             case R.id.b_forgot_pass:
                 Intent openForgotPass = new Intent(LoginActivity.this, ForgotPass.class);
                 startActivity(openForgotPass);
@@ -147,19 +139,14 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                         JsonResponse.getBoolean("isUpdated"),
                         JsonResponse.getBoolean("isDataUpdated"),
                         JsonResponse.getString("name"),
-                        JsonResponse.getString("userKey"));
+                        JsonResponse.getString("userKey"),
+                        JsonResponse.getString("uType"));
                 userName = loginResponse.getName();
                 availableBalance = loginResponse.getAvailableBalance();
                 userId = loginResponse.getUserID();
                 userKey = loginResponse.getUserKey();
                 isActive = loginResponse.isActive();
-                SharedPreferences.Editor prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE).edit();
-                prefs.putString("userId", userId);
-                prefs.putString("userKey", userKey);
-                prefs.putString("availableBalance", availableBalance);
-                prefs.putString("userName", userName);
-                prefs.putBoolean("isActive", isActive);
-                prefs.commit();
+                uType = loginResponse.getuType();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -169,9 +156,19 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         @Override
         protected void onPostExecute(String name) {
             dialog.dismiss();
+            SharedPreferences.Editor prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE).edit();  //to pass data between activities
+            prefs.putString("userId", userId);
+            prefs.putString("userKey", userKey);
+            prefs.putString("availableBalance", availableBalance);
+            prefs.putString("userName", userName);
+            prefs.putBoolean("isActive", isActive);
+            prefs.putString("uType", uType);
+            prefs.commit();
+            clearField(mNumber);
+            clearField(passwd);
             if (userName.equals("null")) {
                 new AlertDialog.Builder(LoginActivity.this)
-                        .setTitle("Error")
+                        .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
                         .setMessage("Invalid Credentials")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -179,14 +176,12 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                                 dialogInterface.dismiss();
                             }
                         }).create().show();
-            } else
-                openServiceIntent();
-        }
-    }
+            } else {
 
-    public void openServiceIntent() {
-        Intent openService = new Intent(LoginActivity.this, service.class);
-        startActivity(openService);
+                Intent openService = new Intent(LoginActivity.this, service.class);
+                startActivity(openService);
+            }
+        }
     }
 
     private void showAlertDialog() {
@@ -209,6 +204,10 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    private void clearField(EditText et) {
+        et.setText("");
     }
 
 }

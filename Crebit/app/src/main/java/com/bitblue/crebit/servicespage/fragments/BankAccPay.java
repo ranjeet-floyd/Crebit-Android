@@ -69,8 +69,6 @@ public class BankAccPay extends Fragment implements View.OnClickListener {
         tvmobile = (TextView) view.findViewById(R.id.tv_bap_mobNum);
         tvifsc = (TextView) view.findViewById(R.id.tv_bap_ifsc);
         tvamount = (TextView) view.findViewById(R.id.tv_bap_amount);
-        tvavailablebalance = (TextView) view.findViewById(R.id.tv_bap_AvailableBalance);
-        tvRefID = (TextView) view.findViewById(R.id.tv_bap_RefId);
         etname = (EditText) view.findViewById(R.id.et_bap_name);
         etaccno = (EditText) view.findViewById(R.id.et_bap_accNum);
         etifsc = (EditText) view.findViewById(R.id.et_bap_ifsc);
@@ -103,27 +101,27 @@ public class BankAccPay extends Fragment implements View.OnClickListener {
                     break;
                 }
                 if (Check.ifNull(Account)) {
-                    etname.setText("");
-                    etname.setHint(" Enter Account Number");
-                    etname.setHintTextColor(getResources().getColor(R.color.red));
+                    etaccno.setText("");
+                    etaccno.setHint(" Enter Account Number");
+                    etaccno.setHintTextColor(getResources().getColor(R.color.red));
                     break;
                 }
-                if (Check.ifNull(IFSC)) {
-                    etname.setText("");
-                    etname.setHint(" Enter IFSC code");
-                    etname.setHintTextColor(getResources().getColor(R.color.red));
+                if (Check.ifIncorrectIFSC(IFSC)) {
+                    etifsc.setText("");
+                    etifsc.setHint(" Enter IFSC code");
+                    etifsc.setHintTextColor(getResources().getColor(R.color.red));
                     break;
                 }
                 if (Check.ifNull(Mobile)) {
-                    etname.setText("");
-                    etname.setHint(" Enter Mobile Number");
-                    etname.setHintTextColor(getResources().getColor(R.color.red));
+                    etmobile.setText("");
+                    etmobile.setHint(" Enter Mobile Number");
+                    etmobile.setHintTextColor(getResources().getColor(R.color.red));
                     break;
                 }
                 if (Check.ifEmpty(Amount)) {
-                    etname.setText("");
-                    etname.setHint(" Enter Amount");
-                    etname.setHintTextColor(getResources().getColor(R.color.red));
+                    etamount.setText("");
+                    etamount.setHint(" Enter Amount");
+                    etamount.setHintTextColor(getResources().getColor(R.color.red));
                     break;
                 }
 
@@ -186,15 +184,17 @@ public class BankAccPay extends Fragment implements View.OnClickListener {
             } else if (StatusCode.equals("1")) {
                 new AlertDialog.Builder(getActivity())
                         .setTitle("Success")
-                        .setMessage("Request Completed.")
+                        .setMessage("Request Completed.\n" +
+                                "\nAvailable Balance: " + AvailableBalance +
+                                "\nStatus: " + Status +
+                                "\nReference ID: " + RefId)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.dismiss();
                             }
                         }).create().show();
-                tvavailablebalance.setText("AvailableBalance: " + AvailableBalance);
-                tvRefID.setText("RefId: " + RefId);
+
             } else if (StatusCode.equals("2")) {
                 new AlertDialog.Builder(getActivity())
                         .setTitle("Error")

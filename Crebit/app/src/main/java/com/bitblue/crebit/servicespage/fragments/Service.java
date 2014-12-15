@@ -70,8 +70,6 @@ public class Service extends Fragment implements View.OnClickListener {
         gasBill.setOnClickListener(this);
         broadBand.setOnClickListener(this);
         fundTransfer.setOnClickListener(this);
-
-
     }
 
     @Override
@@ -115,4 +113,9 @@ public class Service extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+      }
 }

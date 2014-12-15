@@ -39,7 +39,6 @@ public class TransSumResultFragment extends Fragment implements View.OnClickList
     private TransSumResult transSumResult;
     private ArrayList<NameValuePair> nameValuePairs;
     private ArrayList<TransSumResult> transSumResultList = new ArrayList<TransSumResult>();
-    //private Button checkStatus;
 
     private String UserId, Key, fromDate, toDate;
     private int StatusId, TypeId;
@@ -128,6 +127,7 @@ public class TransSumResultFragment extends Fragment implements View.OnClickList
                 try {
                     tranResArrObject = (JSONObject) tranResArr.get(i);
                     transSumResult = new TransSumResult();
+                    transSumResult.setCount(i+1);
                     transSumResult.setId(tranResArrObject.getString("id"));
                     transSumResult.setcBalance(tranResArrObject.getString("cBalance"));
                     transSumResult.setAmount(tranResArrObject.getString("amount"));

@@ -1,6 +1,7 @@
 package com.bitblue.crebit.servicespage.fragments.transactionSummary;
 
 public class TransSumResult {
+    private int count;
     private String id;
     private String cBalance;
     private String profit;
@@ -17,6 +18,21 @@ public class TransSumResult {
     }
 
     public TransSumResult(String id, String cBalance, String profit, String amount, String source, String tDate, String status, String operaterName, int operaterId, int opType, String charge) {
+        this.id = id;
+        this.cBalance = cBalance;
+        this.profit = profit;
+        this.amount = amount;
+        this.source = source;
+        this.tDate = tDate;
+        this.status = status;
+        this.operaterName = operaterName;
+        this.operaterId = operaterId;
+        OpType = opType;
+        this.charge = charge;
+    }
+
+    public TransSumResult(int count, String id, String cBalance, String profit, String amount, String source, String tDate, String status, String operaterName, int operaterId, int opType, String charge) {
+        this.count = count;
         this.id = id;
         this.cBalance = cBalance;
         this.profit = profit;
@@ -116,5 +132,13 @@ public class TransSumResult {
 
     public void setCharge(String charge) {
         this.charge = charge;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

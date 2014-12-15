@@ -1,6 +1,8 @@
 package com.bitblue.crebit.servicespage.fragments.transactionSummary.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +12,15 @@ import android.widget.TextView;
 
 import com.bitblue.crebit.R;
 import com.bitblue.crebit.servicespage.fragments.transactionSummary.TransSumResult;
+import com.bitblue.crebit.servicespage.fragments.transactionSummary.checkStatus.CheckStatus;
 
 import java.util.ArrayList;
 
 public class TransSumCustomAdapter extends BaseAdapter {
     private static ArrayList<TransSumResult> tranSumResultArrayList;
     private LayoutInflater mInflater;
-    private Button checkStatus;
     private Context context;
+    private ViewHolder holder;
 
     public TransSumCustomAdapter() {
     }
@@ -44,35 +47,54 @@ public class TransSumCustomAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup viewGroup) {
-        ViewHolder holder;
+    public View getView(final int position, View convertView, ViewGroup viewGroup) {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.transaction_summary_list_row, null);
-            holder = new ViewHolder();
-            holder.id = (TextView) convertView.findViewById(R.id.tv_transum_list_id);
-            holder.cBalance = (TextView) convertView.findViewById(R.id.tv_transum_list_cBalance);
-            holder.profit = (TextView) convertView.findViewById(R.id.tv_tranSum_list_profit);
-            holder.amount = (TextView) convertView.findViewById(R.id.tv_tranSum_list_amount);
-            holder.source = (TextView) convertView.findViewById(R.id.tv_tranSum_list_source);
-            holder.tDate = (TextView) convertView.findViewById(R.id.tv_tranSum_list_tDate);
-            holder.status = (TextView) convertView.findViewById(R.id.tv_tranSum_list_status);
-            holder.operatorName = (TextView) convertView.findViewById(R.id.tv_tranSum_list_operatorName);
-            holder.operatorId = (TextView) convertView.findViewById(R.id.tv_tranSum_list_operatorId);
-            holder.Optype = (TextView) convertView.findViewById(R.id.tv_tranSum_list_Optype);
-            holder.charge = (TextView) convertView.findViewById(R.id.tv_tranSum_list_charge);
-            checkStatus = (Button) convertView.findViewById(R.id.b_transum_checkstatus);
-            for (int i = 0; i < tranSumResultArrayList.size(); i++) {
-                if (tranSumResultArrayList.get(i).getStatus().equals("Success")) {
-                    checkStatus.setVisibility(View.VISIBLE);
-                }
-            }
-
-            convertView.setTag(holder);  //out of for loop
+            initViews(convertView);
+            convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        notifyDataSetChanged();
+        setTexxt(position);
 
+        if (tranSumResultArrayList.get(position).getStatus().equals("Success")) {
+            Log.e("Conditionforsuccess", String.valueOf(tranSumResultArrayList.get(position).getStatus().equals("Success")));
+            holder.checkStatus.setVisibility(View.VISIBLE);
+        }
+        holder.checkStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent openCheckStatus = new Intent(context, CheckStatus.class);
+                openCheckStatus.putExtra("Status", tranSumResultArrayList.get(position).getStatus());
+                openCheckStatus.putExtra("OperatorName", tranSumResultArrayList.get(position).getOperaterName());
+                openCheckStatus.putExtra("TransId", tranSumResultArrayList.get(position).getId());
+                Log.e("opname", tranSumResultArrayList.get(position).getOperaterName());
+                context.startActivity(openCheckStatus);
+            }
+        });
+        notifyDataSetChanged();
+        return convertView;
+    }
+
+    private void initViews(View convertView) {
+        holder = new ViewHolder();
+        holder.count = (TextView) convertView.findViewById(R.id.tv_transum_list_count);
+        holder.id = (TextView) convertView.findViewById(R.id.tv_transum_list_id);
+        holder.cBalance = (TextView) convertView.findViewById(R.id.tv_transum_list_cBalance);
+        holder.profit = (TextView) convertView.findViewById(R.id.tv_tranSum_list_profit);
+        holder.amount = (TextView) convertView.findViewById(R.id.tv_tranSum_list_amount);
+        holder.source = (TextView) convertView.findViewById(R.id.tv_tranSum_list_source);
+        holder.tDate = (TextView) convertView.findViewById(R.id.tv_tranSum_list_tDate);
+        holder.status = (TextView) convertView.findViewById(R.id.tv_tranSum_list_status);
+        holder.operatorName = (TextView) convertView.findViewById(R.id.tv_tranSum_list_operatorName);
+        holder.operatorId = (TextView) convertView.findViewById(R.id.tv_tranSum_list_operatorId);
+        holder.Optype = (TextView) convertView.findViewById(R.id.tv_tranSum_list_Optype);
+        holder.charge = (TextView) convertView.findViewById(R.id.tv_tranSum_list_charge);
+        holder.checkStatus = (Button) convertView.findViewById(R.id.b_transum_checkstatus);
+    }
+
+    private void setTexxt(int position) {
+        holder.count.setText(String.valueOf(tranSumResultArrayList.get(position).getCount()));
         holder.id.setText(tranSumResultArrayList.get(position).getId());
         holder.cBalance.setText(tranSumResultArrayList.get(position).getcBalance());
         holder.profit.setText(tranSumResultArrayList.get(position).getProfit());
@@ -84,11 +106,12 @@ public class TransSumCustomAdapter extends BaseAdapter {
         holder.operatorId.setText(String.valueOf(tranSumResultArrayList.get(position).getOperaterId()));
         holder.Optype.setText(String.valueOf(tranSumResultArrayList.get(position).getOpType()));
         holder.charge.setText(tranSumResultArrayList.get(position).getCharge());
-        return convertView;
+
     }
 
     static class ViewHolder {
-        TextView id, cBalance, profit, amount, source, tDate, status, operatorName, operatorId, Optype, charge;
+        TextView count, id, cBalance, profit, amount, source, tDate, status, operatorName, operatorId, Optype, charge;
+        public Button checkStatus;
     }
 
 }

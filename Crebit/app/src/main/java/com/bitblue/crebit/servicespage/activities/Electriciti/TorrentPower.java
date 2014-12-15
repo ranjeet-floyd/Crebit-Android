@@ -100,7 +100,7 @@ public class TorrentPower extends Activity implements View.OnClickListener {
                 CusAcc = etServiceNo.getText().toString();
                 CusMob = etmobNo.getText().toString();
                 Amount = etamount.getText().toString();
-                if (bcity.getText().equals("--Select--")) {
+                if (bcity.getText().equals("Select")) {
                     bcity.setTextColor(getResources().getColor(R.color.red));
                     break;
                 }
@@ -144,17 +144,17 @@ public class TorrentPower extends Activity implements View.OnClickListener {
             jsonParser = new JSONParser();
             torPowerParams = new TorPowerParams(Bu, Amount, CusAcc, CusMob, Key, UserId);
             nameValuePairs = new ArrayList<NameValuePair>();
-            nameValuePairs.add(new BasicNameValuePair("UserId", UserId));
-            nameValuePairs.add(new BasicNameValuePair("Key", Key));
+            nameValuePairs.add(new BasicNameValuePair("userId", UserId));
+            nameValuePairs.add(new BasicNameValuePair("key", Key));
             nameValuePairs.add(new BasicNameValuePair("cusAcc", CusAcc));
             nameValuePairs.add(new BasicNameValuePair("cusMob", CusMob));
-            nameValuePairs.add(new BasicNameValuePair("Amount", Amount));
+            nameValuePairs.add(new BasicNameValuePair("amount", Amount));
             nameValuePairs.add(new BasicNameValuePair("Bu", Bu));
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DHS_TORRENT_POWER, nameValuePairs);
             try {
-                torPowerResponse = new TorPowerResponse(jsonResponse.getInt("status"),
-                        jsonResponse.getString("message"),
-                        jsonResponse.getInt("avaiBal"));
+                torPowerResponse = new TorPowerResponse(jsonResponse.getInt("Status"),
+                        jsonResponse.getString("Message"),
+                        jsonResponse.getInt("AvaiBal"));
 
                 AvaiBal = torPowerResponse.getAvaiBal();
                 Message = torPowerResponse.getMessage();
@@ -171,7 +171,9 @@ public class TorrentPower extends Activity implements View.OnClickListener {
             if (StatusCode.equals("0") || StatusCode.equals("-1")) {
                 new AlertDialog.Builder(TorrentPower.this)
                         .setTitle("Error")
-                        .setMessage("Request Not Completed.")
+                        .setMessage("Request Not Completed." +
+                                "\nMessage: " + Message +
+                                "\nAvailable Balance: " + AvaiBal)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -181,13 +183,15 @@ public class TorrentPower extends Activity implements View.OnClickListener {
             } else if (StatusCode.equals("1")) {
                 new AlertDialog.Builder(TorrentPower.this)
                         .setTitle("Success")
-                        .setMessage("Request Completed.")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        }).create().show();
+                        .setMessage("Request Completed." +
+                                "\nMessage: " + Message +
+                                "\nAvailable Balance: " + AvaiBal)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).create().show();
                 tvStats.setText("Status: " + Status);
                 tvMssage.setText("Message: " + Message);
                 tvAvailableBalance.setText("AvailableBalance: " + AvaiBal);

@@ -7,7 +7,7 @@
     tools:context="com.bitblue.crebit.loginpage.ForgotPass">
     <LinearLayout
         android:id="@+id/layout_enterNumber"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="140dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
@@ -34,9 +34,10 @@
 
         <EditText
             android:id="@+id/et_MobileNumber"
-            android:layout_width="340dp"
+            android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/rounded_edit_text"
             android:cursorVisible="true"
             android:hint="  Enter Mobile Number "

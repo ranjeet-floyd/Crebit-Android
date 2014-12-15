@@ -24,4 +24,4 @@ public class TranSumResponse {
     public JSONArray getTranSumResults() {
         return TranSumResults;
     }
-}
+    }

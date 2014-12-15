@@ -124,7 +124,7 @@
                             android:layout_marginRight="10dp"
                             android:layout_marginTop="5dp"
                             android:background="@android:drawable/btn_dropdown"
-                            android:text="--Select--"></Button>
+                            android:text="Select"></Button>
                     </LinearLayout>
 
                     <LinearLayout

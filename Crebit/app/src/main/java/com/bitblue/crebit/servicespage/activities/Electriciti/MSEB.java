@@ -37,7 +37,7 @@ public class MSEB extends Activity implements View.OnClickListener {
     private String UserId, Key, Bu, DueDate, CusMob;
     private int ServiceId = 40, BillAmount, ConsumptionUnits;
 
-    private TextView tvBu, tvcustAccNo, tvErrorDueDate, tverrorDate;
+    private TextView tvBu, tvcustAccNo, tvbillAmount, tvDueDate, tvnotexceeded, tvbillMonth, tvConsunit;
     private Button bBu, bGetDetails, bpaybill;
     private EditText etcustAccNo, etcusMobNo;
     private LinearLayout llerrorDueDate, lleleccustno;
@@ -56,6 +56,7 @@ public class MSEB extends Activity implements View.OnClickListener {
 
     private SharedPreferences prefs;
     private final static String MY_PREFS = "mySharedPrefs";
+    private String BillMonth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +69,11 @@ public class MSEB extends Activity implements View.OnClickListener {
     private void initViews() {
         tvBu = (TextView) findViewById(R.id.tv_elec_mseb_buoperator);
         tvcustAccNo = (TextView) findViewById(R.id.tv_elec_mseb_cust_acc_no);
-        tvErrorDueDate = (TextView) findViewById(R.id.tv_elec_mseb_errorDueDate);
-        tverrorDate = (TextView) findViewById(R.id.tv_elec_mseb_error_date);
-
+        tvbillAmount = (TextView) findViewById(R.id.tv_elec_mseb_Bill_Amount);
+        tvDueDate = (TextView) findViewById(R.id.tv_elec_mseb_DueDate);
+        tvnotexceeded = (TextView) findViewById(R.id.tv_elec_mseb_Not_Exceeded);
+        tvbillMonth = (TextView) findViewById(R.id.tv_elec_mseb_BillMonth);
+        tvConsunit = (TextView) findViewById(R.id.tv_elec_mseb_ConsumptionUnits);
         bBu = (Button) findViewById(R.id.b_elec_mseb_BU);
         bGetDetails = (Button) findViewById(R.id.b_elec_mseb_getDetails);
         bpaybill = (Button) findViewById(R.id.b_elec_mseb_paybill);
@@ -105,7 +108,7 @@ public class MSEB extends Activity implements View.OnClickListener {
                 break;
             case R.id.b_elec_mseb_getDetails:
                 CusAcc = etcustAccNo.getText().toString();
-                if (bBu.getText().equals("--Select--")) {
+                if (bBu.getText().equals("Select")) {
                     tvBu.setTextColor(getResources().getColor(R.color.red));
                     break;
                 }
@@ -160,6 +163,7 @@ public class MSEB extends Activity implements View.OnClickListener {
                 BillAmount = msebResponse.getBillAmount();
                 DueDate = msebResponse.getDueDate();
                 ConsumptionUnits = msebResponse.getConsumptionUnits();
+                BillMonth = jsonResponse.getString("billMonth");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -173,14 +177,16 @@ public class MSEB extends Activity implements View.OnClickListener {
             if (Check.ifTodayLessThanDue(dueDate)) {
                 llerrorDueDate.setBackgroundResource(R.drawable.rounded_green_layout);
                 bpaybill.setVisibility(View.VISIBLE);
-                tvErrorDueDate.setText("Due date not exceeded");
-                tverrorDate.setText("Pay the bill now");
+                tvbillAmount.setText("Bill Amount:" + BillAmount);
+                tvDueDate.setText("Due Date:" + DueDate);
+                tvbillMonth.setText("Bill Month: " + BillMonth);
+                tvConsunit.setText("Consumption Unit: " + ConsumptionUnits);
                 lleleccustno.setVisibility(View.VISIBLE);
 
             } else {
                 llerrorDueDate.setBackgroundResource(R.drawable.rounded_red_layout);
-                tvErrorDueDate.setText("Due Date Exceeded");
-                tverrorDate.setText("Your Due Date was on: " + dueDate);
+                tvbillAmount.setText("Due Date Exceeded");
+                tvDueDate.setText("Your Due Date was on: " + dueDate);
             }
         }
     }
@@ -201,11 +207,15 @@ public class MSEB extends Activity implements View.OnClickListener {
             jsonParser = new JSONParser();
             msebPayBillparams = new MsebPayBillparams(BillAmount, Bu, CusAcc, CusMob, DueDate, Key, ServiceId, UserId);
             nameValuePairs = new ArrayList<NameValuePair>();
-            nameValuePairs.add(new BasicNameValuePair("userId", UserId));
+            nameValuePairs.add(new BasicNameValuePair("amount", String.valueOf(BillAmount)));
+            nameValuePairs.add(new BasicNameValuePair("bU", Bu));
+            nameValuePairs.add(new BasicNameValuePair("cusAcc", CusAcc));
+            nameValuePairs.add(new BasicNameValuePair("cusMob", CusMob));
+            nameValuePairs.add(new BasicNameValuePair("dueDate", DueDate));
             nameValuePairs.add(new BasicNameValuePair("key", Key));
             nameValuePairs.add(new BasicNameValuePair("serviceId", String.valueOf(ServiceId)));
-            nameValuePairs.add(new BasicNameValuePair("consumerNo", CusAcc));
-            nameValuePairs.add(new BasicNameValuePair("buCode", Bu));
+            nameValuePairs.add(new BasicNameValuePair("userId", UserId));
+
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_ELECTRICITY, nameValuePairs);
             try {
                 msebPayBllResponse = new MsebPayBllResponse(jsonResponse.getInt("avaiBal"), jsonResponse.getInt("status"));
@@ -223,7 +233,8 @@ public class MSEB extends Activity implements View.OnClickListener {
             if (status.equals("0") || status.equals("-1")) {
                 new AlertDialog.Builder(MSEB.this)
                         .setTitle("Error")
-                        .setMessage("Request Not Completed.")
+                        .setMessage("Request Not Completed." +
+                                "\nAvailable Balance: " + AvailBal)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -233,7 +244,8 @@ public class MSEB extends Activity implements View.OnClickListener {
             } else if (status.equals("1")) {
                 new AlertDialog.Builder(MSEB.this)
                         .setTitle("Success")
-                        .setMessage("Request Completed.")
+                        .setMessage("Request Completed." +
+                                "\nAvailable Balance: " + AvailBal)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {

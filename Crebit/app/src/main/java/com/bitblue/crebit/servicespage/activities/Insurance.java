@@ -45,8 +45,8 @@ public class Insurance extends ActionBarActivity implements View.OnClickListener
 
     private String TransId, Message;
     private int StatusCode;
-    private String AvailableBalance, UserId, Key, OperatorId, Number;
-    private double Amount;
+    private String AvailableBalance, UserId, Key, OperatorId, Number, Account = "";
+    private String Amount;
     private static final String SOURCE = "2";
 
     private SharedPreferences prefs;
@@ -103,21 +103,20 @@ public class Insurance extends ActionBarActivity implements View.OnClickListener
             case R.id.b_ins_recharge:
                 Number = et_number.getText().toString();
                 try {
-                    Amount = Double.parseDouble(et_amount.getText().toString());
+                    Amount = et_amount.getText().toString();
                 } catch (Exception e) {
-                    Amount = 0;
+                    Amount ="0";
                 }
                 if (operatorType.getText().equals("--Select--")) {
                     operator.setTextColor(getResources().getColor(R.color.red));
                 }
-                if (Check.ifEmpty(Amount)) {
+                if (Check.ifNull(Amount)) {
                     et_amount.setHintTextColor(getResources().getColor(R.color.red));
                 }
                 if (Check.ifNumberInCorrect(Number)) {
                     et_number.setText("");
                     et_number.setHint(" Enter correct number");
                     et_number.setHintTextColor(getResources().getColor(R.color.red));
-                    break;
                 }
 
                 new retrieveinsurancedata().execute();
@@ -146,7 +145,8 @@ public class Insurance extends ActionBarActivity implements View.OnClickListener
             nameValuePairs.add(new BasicNameValuePair("Key", Key));
             nameValuePairs.add(new BasicNameValuePair("OperatorId", OperatorId));
             nameValuePairs.add(new BasicNameValuePair("Number", Number));
-            nameValuePairs.add(new BasicNameValuePair("Amount", String.valueOf(Amount)));
+            nameValuePairs.add(new BasicNameValuePair("account", Account));
+            nameValuePairs.add(new BasicNameValuePair("Amount", Amount));
             nameValuePairs.add(new BasicNameValuePair("Source", SOURCE));
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_SERVICE, nameValuePairs);
             try {
@@ -167,10 +167,14 @@ public class Insurance extends ActionBarActivity implements View.OnClickListener
 
         @Override
         protected void onPostExecute(String StatusCode) {
+            dialog.dismiss();
             if (StatusCode.equals("0") || StatusCode.equals("-1")) {
                 new AlertDialog.Builder(Insurance.this)
                         .setTitle("Error")
-                        .setMessage("Request Not Completed.")
+                        .setMessage("Request Not Completed." +
+                                "\n TransID: " + TransId +
+                                "\nMessage: " + Message +
+                                "\nStatus Code: " + StatusCode)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -180,7 +184,10 @@ public class Insurance extends ActionBarActivity implements View.OnClickListener
             } else if (StatusCode.equals("1")) {
                 new AlertDialog.Builder(Insurance.this)
                         .setTitle("Success")
-                        .setMessage("Request Completed.")
+                        .setMessage("Request Not Completed." +
+                                "\n TransID: " + TransId +
+                                "\nMessage: " + Message +
+                                "\nStatus Code: " + StatusCode)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -201,7 +208,6 @@ public class Insurance extends ActionBarActivity implements View.OnClickListener
                                 dialogInterface.dismiss();
                             }
                         }).create().show();
-                dialog.dismiss();
             }
         }
     }

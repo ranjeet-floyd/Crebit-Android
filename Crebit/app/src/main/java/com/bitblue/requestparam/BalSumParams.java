@@ -5,12 +5,16 @@ public class BalSumParams {
     private String Key;
     private String FromDate;
     private String ToDate;
+    private String TypeId;
+    private String Value;
 
-    public BalSumParams(String userId, String key, String fromDate, String toDate) {
+    public BalSumParams(String userId, String key, String fromDate, String toDate, String typeId, String value) {
         UserId = userId;
         Key = key;
         FromDate = fromDate;
         ToDate = toDate;
+        TypeId = typeId;
+        Value = value;
     }
 
     public String getUserId() {
@@ -27,5 +31,13 @@ public class BalSumParams {
 
     public String getToDate() {
         return ToDate;
+    }
+
+    public String getTypeId() {
+        return TypeId;
+    }
+
+    public String getValue() {
+        return Value;
     }
 }

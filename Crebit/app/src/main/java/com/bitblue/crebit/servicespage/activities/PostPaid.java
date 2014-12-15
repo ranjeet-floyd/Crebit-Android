@@ -36,7 +36,7 @@ public class PostPaid extends ActionBarActivity implements View.OnClickListener 
     private EditText et_number, et_amount;
     private Button recharge, operatorType;
 
-    private String UserId, Key, OperatorId, Number;
+    private String UserId, Key, OperatorId, Number, Account = "";
     private double Amount;
     private static final String SOURCE = "2";
 
@@ -107,7 +107,7 @@ public class PostPaid extends ActionBarActivity implements View.OnClickListener 
                 } catch (Exception e) {
                     Amount = 0;
                 }
-                if (operatorType.getText().equals("--Select--")) {
+                if (operatorType.getText().equals("Select")) {
                     operator.setTextColor(getResources().getColor(R.color.red));
                 }
                 if (Check.ifEmpty(Amount)) {
@@ -117,7 +117,6 @@ public class PostPaid extends ActionBarActivity implements View.OnClickListener 
                     et_number.setText("");
                     et_number.setHint(" Enter correct number");
                     et_number.setHintTextColor(getResources().getColor(R.color.red));
-                    break;
                 }
 
                 new retrievepostpaiddata().execute();
@@ -146,6 +145,7 @@ public class PostPaid extends ActionBarActivity implements View.OnClickListener 
             nameValuePairs.add(new BasicNameValuePair("OperatorId", OperatorId));
             nameValuePairs.add(new BasicNameValuePair("Number", Number));
             nameValuePairs.add(new BasicNameValuePair("Amount", String.valueOf(Amount)));
+            nameValuePairs.add(new BasicNameValuePair("account", Account));
             nameValuePairs.add(new BasicNameValuePair("Source", SOURCE));
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_SERVICE, nameValuePairs);
             try {
@@ -170,7 +170,10 @@ public class PostPaid extends ActionBarActivity implements View.OnClickListener 
             if (StatusCode.equals("0") || StatusCode.equals("-1")) {
                 new AlertDialog.Builder(PostPaid.this)
                         .setTitle("Error")
-                        .setMessage("Request Not Completed.")
+                        .setMessage("Request Not Completed." +
+                                "\nTransaction ID: " + TransId +
+                                "\nMessage: " + Message +
+                                "\nAvailable Balance: " + AvailableBalance)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {

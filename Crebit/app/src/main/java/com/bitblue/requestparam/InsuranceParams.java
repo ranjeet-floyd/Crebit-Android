@@ -5,10 +5,10 @@ public class InsuranceParams {
     private String Key;
     private String OperatorId;
     private String Number;
-    private double Amount;
+    private String Amount;
     private String Source;
 
-    public InsuranceParams(String userId, String key, String operatorId, String number, double amount, String source) {
+    public InsuranceParams(String userId, String key, String operatorId, String number, String amount, String source) {
         UserId = userId;
         Key = key;
         OperatorId = operatorId;
@@ -33,7 +33,7 @@ public class InsuranceParams {
         return Number;
     }
 
-    public double getAmount() {
+    public String getAmount() {
         return Amount;
     }
 

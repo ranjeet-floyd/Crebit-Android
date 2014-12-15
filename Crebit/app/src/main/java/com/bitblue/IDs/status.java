@@ -6,8 +6,7 @@ public class status {
     public static int getStatusId(int position) {
         switch (position) {
             case 0:
-                statusID = -1;  //Select
-                break;
+                statusID = -1;   //All
             case 1:
                 statusID = 0;   //Failed
                 break;

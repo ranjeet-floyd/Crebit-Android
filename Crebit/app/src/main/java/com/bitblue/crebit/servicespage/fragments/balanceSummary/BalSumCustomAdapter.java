@@ -41,27 +41,26 @@ public class BalSumCustomAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.balance_sumary_list_row, null);
             holder = new ViewHolder();
+            holder.count = (TextView) convertView.findViewById(R.id.tv_balsum_list_count);
             holder.name = (TextView) convertView.findViewById(R.id.tv_balsum_list_name);
             holder.amount = (TextView) convertView.findViewById(R.id.tv_balsum_list_amount);
             holder.contact = (TextView) convertView.findViewById(R.id.tv_balsum_list_contact);
             holder.date = (TextView) convertView.findViewById(R.id.tv_balsum_list_date);
-            holder.type = (TextView) convertView.findViewById(R.id.tv_balsum_list_type);
             holder.transid = (TextView) convertView.findViewById(R.id.tv_balsum_list_transId);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
+        holder.count.setText(String.valueOf(balSumResultArrayList.get(position).getCount()));
         holder.name.setText(balSumResultArrayList.get(position).getName());
         holder.amount.setText(balSumResultArrayList.get(position).getAmount());
         holder.contact.setText(balSumResultArrayList.get(position).getContact());
         holder.date.setText(balSumResultArrayList.get(position).getDate());
-        holder.type.setText(String.valueOf(balSumResultArrayList.get(position).getType()));
         holder.transid.setText(balSumResultArrayList.get(position).getTransactionId());
         return convertView;
     }
 
     static class ViewHolder {
-        TextView name, amount, contact, date, type, transid;
+        TextView count, name, amount, contact, date, transid;
     }
 }

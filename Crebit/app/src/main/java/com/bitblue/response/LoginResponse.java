@@ -12,11 +12,11 @@ public class LoginResponse implements Serializable {
     private boolean isDataUpdated;
     private String name;
     private String userKey;
-
+    private String uType;
     public LoginResponse() {
     }
 
-    public LoginResponse(boolean isSupported, boolean isActive, String userID, String availableBalance, boolean isUpdated, boolean isDataUpdated, String name, String userKey) {
+    public LoginResponse(boolean isSupported, boolean isActive, String userID, String availableBalance, boolean isUpdated, boolean isDataUpdated, String name, String userKey, String uType) {
         this.isSupported = isSupported;
         this.isActive = isActive;
         this.userID = userID;
@@ -25,6 +25,11 @@ public class LoginResponse implements Serializable {
         this.isDataUpdated = isDataUpdated;
         this.name = name;
         this.userKey = userKey;
+        this.uType = uType;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public boolean isSupported() {
@@ -33,6 +38,10 @@ public class LoginResponse implements Serializable {
 
     public boolean isActive() {
         return isActive;
+    }
+
+    public String getUserID() {
+        return userID;
     }
 
     public String getAvailableBalance() {
@@ -55,9 +64,7 @@ public class LoginResponse implements Serializable {
         return userKey;
     }
 
-    public String getUserID() {
-        return userID;
+    public String getuType() {
+        return uType;
     }
-
-
 }

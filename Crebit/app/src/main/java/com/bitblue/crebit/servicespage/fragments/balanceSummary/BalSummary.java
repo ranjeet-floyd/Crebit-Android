@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import com.bitblue.IDs.balsumtype;
 import com.bitblue.crebit.R;
 import com.bitblue.crebit.servicespage.fragments.DatePickerFragment;
 import com.bitblue.crebit.servicespage.service;
@@ -37,11 +38,11 @@ import java.util.Date;
 public class BalSummary extends Fragment implements View.OnClickListener {
     Button from_Date, to_Date, btype, bsearch;
     EditText ettype;
-    private String UserId, Key;
+    private String UserId, Key, TypeId,Value;
     private Double TotalBalanceGiven;
 
-    private String fromDate, toDate, value;
-    private int typeId, cur = 0;
+    private String fromDate, toDate;
+    private int cur = 0;
     private static final int FROM_DATE = 1;
     private static final int TO_DATE = 2;
     private String[] items;
@@ -166,6 +167,9 @@ public class BalSummary extends Fragment implements View.OnClickListener {
                             @Override
                             public void onClick(DialogInterface dialog, int position) {
                                 btype.setText(items[position]);
+                                TypeId = balsumtype.getTypeId(position);
+                                if(btype.getText().toString().equals("Select"))
+                                    TypeId="0";
                                 switch (position) {
                                     case 0:
                                         ettype.setHint(" Enter Sender Number");
@@ -179,10 +183,12 @@ public class BalSummary extends Fragment implements View.OnClickListener {
                         }).create().show();
                 break;
             case R.id.b_balsum_search:
+                Value=ettype.getText().toString();
                 Bundle args = new Bundle();
                 args.putString("fromDate", fromDate);
                 args.putString("toDate", toDate);
-
+                args.putString("TypeId",TypeId);
+                args.putString("Value",Value);
                 BalSumResultFragment balSumResultFragment = new BalSumResultFragment();
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 balSumResultFragment.setArguments(args);

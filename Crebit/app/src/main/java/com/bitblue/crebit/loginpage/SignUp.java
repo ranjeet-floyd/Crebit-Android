@@ -3,6 +3,7 @@ package com.bitblue.crebit.loginpage;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -87,19 +88,26 @@ public class SignUp extends ActionBarActivity implements View.OnClickListener {
                 name = etname.getText().toString();
                 mobilenumber = etmobNum.getText().toString();
                 password = etpasswd.getText().toString();
-                if (baccType.getText().equals("--Select--")) {
+                if (baccType.getText().equals("Select")) {
                     tvaccType.setTextColor(getResources().getColor(R.color.red));
+                    break;
                 }
                 if (Check.ifNull(name)) {
+                    clearField(etname);
+                    etname.setHint(" Enter Name");
                     etname.setHintTextColor(getResources().getColor(R.color.red));
-                }
-                if (Check.ifNull(password)) {
-                    etpasswd.setHintTextColor(getResources().getColor(R.color.red));
+                    break;
                 }
                 if (Check.ifNumberInCorrect(mobilenumber)) {
-                    etmobNum.setText("");
+                    clearField(etmobNum);
                     etmobNum.setHint(" Enter correct number");
                     etmobNum.setHintTextColor(getResources().getColor(R.color.red));
+                    break;
+                }
+                if (Check.ifNull(password)) {
+                    clearField(etpasswd);
+                    etpasswd.setHint(" Enter Password");
+                    etpasswd.setHintTextColor(getResources().getColor(R.color.red));
                     break;
                 }
 
@@ -142,22 +150,24 @@ public class SignUp extends ActionBarActivity implements View.OnClickListener {
         @Override
         protected void onPostExecute(String status) {
             dialog.dismiss();
-            checkstatus();
+            if (status.equals("2")) {
+                new AlertDialog.Builder(SignUp.this)
+                        .setTitle("Success").setIcon(getResources().getDrawable(R.drawable.successicon))
+                        .setMessage("\t\t\tRegistration Successful\n" +
+                                "\t\t\tProceed to Login Page ")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                Intent openLoginActivity = new Intent(SignUp.this, LoginActivity.class);
+                                startActivity(openLoginActivity);
+                            }
+                        }).create().show();
+            }
         }
     }
 
-    private void checkstatus() {
-        if (status.equals("2")) {
-            new AlertDialog.Builder(SignUp.this)
-                    .setTitle("Success")
-                    .setMessage("\t\t\tRegistration Successful\n" +
-                            "\t\t\tProceed to Login Page ")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    }).create().show();
-        }
+    private void clearField(EditText et) {
+        et.setText("");
     }
 }
