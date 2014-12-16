@@ -23,7 +23,8 @@ import com.bitblue.crebit.servicespage.fragments.transactionSummary.TransSummary
 import com.bitblue.crebit.servicespage.menuitem.ChangePassword;
 import com.bitblue.crebit.servicespage.navDrawer.NavigationDrawerFragment;
 
-public class service extends ActionBarActivity
+public class
+        service extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
@@ -34,14 +35,17 @@ public class service extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle args = new Bundle();
+        args.putString("userType", userType);
+        NavigationDrawerFragment navdraw=new NavigationDrawerFragment();
+        navdraw.setArguments(args);
         setContentView(R.layout.activity_service);
         prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE);
         username = prefs.getString("userName", "");
         userType = prefs.getString("uType", "");
         availableBalance = prefs.getString("availableBalance", "null");
-        if (availableBalance.equals("null")) {
-            availableBalance = "0";
-        }
+
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();

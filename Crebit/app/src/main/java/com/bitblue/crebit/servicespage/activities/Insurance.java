@@ -65,10 +65,6 @@ public class Insurance extends ActionBarActivity implements View.OnClickListener
         operator = (TextView) findViewById(R.id.tv_ins_operator);
         number = (TextView) findViewById(R.id.tv_ins_number);
         amount = (TextView) findViewById(R.id.tv_ins_amount);
-        transId = (TextView) findViewById(R.id.tv_ins_TransId);
-        message = (TextView) findViewById(R.id.tv_ins_Message);
-        statcode = (TextView) findViewById(R.id.tv_ins_StatusCode);
-        availablebal = (TextView) findViewById(R.id.tv_ins_AvailableBalance);
 
         et_number = (EditText) findViewById(R.id.et_ins_number);
         et_amount = (EditText) findViewById(R.id.et_ins_amount);
@@ -194,10 +190,6 @@ public class Insurance extends ActionBarActivity implements View.OnClickListener
                                 dialogInterface.dismiss();
                             }
                         }).create().show();
-                transId.setText("TransId: " + TransId);
-                message.setText("Message: " + Message);
-                statcode.setText("StatusCode: " + StatusCode);
-                availablebal.setText("AvailableBalance: " + AvailableBalance);
             } else if (StatusCode.equals("2")) {
                 new AlertDialog.Builder(Insurance.this)
                         .setTitle("Error")

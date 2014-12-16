@@ -21,17 +21,8 @@
                 <LinearLayout
                     android:id="@+id/ll_bankacc"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_layout">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/black"
-                        android:gravity="center_horizontal"
-                        android:text="Bank Account Pay"
-                        android:textColor="@color/white"
-                        android:textSize="25dp" />
+                    android:layout_height="40dp"
+                    android:orientation="vertical">
                 </LinearLayout>
 
                 <LinearLayout
@@ -187,6 +178,13 @@
                         android:textColor="@color/white" />
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_bs_end"
+                    android:layout_below="@id/ll_bap_submit"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="vertical" />
             </RelativeLayout>
         </ScrollView>
     </RelativeLayout>

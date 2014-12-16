@@ -5,7 +5,11 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.params.ConnManagerParams;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,7 +29,11 @@ public class JSONParser {
 
 
     public JSONArray makeHttpPostRequest(String url, List<NameValuePair> nameValuePairs) {
-        DefaultHttpClient httpclient = new DefaultHttpClient();
+        HttpParams httpParams = new BasicHttpParams();
+        ConnManagerParams.setTimeout(httpParams, 10000);
+        HttpConnectionParams.setConnectionTimeout(httpParams, 10000);
+        HttpConnectionParams.setSoTimeout(httpParams, 10000);
+        DefaultHttpClient httpclient = new DefaultHttpClient(httpParams);
         HttpPost httppost = new HttpPost(url);
         try {
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));

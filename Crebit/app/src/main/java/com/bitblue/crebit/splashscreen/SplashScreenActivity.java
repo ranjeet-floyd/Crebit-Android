@@ -20,7 +20,7 @@ public class SplashScreenActivity extends Activity {
         final Thread splashScreen=new Thread(){
             public void run(){
                 try{
-                    sleep(100);
+                    sleep(1000);
                 }catch(InterruptedException e){
                     e.printStackTrace();
                 }

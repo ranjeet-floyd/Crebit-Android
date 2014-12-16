@@ -5,7 +5,7 @@
     <string name="mobileNumber">Number:</string>
     <string name="password">Password:</string>
     <string name="newUser">New User ?</string>
-    <string name="crebitWallet">\t\t\t\t\t\t\t\t\t\t\tCrebit\t Wallet</string>
+    <string name="crebitWallet">Crebit Wallet</string>
     <string name="login">  Login </string>
     <string name="forgotPassword"><u>Forgot Password</u></string>
     <string name="forgotPasswd">Forgot Password</string>
@@ -153,7 +153,7 @@
     <string name="dth">DTH</string>
     <string name="insurance">Insurance</string>
     <string name="electricity">Electricity</string>
-    <string name="gasBill">Gas Bill</string>
+    <string name="gasBill">Gas Billi</string>
     <string name="broadBand">BroadBand</string>
     <string name="fundTransfer">Fund Transfer</string>
     <string name="drawer_open">Open drawer</string>
@@ -188,7 +188,7 @@
     <string name="Message"> Message: </string>
     <string name="StatusCode"> StatusCode: </string>
     <string name="AvailableBalance"> AvailableBalance: </string>
-    <string name="BU"> BU </string>
+    <string name="BU"> Select BU </string>
     <string name="Number">Number </string>
     <string name="Amount">Amount </string>
     <string name="Enter_Number">\tEnter Number </string>

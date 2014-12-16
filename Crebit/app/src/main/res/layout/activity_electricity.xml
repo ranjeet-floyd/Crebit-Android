@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/rounded_layout"></TabWidget>
+            android:background="@color/butterfly_blue"/>
 
         <FrameLayout
             android:id="@android:id/tabcontent"

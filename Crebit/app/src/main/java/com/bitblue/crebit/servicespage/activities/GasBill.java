@@ -65,10 +65,6 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
         tvoperator = (TextView) findViewById(R.id.tv_gas_operator);
         tvnumber = (TextView) findViewById(R.id.et_gas_number);
         tvamount = (TextView) findViewById(R.id.tv_gas_amount);
-        transId = (TextView) findViewById(R.id.tv_gas_TransId);
-        message = (TextView) findViewById(R.id.tv_gas_Message);
-        statcode = (TextView) findViewById(R.id.tv_gas_StatusCode);
-        availablebal = (TextView) findViewById(R.id.tv_gas_AvailableBalance);
 
         et_number = (EditText) findViewById(R.id.et_gas_number);
         et_amount = (EditText) findViewById(R.id.et_gas_amount);
@@ -195,10 +191,6 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
                                 dialogInterface.dismiss();
                             }
                         }).create().show();
-                transId.setText("TransId: " + TransId);
-                message.setText("Message: " + Message);
-                statcode.setText("StatusCode: " + StatusCode);
-                availablebal.setText("AvailableBalance: " + AvailableBalance);
             } else if (StatusCode.equals("2")) {
                 new AlertDialog.Builder(GasBill.this)
                         .setTitle("Error")

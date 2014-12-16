@@ -12,11 +12,8 @@
         <TextView
             android:id="@+id/Service"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="Select a Service"
-            android:textColor="@color/white"
-            android:textSize="25dp" />
+            android:layout_height="40dp"
+            android:gravity="center_horizontal" />
 
         <ScrollView
             android:id="@+id/servicescroll"
@@ -46,11 +43,11 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <ImageButton
+                        <ImageView
                             android:id="@+id/ib_postPaid"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:src="@drawable/crebit" />
+                            android:src="@drawable/postpaid"/>
 
                         <TextView
                             android:id="@+id/tv_postPaid"
@@ -67,11 +64,11 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <ImageButton
+                        <ImageView
                             android:id="@+id/ib_prePaid"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:src="@drawable/crebit"/>
+                            android:src="@drawable/prepaid" />
 
                         <TextView
                             android:id="@+id/tv_prePaid"
@@ -97,11 +94,11 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <ImageButton
+                        <ImageView
                             android:id="@+id/ib_insurance"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:src="@drawable/crebit"/>
+                            android:src="@drawable/insurance" />
 
                         <TextView
                             android:id="@+id/tv_insurance"
@@ -118,11 +115,11 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <ImageButton
+                        <ImageView
                             android:id="@+id/ib_electricity"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:src="@drawable/crebit" />
+                            android:src="@drawable/electricity" />
 
                         <TextView
                             android:id="@+id/tv_electricity"
@@ -148,11 +145,11 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <ImageButton
+                        <ImageView
                             android:id="@+id/ib_gasBill"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:src="@drawable/crebit" />
+                            android:src="@drawable/postpaid" />
 
                         <TextView
                             android:id="@+id/tv_gasBill"
@@ -169,11 +166,11 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <ImageButton
+                        <ImageView
                             android:id="@+id/ib_broadband"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:src="@drawable/crebit" />
+                            android:src="@drawable/postpaid" />
 
                         <TextView
                             android:id="@+id/tv_broadband"
@@ -200,11 +197,11 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <ImageButton
+                        <ImageView
                             android:id="@+id/ib_datacard"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:src="@drawable/crebit"/>
+                            android:src="@drawable/datacard" />
 
                         <TextView
                             android:id="@+id/tv_datacard"
@@ -222,11 +219,11 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <ImageButton
+                        <ImageView
                             android:id="@+id/ib_dth"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:src="@drawable/crebit"/>
+                            android:src="@drawable/dth" />
 
                         <TextView
                             android:id="@+id/tv_dth"
@@ -250,11 +247,11 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <ImageButton
+                        <ImageView
                             android:id="@+id/ib_fundTransfer"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:src="@drawable/crebit"/>
+                            android:src="@drawable/postpaid" />
 
                         <TextView
                             android:id="@+id/tv_fundTransfer"

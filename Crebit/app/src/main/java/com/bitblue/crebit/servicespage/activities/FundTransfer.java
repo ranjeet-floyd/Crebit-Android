@@ -57,8 +57,6 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
     private void initViews() {
         number = (TextView) findViewById(R.id.tv_ft_number);
         amount = (TextView) findViewById(R.id.tv_ft_amount);
-        status = (TextView) findViewById(R.id.tv_ft_status);
-        availableBalance = (TextView) findViewById(R.id.tv_ft_availableBalance);
 
         et_number = (EditText) findViewById(R.id.et_ft_number);
         et_amount = (EditText) findViewById(R.id.et_ft_amount);

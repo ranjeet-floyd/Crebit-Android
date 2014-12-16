@@ -60,9 +60,6 @@ public class TorrentPower extends Activity implements View.OnClickListener {
         tvServiceno = (TextView) findViewById(R.id.tv_elec_torrpow_serviceno);
         tvcustmob = (TextView) findViewById(R.id.tv_elec_torrpow_custmobno);
         tvamount = (TextView) findViewById(R.id.tv_elec_torrpow_amount);
-        tvStats = (TextView) findViewById(R.id.tv_torrpower_Status);
-        tvMssage = (TextView) findViewById(R.id.tv_torrpower_Message);
-        tvAvailableBalance = (TextView) findViewById(R.id.tv_torrpower_AvailableBalance);
 
         etServiceNo = (EditText) findViewById(R.id.et_elec_torrpow_serviceno);
         etmobNo = (EditText) findViewById(R.id.et_elec_torrpow_custmobno);

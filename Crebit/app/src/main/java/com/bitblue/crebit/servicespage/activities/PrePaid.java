@@ -67,10 +67,6 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
         operator = (TextView) findViewById(R.id.tv_pre_operator);
         number = (TextView) findViewById(R.id.tv_pre_number);
         amount = (TextView) findViewById(R.id.tv_pre_amount);
-        transId = (TextView) findViewById(R.id.tv_prepd_TransId);
-        message = (TextView) findViewById(R.id.tv_prepd_Message);
-        statcode = (TextView) findViewById(R.id.tv_prepd_StatusCode);
-        availablebal = (TextView) findViewById(R.id.tv_prepd_AvailableBalance);
 
         et_number = (EditText) findViewById(R.id.et_pre_number);
         et_amount = (EditText) findViewById(R.id.et_pre_amount);
@@ -188,17 +184,16 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
             } else if (StatusCode.equals("1")) {
                 new AlertDialog.Builder(PrePaid.this)
                         .setTitle("Success")
-                        .setMessage("Request Completed.")
+                        .setMessage("Request Completed.\n" +
+                                "Transaction ID: " + TransId +
+                                "\nMessage: " + Message +
+                                "\nAvailable Balance: " + AvailableBalance)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.dismiss();
                             }
                         }).create().show();
-                transId.setText("TransId: " + TransId);
-                message.setText("Message: " + Message);
-                statcode.setText("StatusCode: " + StatusCode);
-                availablebal.setText("AvailableBalance: " + AvailableBalance);
             } else if (StatusCode.equals("2")) {
                 new AlertDialog.Builder(PrePaid.this)
                         .setTitle("Error")

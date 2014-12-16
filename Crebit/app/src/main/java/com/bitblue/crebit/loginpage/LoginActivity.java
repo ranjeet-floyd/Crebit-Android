@@ -2,6 +2,7 @@ package com.bitblue.crebit.loginpage;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.crebit.servicespage.service;
 import com.bitblue.jsonparse.JSONParser;
+import com.bitblue.network.NetworkUtil;
 import com.bitblue.nullcheck.Check;
 import com.bitblue.requestparam.LoginParams;
 import com.bitblue.response.LoginResponse;
@@ -57,9 +59,16 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         logoutmessage = getIntent().getStringExtra("logout");
         initViews();
-        showAlertDialog();
+        if (!isNetworkAvailable())
+            showAlertDialog();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (!isNetworkAvailable())
+            showAlertDialog();
+    }
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
@@ -71,7 +80,29 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     public void initViews() {
         existinguser = (TextView) findViewById(R.id.existingUser);
         mNumber = (EditText) findViewById(R.id.et_mobileNumber);
+        mNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
         passwd = (EditText) findViewById(R.id.et_password);
+        passwd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
         login = (Button) findViewById(R.id.b_login);
         forgotPass = (Button) findViewById(R.id.b_forgot_pass);
         signUp = (Button) findViewById(R.id.b_signUp);
@@ -97,7 +128,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                     passwd.setHintTextColor(getResources().getColor(R.color.red));
                     break;
                 }
-                new retrieveData().execute();
+                checkNetworkState();
                 break;
             case R.id.b_forgot_pass:
                 Intent openForgotPass = new Intent(LoginActivity.this, ForgotPass.class);
@@ -132,21 +163,23 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             jsonArray = jsonParser.makeHttpPostRequest(API.DHS_LOGIN, nameValuePairs);
             try {
                 JsonResponse = jsonArray.getJSONObject(0);
-                loginResponse = new LoginResponse(JsonResponse.getBoolean("isSupported"),
-                        JsonResponse.getBoolean("isActive"),
-                        JsonResponse.getString("userId"),
-                        JsonResponse.getString("availableBalance"),
-                        JsonResponse.getBoolean("isUpdated"),
-                        JsonResponse.getBoolean("isDataUpdated"),
-                        JsonResponse.getString("name"),
-                        JsonResponse.getString("userKey"),
-                        JsonResponse.getString("uType"));
-                userName = loginResponse.getName();
-                availableBalance = loginResponse.getAvailableBalance();
-                userId = loginResponse.getUserID();
-                userKey = loginResponse.getUserKey();
-                isActive = loginResponse.isActive();
-                uType = loginResponse.getuType();
+                if (JsonResponse != null) {
+                    loginResponse = new LoginResponse(JsonResponse.getBoolean("isSupported"),
+                            JsonResponse.getBoolean("isActive"),
+                            JsonResponse.getString("userId"),
+                            JsonResponse.getString("availableBalance"),
+                            JsonResponse.getBoolean("isUpdated"),
+                            JsonResponse.getBoolean("isDataUpdated"),
+                            JsonResponse.getString("name"),
+                            JsonResponse.getString("userKey"),
+                            JsonResponse.getString("uType"));
+                    userName = loginResponse.getName();
+                    availableBalance = loginResponse.getAvailableBalance();
+                    userId = loginResponse.getUserID();
+                    userKey = loginResponse.getUserKey();
+                    isActive = loginResponse.isActive();
+                    uType = loginResponse.getuType();
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -186,9 +219,10 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     private void showAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Check the Internet Connection")
+        builder.setMessage("\tUnable to connect to Internet." +
+                "\n \tCheck Your Network Connection.")
                 .setCancelable(false)
-                .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Exit", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         finish();
                     }
@@ -201,6 +235,13 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                             showAlertDialog();
                         }
                     }
+                })
+                .setNeutralButton("Turn on Data", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                        startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
                 });
         AlertDialog alert = builder.create();
         alert.show();
@@ -208,6 +249,41 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     private void clearField(EditText et) {
         et.setText("");
+    }
+
+    private void checkNetworkState() {
+        if (isNetworkAvailable()) {
+            new retrieveData().execute();
+        } else
+            new AlertDialog.Builder(LoginActivity.this)
+                    .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
+                    .setMessage("NO NETWORK")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            showAlertDialog();
+                        }
+                    }).create().show();
+    }
+
+    public class NetworkChangeReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String status = NetworkUtil.getConnectivityStatusString(context);
+            if (status.equals("NOT_CONNECTED")) {
+                new AlertDialog.Builder(getParent())
+                        .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
+                        .setMessage("NO NETWORK")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                showAlertDialog();
+                            }
+                        }).create().show();
+            }
+        }
     }
 
 }

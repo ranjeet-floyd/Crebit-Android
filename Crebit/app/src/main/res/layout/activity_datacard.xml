@@ -97,7 +97,6 @@
                 android:layout_below="@+id/ll_dc"
                 android:layout_gravity="center_vertical"
                 android:orientation="vertical">
-
                 <Button
                     android:id="@+id/b_dc_recharge"
                     android:layout_width="match_parent"
@@ -107,47 +106,10 @@
                     android:background="@drawable/rounded_button"
                     android:text="@string/Recharge"
                     android:textColor="@color/white" />
-
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/rounded_layout"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_dc_TransId"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/TransId"
-                    android:textSize="20dp" />
-
-                <TextView
-                    android:id="@+id/tv_dc_Message"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/Message"
-                    android:textSize="20dp" />
-
-                <TextView
-                    android:id="@+id/tv_dc_StatusCode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/StatusCode"
-                    android:textSize="20dp" />
-
-                <TextView
-                    android:id="@+id/tv_dc_AvailableBalance"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/AvailableBalance"
-                    android:textSize="20dp" />
-
-            </LinearLayout>
+                android:layout_height="40dp"/>
         </LinearLayout>
     </ScrollView>
 

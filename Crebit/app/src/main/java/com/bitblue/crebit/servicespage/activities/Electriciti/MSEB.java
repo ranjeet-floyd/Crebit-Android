@@ -10,12 +10,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bitblue.IDs.BU;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.jsonparse.JSONParser;
@@ -34,17 +34,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MSEB extends Activity implements View.OnClickListener {
-    private String UserId, Key, Bu, DueDate, CusMob;
+    private String UserId, Key, Bu, DueDate, CusMob,BuCode,CusAcc;
     private int ServiceId = 40, BillAmount, ConsumptionUnits;
 
     private TextView tvBu, tvcustAccNo, tvbillAmount, tvDueDate, tvnotexceeded, tvbillMonth, tvConsunit;
     private Button bBu, bGetDetails, bpaybill;
     private EditText etcustAccNo, etcusMobNo;
     private LinearLayout llerrorDueDate, lleleccustno;
-
+    private AutoCompleteTextView actvbu;
     private ArrayAdapter<String> adapter;
     private String[] items;
-    private String CusAcc;
     private JSONParser jsonParser;
     private JSONObject jsonResponse;
     private MsebParams msebParams;
@@ -74,18 +73,24 @@ public class MSEB extends Activity implements View.OnClickListener {
         tvnotexceeded = (TextView) findViewById(R.id.tv_elec_mseb_Not_Exceeded);
         tvbillMonth = (TextView) findViewById(R.id.tv_elec_mseb_BillMonth);
         tvConsunit = (TextView) findViewById(R.id.tv_elec_mseb_ConsumptionUnits);
-        bBu = (Button) findViewById(R.id.b_elec_mseb_BU);
+        //  bBu = (Button) findViewById(R.id.b_elec_mseb_BU);
+        actvbu = (AutoCompleteTextView) findViewById(R.id.b_elec_mseb_BU);
+        ArrayAdapter adapter = new ArrayAdapter
+                (this, R.layout.dropdownlist, items);
+
+        actvbu.setThreshold(1);
+        actvbu.setAdapter(adapter);
         bGetDetails = (Button) findViewById(R.id.b_elec_mseb_getDetails);
         bpaybill = (Button) findViewById(R.id.b_elec_mseb_paybill);
         etcustAccNo = (EditText) findViewById(R.id.et_elec_mseb_cust_acc_no);
         etcusMobNo = (EditText) findViewById(R.id.et_elec_mseb_cust_mobno);
         llerrorDueDate = (LinearLayout) findViewById(R.id.ll_error_result);
         lleleccustno = (LinearLayout) findViewById(R.id.ll_elec_mseb_cust_mobno);
-        bBu.setOnClickListener(this);
+        //  bBu.setOnClickListener(this);
         bGetDetails.setOnClickListener(this);
         bpaybill.setOnClickListener(this);
 
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        // adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         prefs = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);
         UserId = prefs.getString("userId", "");
         Key = prefs.getString("userKey", "");
@@ -94,23 +99,15 @@ public class MSEB extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.b_elec_mseb_BU:
-                new AlertDialog.Builder(MSEB.this)
-                        .setTitle("Select BU")
-                        .setAdapter(adapter, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int position) {
-                                bBu.setText(items[position]);
-                                Bu = BU.getBuCode(items, position);
-                                dialog.dismiss();
-                            }
-                        }).create().show();
-                break;
             case R.id.b_elec_mseb_getDetails:
                 CusAcc = etcustAccNo.getText().toString();
-                if (bBu.getText().equals("Select")) {
+                Bu = actvbu.getText().toString();
+                if (Check.ifNull(Bu)) {
                     tvBu.setTextColor(getResources().getColor(R.color.red));
                     break;
+                }
+                else{
+                    BuCode=Bu.substring(0,4);
                 }
                 if (Check.ifAccountNumberIncorrect(CusAcc)) {
                     etcustAccNo.setText("");
@@ -148,22 +145,22 @@ public class MSEB extends Activity implements View.OnClickListener {
         @Override
         protected String doInBackground(String... strings) {
             jsonParser = new JSONParser();
-            msebParams = new MsebParams(UserId, Key, CusAcc, Bu, ServiceId);
+            msebParams = new MsebParams(UserId, Key, CusAcc, BuCode, ServiceId);
             nameValuePairs = new ArrayList<NameValuePair>();
             nameValuePairs.add(new BasicNameValuePair("userId", UserId));
             nameValuePairs.add(new BasicNameValuePair("key", Key));
             nameValuePairs.add(new BasicNameValuePair("serviceId", String.valueOf(ServiceId)));
             nameValuePairs.add(new BasicNameValuePair("consumerNo", CusAcc));
-            nameValuePairs.add(new BasicNameValuePair("buCode", Bu));
+            nameValuePairs.add(new BasicNameValuePair("buCode", BuCode));
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DHS_GET_MSEB_CUS_DETAILS, nameValuePairs);
             try {
                 msebResponse = new MsebResponse(jsonResponse.getInt("billAmount"),
                         jsonResponse.getString("dueDate"),
-                        jsonResponse.getInt("consumptionUnits"));
+                        jsonResponse.getInt("consumptionUnits"), jsonResponse.getString("billMonth"));
                 BillAmount = msebResponse.getBillAmount();
                 DueDate = msebResponse.getDueDate();
                 ConsumptionUnits = msebResponse.getConsumptionUnits();
-                BillMonth = jsonResponse.getString("billMonth");
+                BillMonth = msebResponse.getBillMonth();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -176,6 +173,8 @@ public class MSEB extends Activity implements View.OnClickListener {
             llerrorDueDate.setVisibility(View.VISIBLE);
             if (Check.ifTodayLessThanDue(dueDate)) {
                 llerrorDueDate.setBackgroundResource(R.drawable.rounded_green_layout);
+                bGetDetails.setVisibility(View.GONE);
+                tvnotexceeded.setVisibility(View.GONE);
                 bpaybill.setVisibility(View.VISIBLE);
                 tvbillAmount.setText("Bill Amount:" + BillAmount);
                 tvDueDate.setText("Due Date:" + DueDate);

@@ -168,6 +168,7 @@ public class CheckStatus extends Activity implements View.OnClickListener {
             } else {
                 chkstatButton.setVisibility(View.VISIBLE);
                 checkstatus.setVisibility(View.VISIBLE);
+                bchkstat.setVisibility(View.GONE);
             }
         }
     }

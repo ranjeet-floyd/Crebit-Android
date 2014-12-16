@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bitblue.crebit.R;
@@ -21,7 +21,7 @@ import com.bitblue.crebit.servicespage.activities.PostPaid;
 import com.bitblue.crebit.servicespage.activities.PrePaid;
 
 public class Service extends Fragment implements View.OnClickListener {
-    ImageButton postPaid, prePaid, dataCard, dth, insurance, electricity, gasBill, broadBand, fundTransfer;
+    ImageView postPaid, prePaid, dataCard, dth, insurance, electricity, gasBill, broadBand, fundTransfer;
     TextView postpaid, prepaid, datacard, Dth, Insurance, Electricity, gasbill, broadband, fundtransfer;
 
     public Service() {
@@ -37,17 +37,17 @@ public class Service extends Fragment implements View.OnClickListener {
     }
 
     public void initViews(View view) {
-        postPaid = (ImageButton) view.findViewById(R.id.ib_postPaid);
-        prePaid = (ImageButton) view.findViewById(R.id.ib_prePaid);
-        dth = (ImageButton) view.findViewById(R.id.ib_dth);
+        postPaid = (ImageView) view.findViewById(R.id.ib_postPaid);
+        prePaid = (ImageView) view.findViewById(R.id.ib_prePaid);
+        dth = (ImageView) view.findViewById(R.id.ib_dth);
 
-        dataCard = (ImageButton) view.findViewById(R.id.ib_datacard);
-        insurance = (ImageButton) view.findViewById(R.id.ib_insurance);
-        electricity = (ImageButton) view.findViewById(R.id.ib_electricity);
+        dataCard = (ImageView) view.findViewById(R.id.ib_datacard);
+        insurance = (ImageView) view.findViewById(R.id.ib_insurance);
+        electricity = (ImageView) view.findViewById(R.id.ib_electricity);
 
-        gasBill = (ImageButton) view.findViewById(R.id.ib_gasBill);
-        broadBand = (ImageButton) view.findViewById(R.id.ib_broadband);
-        fundTransfer = (ImageButton) view.findViewById(R.id.ib_fundTransfer);
+        gasBill = (ImageView) view.findViewById(R.id.ib_gasBill);
+        broadBand = (ImageView) view.findViewById(R.id.ib_broadband);
+        fundTransfer = (ImageView) view.findViewById(R.id.ib_fundTransfer);
 
         postpaid = (TextView) view.findViewById(R.id.tv_postPaid);
         prepaid = (TextView) view.findViewById(R.id.tv_prePaid);

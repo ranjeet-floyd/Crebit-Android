@@ -6,12 +6,13 @@
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:layout_marginTop="20dp"
-    android:background="@drawable/rounded_layout"
+    android:background="@drawable/stylish_layout"
     android:orientation="vertical"
     android:paddingBottom="10dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingTop="10dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +22,8 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="#" />
+            android:text="#"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_balsum_list_count"
@@ -29,8 +31,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="left"
-            android:textSize="15dp" />
+            android:text="1"
+            android:textSize="15dp"
+            android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,6 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="left"
+            android:text="1"
             android:textSize="15dp" />
     </LinearLayout>
 
@@ -67,6 +73,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
+            android:layout_weight="1"
+            android:text="1"
+            android:textSize="15dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2">
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Transaction ID" />
+
+        <TextView
+            android:id="@+id/tv_balsum_list_transId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="1"
             android:layout_weight="1"
             android:textSize="15dp" />
     </LinearLayout>
@@ -88,7 +116,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="left"
-            android:textSize="15dp"/>
+            android:text="1"
+            android:textSize="15dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -107,25 +136,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
-            android:layout_weight="1"
-            android:textSize="15dp" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="2">
-
-        <TextView
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Transaction ID" />
-
-        <TextView
-            android:id="@+id/tv_balsum_list_transId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="left"
+            android:text="1"
             android:layout_weight="1"
             android:textSize="15dp" />
     </LinearLayout>

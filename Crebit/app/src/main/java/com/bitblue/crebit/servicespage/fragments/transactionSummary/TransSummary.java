@@ -32,7 +32,7 @@ public class TransSummary extends Fragment implements View.OnClickListener {
     private TextView tvfromto, tvstatus, tvtype;
     private Button from_Date, to_Date, bstatus, btype, search, valuesearch;
     private EditText etvalue;
-
+    Date from, to;
     private String fromDate, toDate, value;
     private int cur;
     private static final int FROM_DATE = 1;
@@ -106,33 +106,21 @@ public class TransSummary extends Fragment implements View.OnClickListener {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
-            Date from = null;
-            Date to = null;
+
             if (cur == FROM_DATE) {
                 from_Date.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
                 fromDate = from_Date.getText().toString();
-
             }
+
             if (cur == TO_DATE) {
                 to_Date.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
                 toDate = to_Date.getText().toString();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
                 try {
                     from = sdf.parse(from_Date.getText().toString());
-                    to = sdf.parse(toDate);
+                    to = sdf.parse(to_Date.getText().toString());
                 } catch (ParseException e) {
                     e.printStackTrace();
-                }
-                if (to.before(from)) {
-                    new AlertDialog.Builder(getActivity())
-                            .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
-                            .setMessage("Enter Proper Range")
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            }).create().show();
                 }
             }
         }
@@ -178,7 +166,7 @@ public class TransSummary extends Fragment implements View.OnClickListener {
                 if (from_Date.getText().toString().equals("from") || to_Date.getText().toString().equals("to")) {
                     new AlertDialog.Builder(getActivity())
                             .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
-                            .setMessage("Enter Date")
+                            .setMessage("Enter From and To Date")
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {

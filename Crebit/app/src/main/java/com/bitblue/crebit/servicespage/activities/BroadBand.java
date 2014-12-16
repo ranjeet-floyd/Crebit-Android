@@ -66,10 +66,6 @@ public class BroadBand extends ActionBarActivity implements View.OnClickListener
         operator = (TextView) findViewById(R.id.tv_bb_operator);
         number = (TextView) findViewById(R.id.tv_bb_number);
         amount = (TextView) findViewById(R.id.tv_bb_amount);
-        transId = (TextView) findViewById(R.id.tv_bb_TransId);
-        message = (TextView) findViewById(R.id.tv_bb_Message);
-        statcode = (TextView) findViewById(R.id.tv_bb_StatusCode);
-        availablebal = (TextView) findViewById(R.id.tv_bb_AvailableBalance);
 
         et_number = (EditText) findViewById(R.id.et_bb_number);
         et_amount = (EditText) findViewById(R.id.et_bb_amount);
@@ -195,10 +191,6 @@ public class BroadBand extends ActionBarActivity implements View.OnClickListener
                                 dialogInterface.dismiss();
                             }
                         }).create().show();
-                transId.setText("TransId: " + TransId);
-                message.setText("Message: " + Message);
-                statcode.setText("StatusCode: " + StatusCode);
-                availablebal.setText("AvailableBalance: " + AvailableBalance);
             } else if (StatusCode.equals("2")) {
                 new AlertDialog.Builder(BroadBand.this)
                         .setTitle("Error")

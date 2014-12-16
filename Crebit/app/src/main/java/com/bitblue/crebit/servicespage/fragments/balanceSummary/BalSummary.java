@@ -40,7 +40,7 @@ public class BalSummary extends Fragment implements View.OnClickListener {
     EditText ettype;
     private String UserId, Key, TypeId,Value;
     private Double TotalBalanceGiven;
-
+    Date from,to;
     private String fromDate, toDate;
     private int cur = 0;
     private static final int FROM_DATE = 1;
@@ -114,8 +114,7 @@ public class BalSummary extends Fragment implements View.OnClickListener {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
-            Date from = new Date();
-            Date to = new Date();
+
             if (cur == FROM_DATE) {
                 from_Date.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
                 fromDate = from_Date.getText().toString();
@@ -130,18 +129,6 @@ public class BalSummary extends Fragment implements View.OnClickListener {
                     to = sdf.parse(to_Date.getText().toString());
                 } catch (ParseException e) {
                     e.printStackTrace();
-                }
-
-                if (to.before(from)) {
-                    new AlertDialog.Builder(getActivity())
-                            .setTitle("Error")
-                            .setMessage("Enter Proper Range")
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            }).create().show();
                 }
             }
         }
@@ -172,10 +159,10 @@ public class BalSummary extends Fragment implements View.OnClickListener {
                                     TypeId="0";
                                 switch (position) {
                                     case 0:
-                                        ettype.setHint(" Enter Sender Number");
+                                        ettype.setHint("Enter Sender Number");
                                         break;
                                     case 1:
-                                        ettype.setHint(" Enter Transaction ID");
+                                        ettype.setHint("Enter Transaction ID");
                                         break;
                                 }
                                 dialog.dismiss();
@@ -183,6 +170,18 @@ public class BalSummary extends Fragment implements View.OnClickListener {
                         }).create().show();
                 break;
             case R.id.b_balsum_search:
+                if (from_Date.getText().toString().equals("from") || to_Date.getText().toString().equals("to")) {
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
+                            .setMessage("Enter From and To Date")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).create().show();
+                    break;
+                }
                 Value=ettype.getText().toString();
                 Bundle args = new Bundle();
                 args.putString("fromDate", fromDate);

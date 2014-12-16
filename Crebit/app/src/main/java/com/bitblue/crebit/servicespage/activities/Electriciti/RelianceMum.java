@@ -56,10 +56,6 @@ public class RelianceMum extends Activity implements View.OnClickListener {
         tvcustAccNo = (TextView) findViewById(R.id.tv_elec_reliance_cust_acc_no);
         tvcycCode = (TextView) findViewById(R.id.tv_elec_reliance_cycode);
         tvAmount = (TextView) findViewById(R.id.tv_elec_reliance_amount);
-        transId = (TextView) findViewById(R.id.tv_reliance_TransId);
-        message = (TextView) findViewById(R.id.tv_reliance_Message);
-        statcode = (TextView) findViewById(R.id.tv_reliance_StatusCode);
-        availablebal = (TextView) findViewById(R.id.tv_reliance_AvailableBalance);
         etcustAccNo = (EditText) findViewById(R.id.et_elec_reliance_cust_acc_no);
         etcycCode = (EditText) findViewById(R.id.et_elec_reliance_cycode);
         etAmount = (EditText) findViewById(R.id.et_elec_reliance_amount);

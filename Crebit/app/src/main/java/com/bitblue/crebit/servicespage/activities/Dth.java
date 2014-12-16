@@ -66,10 +66,6 @@ public class Dth extends ActionBarActivity implements View.OnClickListener {
         tvoperator = (TextView) findViewById(R.id.tv_dth_operator);
         tvnumber = (TextView) findViewById(R.id.tv_dth_number);
         tvamount = (TextView) findViewById(R.id.tv_dth_amount);
-        transId = (TextView) findViewById(R.id.tv_dth_TransId);
-        message = (TextView) findViewById(R.id.tv_dc_Message);
-        statcode = (TextView) findViewById(R.id.tv_dth_StatusCode);
-        availablebal = (TextView) findViewById(R.id.tv_dth_AvailableBalance);
 
         et_number = (EditText) findViewById(R.id.et_dth_number);
         et_amount = (EditText) findViewById(R.id.et_dth_amount);
@@ -196,10 +192,6 @@ public class Dth extends ActionBarActivity implements View.OnClickListener {
                                 dialogInterface.dismiss();
                             }
                         }).create().show();
-                transId.setText("TransId: " + TransId);
-                message.setText("Message: " + Message);
-                statcode.setText("StatusCode: " + StatusCode);
-                availablebal.setText("AvailableBalance: " + AvailableBalance);
             } else if (StatusCode.equals("2")) {
                 new AlertDialog.Builder(Dth.this)
                         .setTitle("Error")
