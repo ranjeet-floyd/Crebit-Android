@@ -57,6 +57,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().setIcon(R.drawable.crebit_icon);
         logoutmessage = getIntent().getStringExtra("logout");
         initViews();
         if (!isNetworkAvailable())
@@ -128,7 +129,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                     passwd.setHintTextColor(getResources().getColor(R.color.red));
                     break;
                 }
-                checkNetworkState();
+                new retrieveData().execute();
                 break;
             case R.id.b_forgot_pass:
                 Intent openForgotPass = new Intent(LoginActivity.this, ForgotPass.class);
@@ -161,9 +162,11 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             nameValuePairs.add(new BasicNameValuePair("Pass", pass));
             nameValuePairs.add(new BasicNameValuePair("Version", Version));
             jsonArray = jsonParser.makeHttpPostRequest(API.DHS_LOGIN, nameValuePairs);
-            try {
-                JsonResponse = jsonArray.getJSONObject(0);
-                if (JsonResponse != null) {
+            if (jsonArray == null) {
+                return null;
+            } else {
+                try {
+                    JsonResponse = jsonArray.getJSONObject(0);
                     loginResponse = new LoginResponse(JsonResponse.getBoolean("isSupported"),
                             JsonResponse.getBoolean("isActive"),
                             JsonResponse.getString("userId"),
@@ -179,27 +182,20 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                     userKey = loginResponse.getUserKey();
                     isActive = loginResponse.isActive();
                     uType = loginResponse.getuType();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+
+                return userName;
             }
-            return userName;
         }
 
         @Override
         protected void onPostExecute(String name) {
             dialog.dismiss();
-            SharedPreferences.Editor prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE).edit();  //to pass data between activities
-            prefs.putString("userId", userId);
-            prefs.putString("userKey", userKey);
-            prefs.putString("availableBalance", availableBalance);
-            prefs.putString("userName", userName);
-            prefs.putBoolean("isActive", isActive);
-            prefs.putString("uType", uType);
-            prefs.commit();
-            clearField(mNumber);
-            clearField(passwd);
-            if (userName.equals("null")) {
+            if (name == null) {
+                showAlertDialog();
+            } else if (name.equals("null")) {
                 new AlertDialog.Builder(LoginActivity.this)
                         .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
                         .setMessage("Invalid Credentials")
@@ -210,7 +206,16 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                             }
                         }).create().show();
             } else {
-
+                SharedPreferences.Editor prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE).edit();  //to pass data between activities
+                prefs.putString("userId", userId);
+                prefs.putString("userKey", userKey);
+                prefs.putString("availableBalance", availableBalance);
+                prefs.putString("userName", userName);
+                prefs.putBoolean("isActive", isActive);
+                prefs.putString("uType", uType);
+                prefs.commit();
+                clearField(mNumber);
+                clearField(passwd);
                 Intent openService = new Intent(LoginActivity.this, service.class);
                 startActivity(openService);
             }
@@ -247,43 +252,16 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         alert.show();
     }
 
-    private void clearField(EditText et) {
-        et.setText("");
-    }
-
-    private void checkNetworkState() {
-        if (isNetworkAvailable()) {
-            new retrieveData().execute();
-        } else
-            new AlertDialog.Builder(LoginActivity.this)
-                    .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
-                    .setMessage("NO NETWORK")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                            showAlertDialog();
-                        }
-                    }).create().show();
-    }
-
-    public class NetworkChangeReceiver extends BroadcastReceiver {
+    public static class NetworkChangeReceiver extends BroadcastReceiver {
+        public NetworkChangeReceiver() {
+        }
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             String status = NetworkUtil.getConnectivityStatusString(context);
-            if (status.equals("NOT_CONNECTED")) {
-                new AlertDialog.Builder(getParent())
-                        .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
-                        .setMessage("NO NETWORK")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                                showAlertDialog();
-                            }
-                        }).create().show();
-            }
         }
     }
 
+    private void clearField(EditText et) {
+        et.setText("");
+    }
 }

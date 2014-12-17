@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="40dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
     android:layout_marginTop="20dp"
     android:background="@drawable/stylish_layout"
     android:orientation="vertical"
@@ -30,24 +30,30 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="#"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_transum_list_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="left"
+                android:gravity="right"
                 android:text="1"
                 android:textSize="15dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="2"
+            android:layout_marginBottom="5dp"
             android:visibility="gone">
 
             <TextView
@@ -69,7 +75,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_width="50dp"
@@ -82,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="left"
+                android:gravity="right"
                 android:text="1"
                 android:textSize="15dp" />
         </LinearLayout>
@@ -91,7 +98,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_width="50dp"
@@ -104,7 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="left"
+                android:gravity="right"
                 android:text="1"
                 android:textSize="15dp" />
         </LinearLayout>
@@ -113,7 +121,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_width="50dp"
@@ -126,7 +135,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="left"
+                android:gravity="right"
                 android:text="1"
                 android:textSize="15dp" />
         </LinearLayout>
@@ -135,7 +144,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_width="50dp"
@@ -148,7 +158,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="left"
+                android:gravity="right"
                 android:text="1"
                 android:textSize="15dp" />
 
@@ -158,7 +168,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_width="50dp"
@@ -171,7 +182,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="left"
+                android:gravity="right"
                 android:text="1"
                 android:textSize="15dp" />
         </LinearLayout>
@@ -180,7 +191,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_width="50dp"
@@ -193,7 +205,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="left"
+                android:gravity="right"
                 android:text="1"
                 android:textSize="15dp" />
         </LinearLayout>
@@ -202,7 +214,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_width="50dp"
@@ -215,17 +228,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="left"
+                android:gravity="right"
                 android:text="1"
                 android:textSize="15dp" />
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_width="50dp"
@@ -238,7 +251,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="left"
+                android:gravity="right"
                 android:text="1"
                 android:textSize="15dp" />
         </LinearLayout>
@@ -295,16 +308,19 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_marginBottom="5dp">
 
             <Button
                 android:id="@+id/b_transum_checkstatus"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:background="@drawable/rounded_button"
                 android:textColor="@color/white"
                 android:text="Check Status"
-                android:visibility="gone" />
+                android:visibility="visible" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

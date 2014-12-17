@@ -42,7 +42,7 @@ public class NavigationDrawerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        draweritems = new String[]{"Services", "Transaction Summary", "Balance Summary", "Bank Account Pay", "Updates", "Margin"};
+        draweritems = new String[]{"Services", "Transaction Summary", "Balance Summary", "Account Registration", "Updates", "Margin"};
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             mFromSavedInstanceState = true;
@@ -60,7 +60,7 @@ public class NavigationDrawerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-       // userType=getArguments().getString("userType");
+        // userType=getArguments().getString("userType");
 
         mDrawerListView = (ListView) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
@@ -122,6 +122,7 @@ public class NavigationDrawerFragment extends Fragment {
                 actionBar.setDisplayShowTitleEnabled(true);
                 actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
                 actionBar.setTitle("Select an Item");
+
             }
         };
         mDrawerLayout.post(new Runnable() {
@@ -188,7 +189,6 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        if (mDrawerLayout != null && isDrawerOpen()) menu.clear();
     }
 
     @Override

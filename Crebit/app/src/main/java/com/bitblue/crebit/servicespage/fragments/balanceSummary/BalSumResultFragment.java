@@ -28,7 +28,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class BalSumResultFragment extends Fragment {
-    private TextView tvtotalbalgiven, tvbalgiven, tvbaltaken;
+    private TextView tvbaltaken;
 
     private ListView resultList;
     private Double TotalBalanceGiven, TotalBalanceTaken;
@@ -68,7 +68,6 @@ public class BalSumResultFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        tvbalgiven = (TextView) view.findViewById(R.id.tvbalgiven);
         tvbaltaken = (TextView) view.findViewById(R.id.tvbaltaken);
 
     }
@@ -114,7 +113,6 @@ public class BalSumResultFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             dialog.dismiss();
-            tvbalgiven.setText(String.valueOf(TotalBalanceGiven));
             tvbaltaken.setText(String.valueOf(TotalBalanceTaken));
             for (int i = 0; i < balanceUseArr.length(); i++) {
                 try {

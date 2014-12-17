@@ -62,9 +62,41 @@ public class TorrentPower extends Activity implements View.OnClickListener {
         tvamount = (TextView) findViewById(R.id.tv_elec_torrpow_amount);
 
         etServiceNo = (EditText) findViewById(R.id.et_elec_torrpow_serviceno);
-        etmobNo = (EditText) findViewById(R.id.et_elec_torrpow_custmobno);
-        etamount = (EditText) findViewById(R.id.et_elec_torrpow_amount);
+        etServiceNo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
+        etmobNo = (EditText) findViewById(R.id.et_elec_torrpow_custmobno);
+        etmobNo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
+        etamount = (EditText) findViewById(R.id.et_elec_torrpow_amount);
+        etamount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
         bcity = (Button) findViewById(R.id.b_elec_torrpow_city);
         bpayBill = (Button) findViewById(R.id.b_elec_torpow_paybill);
         bcity.setOnClickListener(this);
@@ -183,12 +215,12 @@ public class TorrentPower extends Activity implements View.OnClickListener {
                         .setMessage("Request Completed." +
                                 "\nMessage: " + Message +
                                 "\nAvailable Balance: " + AvaiBal)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                }).create().show();
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
                 tvStats.setText("Status: " + Status);
                 tvMssage.setText("Message: " + Message);
                 tvAvailableBalance.setText("AvailableBalance: " + AvaiBal);

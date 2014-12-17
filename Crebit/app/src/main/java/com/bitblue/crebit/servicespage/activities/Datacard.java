@@ -59,6 +59,8 @@ public class Datacard extends ActionBarActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_datacard);
         items = getResources().getStringArray(R.array.datacard_operator);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         initViews();
     }
 
@@ -68,7 +70,29 @@ public class Datacard extends ActionBarActivity implements View.OnClickListener 
         tvamount = (TextView) findViewById(R.id.tv_dc_amount);
 
         et_number = (EditText) findViewById(R.id.et_dc_number);
+        et_number.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
         et_amount = (EditText) findViewById(R.id.et_dc_amount);
+        et_amount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
 
         recharge = (Button) findViewById(R.id.b_dc_recharge);
         operatorType = (Button) findViewById(R.id.b_dc_operator);
@@ -106,9 +130,11 @@ public class Datacard extends ActionBarActivity implements View.OnClickListener 
                 }
                 if (operatorType.getText().equals("Select")) {
                     tvoperator.setTextColor(getResources().getColor(R.color.red));
+                    break;
                 }
                 if (Check.ifNull(Amount)) {
                     et_amount.setHintTextColor(getResources().getColor(R.color.red));
+                    break;
                 }
                 if (Check.ifNumberInCorrect(Number)) {
                     et_number.setText("");

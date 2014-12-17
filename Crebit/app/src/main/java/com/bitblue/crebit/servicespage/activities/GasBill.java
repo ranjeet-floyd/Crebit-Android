@@ -58,6 +58,8 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gas_bill);
         items = getResources().getStringArray(R.array.gasbill_operator);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         initViews();
     }
 
@@ -67,7 +69,29 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
         tvamount = (TextView) findViewById(R.id.tv_gas_amount);
 
         et_number = (EditText) findViewById(R.id.et_gas_number);
+        et_number.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
         et_amount = (EditText) findViewById(R.id.et_gas_amount);
+        et_amount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
 
         recharge = (Button) findViewById(R.id.b_gas_recharge);
         operatorType = (Button) findViewById(R.id.b_gas_operator);
@@ -104,11 +128,13 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
                 } catch (Exception e) {
                     Amount = 0;
                 }
-                if (operatorType.getText().equals("--Select--")) {
+                if (operatorType.getText().equals("Select")) {
                     tvoperator.setTextColor(getResources().getColor(R.color.red));
+                    break;
                 }
                 if (Check.ifEmpty(Amount)) {
                     et_amount.setHintTextColor(getResources().getColor(R.color.red));
+                    break;
                 }
                 if (Check.ifNumberInCorrect(Number)) {
                     et_number.setText("");

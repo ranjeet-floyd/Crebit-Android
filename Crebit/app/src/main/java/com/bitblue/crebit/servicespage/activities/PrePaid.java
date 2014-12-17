@@ -36,7 +36,7 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
     private Button recharge, operatorType;
     private TextView transId, message, statcode, availablebal;
 
-    private String UserId, Key, OperatorId, Number,Amount,Account="";
+    private String UserId, Key, OperatorId, Number, Amount, Account = "";
     private static final String SOURCE = "2";
 
     private String[] items;
@@ -60,6 +60,8 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pre_paid);
         items = getResources().getStringArray(R.array.prepaid_operator);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         initViews();
     }
 
@@ -69,7 +71,29 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
         amount = (TextView) findViewById(R.id.tv_pre_amount);
 
         et_number = (EditText) findViewById(R.id.et_pre_number);
+        et_number.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
         et_amount = (EditText) findViewById(R.id.et_pre_amount);
+        et_amount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
 
         recharge = (Button) findViewById(R.id.b_pre_recharge);
         operatorType = (Button) findViewById(R.id.b_pre_operator);
@@ -102,20 +126,23 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
             case R.id.b_pre_recharge:
                 Number = et_number.getText().toString();
                 try {
-                    Amount =et_amount.getText().toString();
+                    Amount = et_amount.getText().toString();
                 } catch (Exception e) {
                     Amount = "0";
                 }
                 if (operatorType.getText().equals("Select")) {
                     operator.setTextColor(getResources().getColor(R.color.red));
+                    break;
                 }
                 if (Check.ifNull(Amount)) {
                     et_amount.setHintTextColor(getResources().getColor(R.color.red));
+                    break;
                 }
                 if (Check.ifNumberInCorrect(Number)) {
                     et_number.setText("");
                     et_number.setHint(" Enter correct number");
                     et_number.setHintTextColor(getResources().getColor(R.color.red));
+                    break;
                 }
                 new retrieveprepaiddata().execute();
 
@@ -143,10 +170,10 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
             nameValuePairs.add(new BasicNameValuePair("userId", UserId));
             nameValuePairs.add(new BasicNameValuePair("key", Key));
             nameValuePairs.add(new BasicNameValuePair("operatorId", OperatorId));
-            nameValuePairs.add(new BasicNameValuePair("number",Number));
-            nameValuePairs.add(new BasicNameValuePair("amount",Amount));
+            nameValuePairs.add(new BasicNameValuePair("number", Number));
+            nameValuePairs.add(new BasicNameValuePair("amount", Amount));
             nameValuePairs.add(new BasicNameValuePair("source", SOURCE));
-            nameValuePairs.add(new BasicNameValuePair("account",""));
+            nameValuePairs.add(new BasicNameValuePair("account", ""));
             Log.e("Params: ", UserId + " " + Key + " " + OperatorId + " " + Number + " " + Amount + " " + Account + " " + SOURCE);
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_SERVICE, nameValuePairs);
             try {

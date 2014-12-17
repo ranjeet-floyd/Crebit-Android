@@ -43,7 +43,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:text="Select"
-                    android:background="@android:drawable/btn_dropdown"></Button>
+                    android:background="@android:drawable/btn_dropdown"
+                    />
 
                 <TextView
                     android:id="@+id/tv_name"
@@ -62,7 +63,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/rounded_edit_text"
+                    android:background="@color/white_smoke"
                     android:hint="  Enter Name "
                     android:inputType="text"
                     android:imeOptions="actionNext"
@@ -85,7 +86,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/rounded_edit_text"
+                    android:background="@color/white_smoke"
                     android:hint="  Enter Mobile Number "
                     android:imeOptions="actionNext"
                     android:inputType="phone"
@@ -108,7 +109,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/rounded_edit_text"
+                    android:background="@color/white_smoke"
                     android:hint=" Enter Password "
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"

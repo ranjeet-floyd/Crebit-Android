@@ -70,11 +70,65 @@ public class BankAccPay extends Fragment implements View.OnClickListener {
         tvifsc = (TextView) view.findViewById(R.id.tv_bap_ifsc);
         tvamount = (TextView) view.findViewById(R.id.tv_bap_amount);
         etname = (EditText) view.findViewById(R.id.et_bap_name);
-        etaccno = (EditText) view.findViewById(R.id.et_bap_accNum);
-        etifsc = (EditText) view.findViewById(R.id.et_bap_ifsc);
-        etmobile = (EditText) view.findViewById(R.id.et_bap_mobNum);
-        etamount = (EditText) view.findViewById(R.id.et_bap_amount);
+        etname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
+        etaccno = (EditText) view.findViewById(R.id.et_bap_accNum);
+        etaccno.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
+        etifsc = (EditText) view.findViewById(R.id.et_bap_ifsc);
+        etifsc.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
+        etmobile = (EditText) view.findViewById(R.id.et_bap_mobNum);
+        etmobile.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
+        etamount = (EditText) view.findViewById(R.id.et_bap_amount);
+        etamount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
         bsubmit = (Button) view.findViewById(R.id.b_bap_submit);
         bsubmit.setOnClickListener(this);
 

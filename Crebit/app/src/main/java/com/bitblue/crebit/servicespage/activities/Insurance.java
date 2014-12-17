@@ -58,6 +58,8 @@ public class Insurance extends ActionBarActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insurance);
         items = getResources().getStringArray(R.array.insurance_operator);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         initViews();
     }
 
@@ -67,7 +69,29 @@ public class Insurance extends ActionBarActivity implements View.OnClickListener
         amount = (TextView) findViewById(R.id.tv_ins_amount);
 
         et_number = (EditText) findViewById(R.id.et_ins_number);
+        et_number.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
         et_amount = (EditText) findViewById(R.id.et_ins_amount);
+        et_amount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
 
         recharge = (Button) findViewById(R.id.b_ins_recharge);
         operatorType = (Button) findViewById(R.id.b_ins_operator);
@@ -103,16 +127,19 @@ public class Insurance extends ActionBarActivity implements View.OnClickListener
                 } catch (Exception e) {
                     Amount ="0";
                 }
-                if (operatorType.getText().equals("--Select--")) {
+                if (operatorType.getText().equals("Select")) {
                     operator.setTextColor(getResources().getColor(R.color.red));
+                    break;
                 }
                 if (Check.ifNull(Amount)) {
                     et_amount.setHintTextColor(getResources().getColor(R.color.red));
+                    break;
                 }
                 if (Check.ifNumberInCorrect(Number)) {
                     et_number.setText("");
                     et_number.setHint(" Enter correct number");
                     et_number.setHintTextColor(getResources().getColor(R.color.red));
+                    break;
                 }
 
                 new retrieveinsurancedata().execute();

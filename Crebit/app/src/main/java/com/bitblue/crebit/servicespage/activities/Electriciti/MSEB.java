@@ -83,7 +83,29 @@ public class MSEB extends Activity implements View.OnClickListener {
         bGetDetails = (Button) findViewById(R.id.b_elec_mseb_getDetails);
         bpaybill = (Button) findViewById(R.id.b_elec_mseb_paybill);
         etcustAccNo = (EditText) findViewById(R.id.et_elec_mseb_cust_acc_no);
+        etcustAccNo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
         etcusMobNo = (EditText) findViewById(R.id.et_elec_mseb_cust_mobno);
+        etcusMobNo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
         llerrorDueDate = (LinearLayout) findViewById(R.id.ll_error_result);
         lleleccustno = (LinearLayout) findViewById(R.id.ll_elec_mseb_cust_mobno);
         //  bBu.setOnClickListener(this);

@@ -57,8 +57,41 @@ public class RelianceMum extends Activity implements View.OnClickListener {
         tvcycCode = (TextView) findViewById(R.id.tv_elec_reliance_cycode);
         tvAmount = (TextView) findViewById(R.id.tv_elec_reliance_amount);
         etcustAccNo = (EditText) findViewById(R.id.et_elec_reliance_cust_acc_no);
+        etcustAccNo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
         etcycCode = (EditText) findViewById(R.id.et_elec_reliance_cycode);
+        etcycCode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
         etAmount = (EditText) findViewById(R.id.et_elec_reliance_amount);
+        etAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
 
         bpayBill = (Button) findViewById(R.id.b_elec_reliance_payBill);
         bpayBill.setOnClickListener(this);
@@ -76,12 +109,22 @@ public class RelianceMum extends Activity implements View.OnClickListener {
                 Account = etcycCode.getText().toString();
                 Amount = etAmount.getText().toString();
                 if (Check.ifAccountNumberIncorrect(Number)) {
-
+                     etcustAccNo.setText("");
+                    etcustAccNo.setHint("Enter Correct Account Number");
+                    etcustAccNo.setHintTextColor(getResources().getColor(R.color.red));
+                    break;
                 }
                 if (Check.ifNull(Account)) {
-
+                    etcustAccNo.setText("");
+                    etcustAccNo.setHint("Enter Correct Cycle/Div. Code");
+                    etcustAccNo.setHintTextColor(getResources().getColor(R.color.red));
+                    break;
                 }
                 if (Check.ifEmpty(Double.parseDouble(Amount))) {
+                    etAmount.setText("");
+                    etAmount.setHint("Enter Correct Amount");
+                    etAmount.setHintTextColor(getResources().getColor(R.color.red));
+                    break;
                 }
                 new retrieveData().execute();
 

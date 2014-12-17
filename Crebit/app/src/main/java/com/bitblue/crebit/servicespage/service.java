@@ -35,9 +35,13 @@ public class
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.crebit);
         Bundle args = new Bundle();
         args.putString("userType", userType);
-        NavigationDrawerFragment navdraw=new NavigationDrawerFragment();
+        NavigationDrawerFragment navdraw = new NavigationDrawerFragment();
         navdraw.setArguments(args);
         setContentView(R.layout.activity_service);
         prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE);
@@ -120,7 +124,7 @@ public class
                 } else
                     new AlertDialog.Builder(service.this)
                             .setTitle("NO ACCESS").setIcon(getResources().getDrawable(R.drawable.erroricon))
-                            .setMessage("User of type PERSONAL cannot acccess Margin section")
+                            .setMessage("You do not have acccess to Margin section")
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -164,7 +168,6 @@ public class
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

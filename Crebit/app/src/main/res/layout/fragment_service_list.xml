@@ -31,7 +31,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
                     android:weightSum="2">
@@ -82,7 +82,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
                     android:weightSum="2">
@@ -133,7 +134,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
                     android:weightSum="2">
@@ -149,7 +151,7 @@
                             android:id="@+id/ib_gasBill"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:src="@drawable/postpaid" />
+                            android:src="@drawable/gasbill" />
 
                         <TextView
                             android:id="@+id/tv_gasBill"
@@ -170,7 +172,7 @@
                             android:id="@+id/ib_broadband"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:src="@drawable/postpaid" />
+                            android:src="@drawable/broadband" />
 
                         <TextView
                             android:id="@+id/tv_broadband"
@@ -185,7 +187,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
                     android:weightSum="2">
@@ -239,6 +242,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -251,7 +256,7 @@
                             android:id="@+id/ib_fundTransfer"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:src="@drawable/postpaid" />
+                            android:src="@drawable/fundtransfer" />
 
                         <TextView
                             android:id="@+id/tv_fundTransfer"

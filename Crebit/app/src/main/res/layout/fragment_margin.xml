@@ -24,18 +24,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:text="Operator"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/rl_mar_margin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:gravity="top|right"
-                android:text="Margin"
+                android:gravity="center"
+                android:text="OPERATOR MARGIN"
                 android:textStyle="bold" />
         </LinearLayout>
 

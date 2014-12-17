@@ -42,7 +42,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:drawable/btn_dropdown"
-                    android:text="--Select--"></Button>
+                    android:text="Select"></Button>
 
                 <TextView
                     android:id="@+id/tv_dc_number"
@@ -61,7 +61,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/rounded_edit_text"
+                    android:background="@color/white_smoke"
                     android:hint="@string/Enter_Number"
                     android:imeOptions="actionNext"
                     android:inputType="phone"
@@ -84,7 +84,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/rounded_edit_text"
+                    android:background="@color/white_smoke"
                     android:hint="@string/Enter_Amount"
                     android:imeOptions="actionDone"
                     android:inputType="phone"

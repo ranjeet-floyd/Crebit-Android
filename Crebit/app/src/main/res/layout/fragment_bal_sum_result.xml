@@ -7,7 +7,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/black">
 
         <LinearLayout
             android:id="@+id/ll_balsum_balgiven"
@@ -18,32 +19,18 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/rounded_layout"
             android:orientation="horizontal"
+            android:gravity="center_horizontal"
             android:weightSum="2">
 
-            <TextView
-                android:id="@+id/tvtotalgiven"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Bal Given Rs:"
-                android:textSize="15dp"/>
-
-            <TextView
-                android:id="@+id/tvbalgiven"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="100"
-                android:textStyle="bold"
-                android:textSize="15dp"
-                android:layout_weight="1"/>
             <TextView
                 android:id="@+id/tvtotaltaken"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Bal taken Rs:"
-                android:textSize="15dp"/>
+                android:text="Total Received Rs:"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:gravity="center_horizontal" />
 
             <TextView
                 android:id="@+id/tvbaltaken"
@@ -51,8 +38,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="100"
+                android:textStyle="bold"
                 android:textSize="15dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
         </LinearLayout>
 
         <ListView

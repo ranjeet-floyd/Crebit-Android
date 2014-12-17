@@ -51,6 +51,8 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fund_transfer);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         initViews();
     }
 
@@ -59,7 +61,29 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
         amount = (TextView) findViewById(R.id.tv_ft_amount);
 
         et_number = (EditText) findViewById(R.id.et_ft_number);
+        et_number.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
         et_amount = (EditText) findViewById(R.id.et_ft_amount);
+        et_amount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
 
         transfer = (Button) findViewById(R.id.b_ft_recharge);
         transfer.setOnClickListener(this);

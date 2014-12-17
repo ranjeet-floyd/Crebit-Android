@@ -8,6 +8,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -48,11 +50,32 @@ public class ForgotPass extends ActionBarActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_pass);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.crebit);
         initViews();
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     public void initViews() {
         etmobileNumber = (EditText) findViewById(R.id.et_MobileNumber);
+        etmobileNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
         bforgotPassword = (Button) findViewById(R.id.b_forgotpassSubmit);
         bforgotPassword.setOnClickListener(this);
     }
@@ -91,6 +114,9 @@ public class ForgotPass extends ActionBarActivity implements View.OnClickListene
             nameValuePairs = new ArrayList<NameValuePair>();
             nameValuePairs.add(new BasicNameValuePair("Mobile", mobileNumber));
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DHS_FORGOT_PASSWORD, nameValuePairs);
+            if (jsonResponse == null) {
+                return null;
+            }
             try {
                 forgotPassResponse = new ForgotPassResponse(jsonResponse.getString("status"));
                 status = forgotPassResponse.getStatus();
@@ -103,7 +129,9 @@ public class ForgotPass extends ActionBarActivity implements View.OnClickListene
         @Override
         protected void onPostExecute(String name) {
             dialog.dismiss();
-            if (status.equals("2")) {
+            if (name == null) {
+                showAlertDialog();
+            } else if (status.equals("2")) {
                 notifyuser();
             }
         }
@@ -130,7 +158,38 @@ public class ForgotPass extends ActionBarActivity implements View.OnClickListene
         notify.setLatestEventInfo(getApplicationContext(), subject, body, pending);
         NM.notify(0, notify);
     }
-    private void clearField(EditText et){
+
+    private void showAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("\tUnable to connect to Internet." +
+                "\n \tCheck Your Network Connection.")
+                .setCancelable(false)
+                .setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("Retry", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (isNetworkAvailable()) {
+                            dialog.cancel();
+                        } else {
+                            showAlertDialog();
+                        }
+                    }
+                })
+                .setNeutralButton("Turn on Data", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                        startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void clearField(EditText et) {
         et.setText("");
     }
 }
