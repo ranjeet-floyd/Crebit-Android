@@ -38,9 +38,9 @@ import java.util.Date;
 public class BalSummary extends Fragment implements View.OnClickListener {
     Button from_Date, to_Date, btype, bsearch;
     EditText ettype;
-    private String UserId, Key, TypeId,Value;
+    private String UserId, Key, TypeId, Value;
     private Double TotalBalanceGiven;
-    Date from,to;
+    Date from, to;
     private String fromDate, toDate;
     private int cur = 0;
     private static final int FROM_DATE = 1;
@@ -155,8 +155,8 @@ public class BalSummary extends Fragment implements View.OnClickListener {
                             public void onClick(DialogInterface dialog, int position) {
                                 btype.setText(items[position]);
                                 TypeId = balsumtype.getTypeId(position);
-                                if(btype.getText().toString().equals("Select"))
-                                    TypeId="0";
+                                if (btype.getText().toString().equals("Select"))
+                                    TypeId = "0";
                                 switch (position) {
                                     case 0:
                                         ettype.setHint("Enter Sender Number");
@@ -181,21 +181,21 @@ public class BalSummary extends Fragment implements View.OnClickListener {
                                 }
                             }).create().show();
                     break;
+                } else {
+                    Value = ettype.getText().toString();
+                    Bundle args = new Bundle();
+                    args.putString("fromDate", fromDate);
+                    args.putString("toDate", toDate);
+                    args.putString("TypeId", TypeId);
+                    args.putString("Value", Value);
+                    BalSumResultFragment balSumResultFragment = new BalSumResultFragment();
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    balSumResultFragment.setArguments(args);
+                    ft.replace(R.id.balsumframe, balSumResultFragment);
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                    ft.addToBackStack(null);
+                    ft.commit();
                 }
-                Value=ettype.getText().toString();
-                Bundle args = new Bundle();
-                args.putString("fromDate", fromDate);
-                args.putString("toDate", toDate);
-                args.putString("TypeId",TypeId);
-                args.putString("Value",Value);
-                BalSumResultFragment balSumResultFragment = new BalSumResultFragment();
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                balSumResultFragment.setArguments(args);
-                ft.replace(R.id.balsumframe, balSumResultFragment);
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                ft.addToBackStack(null);
-                ft.commit();
-
                 break;
         }
 

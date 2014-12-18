@@ -60,8 +60,6 @@ public class NavigationDrawerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // userType=getArguments().getString("userType");
-
         mDrawerListView = (ListView) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -92,7 +90,6 @@ public class NavigationDrawerFragment extends Fragment {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-
         mDrawerToggle = new ActionBarDrawerToggle(
                 getActivity(),                    /* host Activity */
                 mDrawerLayout,                    /* DrawerLayout object */
@@ -109,7 +106,11 @@ public class NavigationDrawerFragment extends Fragment {
                 ActionBar actionBar = getActionBar();
                 actionBar.setDisplayShowTitleEnabled(true);
                 actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-                actionBar.setTitle(draweritems[mCurrentSelectedPosition]);
+                if (draweritems[mCurrentSelectedPosition].equals("Services"))
+                    actionBar.setTitle("Crebit Wallet");
+
+                else
+                   actionBar.setTitle(draweritems[mCurrentSelectedPosition]);
             }
 
             @Override
@@ -189,6 +190,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
+        menu.close();
     }
 
     @Override

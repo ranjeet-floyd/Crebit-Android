@@ -29,6 +29,7 @@ public class
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
     private String username, availableBalance, userType;
+    private double ballance;
     private SharedPreferences prefs;
     private final static String MY_PREFS = "mySharedPrefs";
 
@@ -47,9 +48,11 @@ public class
         prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE);
         username = prefs.getString("userName", "");
         userType = prefs.getString("uType", "");
-        availableBalance = prefs.getString("availableBalance", "null");
-
-
+        availableBalance = prefs.getString("availableBalance", "0.0");
+        if(availableBalance==null||availableBalance.equals("null"))
+            ballance=0;
+        else
+           ballance= Double.parseDouble(availableBalance);
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -63,7 +66,7 @@ public class
         super.onBackPressed();
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        getSupportActionBar().setTitle("Services");
+        getSupportActionBar().setTitle("Crebit Wallet");
     }
 
     @Override
@@ -171,8 +174,8 @@ public class
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(0, 0, 0, "WELCOME-> " + username.toUpperCase());
-        menu.add(0, 0, 0, "Balance: Rs. " + Double.parseDouble(availableBalance));
+        menu.add(0, 0, 0,username.toUpperCase());
+        menu.add(0, 0, 0, "Balance: Rs. " + ballance);
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
             getMenuInflater().inflate(R.menu.service, menu);
             restoreActionBar();

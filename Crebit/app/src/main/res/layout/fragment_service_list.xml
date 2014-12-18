@@ -2,33 +2,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/crebitbackground"
     tools:context="com.bitblue.crebit.servicespage.fragments.Service">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/Service"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:gravity="center_horizontal" />
-
         <ScrollView
             android:id="@+id/servicescroll"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/Service">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:id="@+id/rl_fs"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|center_horizontal"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/white_smoke">
+
+                <TextView
+                    android:id="@+id/Service"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:textSize="20dp"
+                    android:text="Services"
+                    android:gravity="center_vertical"
+                    android:background="@color/crebitbackground"
+                    android:textColor="@color/white_smoke" />
 
                 <LinearLayout
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -47,14 +54,15 @@
                             android:id="@+id/ib_postPaid"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:src="@drawable/postpaid"/>
+                            android:src="@drawable/postpaid" />
 
                         <TextView
                             android:id="@+id/tv_postPaid"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/postPaid"
-                            android:textColor="@color/white_smoke" />
+                            android:textStyle="bold|italic"
+                            android:textColor="@color/black" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -75,7 +83,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/prePaid"
-                            android:textColor="@color/white_smoke" />
+                            android:textStyle="bold|italic"
+                            android:textColor="@color/black" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -105,8 +114,9 @@
                             android:id="@+id/tv_insurance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textStyle="bold|italic"
                             android:text="@string/insurance"
-                            android:textColor="@color/white_smoke" />
+                            android:textColor="@color/black" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -126,8 +136,9 @@
                             android:id="@+id/tv_electricity"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textStyle="bold|italic"
                             android:text="@string/electricity"
-                            android:textColor="@color/white_smoke" />
+                            android:textColor="@color/black" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -156,9 +167,10 @@
                         <TextView
                             android:id="@+id/tv_gasBill"
                             android:layout_width="wrap_content"
+                            android:textStyle="bold|italic"
                             android:layout_height="wrap_content"
                             android:text="@string/gasBill"
-                            android:textColor="@color/white_smoke" />
+                            android:textColor="@color/black" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -178,9 +190,10 @@
                             android:id="@+id/tv_broadband"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textStyle="bold|italic"
                             android:layout_below="@+id/ib_postPaid"
                             android:text="@string/broadBand"
-                            android:textColor="@color/white_smoke" />
+                            android:textColor="@color/black" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -210,9 +223,10 @@
                             android:id="@+id/tv_datacard"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textStyle="bold|italic"
                             android:layout_below="@+id/ib_postPaid"
                             android:text="@string/dataCard"
-                            android:textColor="@color/white_smoke" />
+                            android:textColor="@color/black" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -232,9 +246,10 @@
                             android:id="@+id/tv_dth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textStyle="bold|italic"
                             android:layout_below="@+id/ib_postPaid"
                             android:text="@string/dth"
-                            android:textColor="@color/white_smoke" />
+                            android:textColor="@color/black" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -262,13 +277,31 @@
                             android:id="@+id/tv_fundTransfer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textStyle="bold|italic"
                             android:layout_below="@+id/ib_postPaid"
                             android:text="@string/fundTransfer"
-                            android:textColor="@color/white_smoke" />
+                            android:textColor="@color/black" />
                     </LinearLayout>
                 </LinearLayout>
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
             </LinearLayout>
         </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:background="@color/black"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bitBlue"
+                android:textColor="@color/white" />
+        </LinearLayout>
     </RelativeLayout>
 </FrameLayout>

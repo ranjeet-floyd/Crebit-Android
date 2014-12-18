@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class Check {
     public static boolean ifNull(String var) {
-        return (var.equals("") || var.equals("Select")||var.equals(null)||(var==null));
+        return (var.equals("") || var.equals("Select")||var.equals("0") ||(var==null));
     }
 
     public static boolean ifEmpty(double amount) {

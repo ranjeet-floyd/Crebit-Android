@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="20dp"
+    android:layout_marginBottom="50dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
     android:layout_marginTop="20dp"
@@ -27,10 +27,10 @@
 
         <TextView
             android:id="@+id/tv_balsum_list_count"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="right"
+            android:gravity="left"
             android:text="1"
             android:textSize="15dp"
             android:textStyle="bold" />
@@ -55,10 +55,10 @@
 
         <TextView
             android:id="@+id/tv_balsum_list_name"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="right"
+            android:gravity="left"
             android:text="1"
             android:textSize="15dp" />
     </LinearLayout>
@@ -77,9 +77,9 @@
 
         <TextView
             android:id="@+id/tv_balsum_list_amount"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:gravity="right"
+            android:gravity="left"
             android:layout_weight="1"
             android:text="1"
             android:textSize="15dp" />
@@ -99,9 +99,9 @@
 
         <TextView
             android:id="@+id/tv_balsum_list_transId"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:gravity="right"
+            android:gravity="left"
             android:text="1"
             android:layout_weight="1"
             android:textSize="15dp" />
@@ -121,10 +121,10 @@
 
         <TextView
             android:id="@+id/tv_balsum_list_contact"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="right"
+            android:gravity="left"
             android:text="1"
             android:textSize="15dp" />
     </LinearLayout>
@@ -142,9 +142,9 @@
 
         <TextView
             android:id="@+id/tv_balsum_list_date"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:gravity="right"
+            android:gravity="left"
             android:text="1"
             android:layout_weight="1"
             android:textSize="15dp" />

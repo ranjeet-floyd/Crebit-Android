@@ -79,7 +79,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     }
 
     public void initViews() {
-        existinguser = (TextView) findViewById(R.id.existingUser);
+        //existinguser = (TextView) findViewById(R.id.existingUser);
         mNumber = (EditText) findViewById(R.id.et_mobileNumber);
         mNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 

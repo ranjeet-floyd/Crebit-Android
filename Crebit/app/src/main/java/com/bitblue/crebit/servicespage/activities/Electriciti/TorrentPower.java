@@ -3,9 +3,13 @@ package com.bitblue.crebit.servicespage.activities.Electriciti;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +22,7 @@ import com.bitblue.IDs.torrpow;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.jsonparse.JSONParser;
+import com.bitblue.network.NetworkUtil;
 import com.bitblue.nullcheck.Check;
 import com.bitblue.requestparam.TorPowerParams;
 import com.bitblue.response.TorPowerResponse;
@@ -180,24 +185,31 @@ public class TorrentPower extends Activity implements View.OnClickListener {
             nameValuePairs.add(new BasicNameValuePair("amount", Amount));
             nameValuePairs.add(new BasicNameValuePair("Bu", Bu));
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DHS_TORRENT_POWER, nameValuePairs);
-            try {
-                torPowerResponse = new TorPowerResponse(jsonResponse.getInt("Status"),
-                        jsonResponse.getString("Message"),
-                        jsonResponse.getInt("AvaiBal"));
+            if (jsonResponse == null) {
+                return null;
+            } else {
+                try {
+                    torPowerResponse = new TorPowerResponse(jsonResponse.getInt("Status"),
+                            jsonResponse.getString("Message"),
+                            jsonResponse.getInt("AvaiBal"));
 
-                AvaiBal = torPowerResponse.getAvaiBal();
-                Message = torPowerResponse.getMessage();
-                Status = torPowerResponse.getStatus();
-            } catch (JSONException e) {
-                e.printStackTrace();
+                    AvaiBal = torPowerResponse.getAvaiBal();
+                    Message = torPowerResponse.getMessage();
+                    Status = torPowerResponse.getStatus();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return String.valueOf(Status);
             }
-            return String.valueOf(Status);
         }
 
         @Override
         protected void onPostExecute(String StatusCode) {
             dialog.dismiss();
-            if (StatusCode.equals("0") || StatusCode.equals("-1")) {
+            if (StatusCode == null) {
+                showAlertDialog();
+            }
+             else if (StatusCode.equals("0") || StatusCode.equals("-1")) {
                 new AlertDialog.Builder(TorrentPower.this)
                         .setTitle("Error")
                         .setMessage("Request Not Completed." +
@@ -237,5 +249,49 @@ public class TorrentPower extends Activity implements View.OnClickListener {
                 dialog.dismiss();
             }
         }
+    }
+
+    private void showAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("\tUnable to connect to Internet." +
+                "\n \tCheck Your Network Connection.")
+                .setCancelable(false)
+                .setNegativeButton("Retry", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (isNetworkAvailable()) {
+                            dialog.cancel();
+                        } else {
+                            showAlertDialog();
+                        }
+                    }
+                })
+                .setNeutralButton("Turn on Data", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                        startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private boolean isNetworkAvailable() {
+
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public static class NetworkChangeReceiver extends BroadcastReceiver {
+        public NetworkChangeReceiver() {
+        }
+
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            String status = NetworkUtil.getConnectivityStatusString(context);
+        }
+
     }
 }

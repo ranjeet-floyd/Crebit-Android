@@ -14,7 +14,10 @@ import com.bitblue.crebit.R;
 import com.bitblue.crebit.servicespage.fragments.transactionSummary.TransSumResult;
 import com.bitblue.crebit.servicespage.fragments.transactionSummary.checkStatus.CheckStatus;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class TransSumCustomAdapter extends BaseAdapter {
     private static ArrayList<TransSumResult> tranSumResultArrayList;
@@ -56,10 +59,11 @@ public class TransSumCustomAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         setTexxt(position);
-
         if (tranSumResultArrayList.get(position).getStatus().equals("Success")) {
             Log.e("Conditionforsuccess", String.valueOf(tranSumResultArrayList.get(position).getStatus().equals("Success")));
             holder.checkStatus.setVisibility(View.VISIBLE);
+        } else {
+            holder.checkStatus.setVisibility(View.GONE);
         }
         holder.checkStatus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +104,10 @@ public class TransSumCustomAdapter extends BaseAdapter {
         holder.profit.setText(tranSumResultArrayList.get(position).getProfit());
         holder.amount.setText(tranSumResultArrayList.get(position).getAmount());
         holder.source.setText(String.valueOf(tranSumResultArrayList.get(position).getSource()));
-        holder.tDate.setText(tranSumResultArrayList.get(position).gettDate());
+
+        String date = DateAndTimeFormat(position);
+
+        holder.tDate.setText(date);
         holder.status.setText(tranSumResultArrayList.get(position).getStatus());
         holder.operatorName.setText(tranSumResultArrayList.get(position).getOperaterName());
         holder.operatorId.setText(String.valueOf(tranSumResultArrayList.get(position).getOperaterId()));
@@ -112,6 +119,29 @@ public class TransSumCustomAdapter extends BaseAdapter {
     static class ViewHolder {
         TextView count, id, cBalance, profit, amount, source, tDate, status, operatorName, operatorId, Optype, charge;
         public Button checkStatus;
+    }
+
+    private static String DateAndTimeFormat(int position) {
+        String tDate;
+        Date date = null;
+        tDate = tranSumResultArrayList.get(position).gettDate();
+        SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date d = null;
+        try {
+            d = input.parse(tDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String formattedTime = output.format(d);
+        Log.e("Formatted time", formattedTime);
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(formattedTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String format = new SimpleDateFormat("dd-MMM-yyyy hh:mm a").format(date);
+        return format;
     }
 
 }

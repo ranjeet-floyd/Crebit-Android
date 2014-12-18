@@ -3,9 +3,13 @@ package com.bitblue.crebit.servicespage.activities.Electriciti;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +23,7 @@ import android.widget.TextView;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.jsonparse.JSONParser;
+import com.bitblue.network.NetworkUtil;
 import com.bitblue.nullcheck.Check;
 import com.bitblue.requestparam.MsebParams;
 import com.bitblue.requestparam.MsebPayBillparams;
@@ -34,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MSEB extends Activity implements View.OnClickListener {
-    private String UserId, Key, Bu, DueDate, CusMob,BuCode,CusAcc;
+    private String UserId, Key, Bu, DueDate, CusMob, BuCode, CusAcc;
     private int ServiceId = 40, BillAmount, ConsumptionUnits;
 
     private TextView tvBu, tvcustAccNo, tvbillAmount, tvDueDate, tvnotexceeded, tvbillMonth, tvConsunit;
@@ -127,9 +132,8 @@ public class MSEB extends Activity implements View.OnClickListener {
                 if (Check.ifNull(Bu)) {
                     tvBu.setTextColor(getResources().getColor(R.color.red));
                     break;
-                }
-                else{
-                    BuCode=Bu.substring(0,4);
+                } else {
+                    BuCode = Bu.substring(0, 4);
                 }
                 if (Check.ifAccountNumberIncorrect(CusAcc)) {
                     etcustAccNo.setText("");
@@ -175,39 +179,47 @@ public class MSEB extends Activity implements View.OnClickListener {
             nameValuePairs.add(new BasicNameValuePair("consumerNo", CusAcc));
             nameValuePairs.add(new BasicNameValuePair("buCode", BuCode));
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DHS_GET_MSEB_CUS_DETAILS, nameValuePairs);
-            try {
-                msebResponse = new MsebResponse(jsonResponse.getInt("billAmount"),
-                        jsonResponse.getString("dueDate"),
-                        jsonResponse.getInt("consumptionUnits"), jsonResponse.getString("billMonth"));
-                BillAmount = msebResponse.getBillAmount();
-                DueDate = msebResponse.getDueDate();
-                ConsumptionUnits = msebResponse.getConsumptionUnits();
-                BillMonth = msebResponse.getBillMonth();
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (jsonResponse == null) {
+                return null;
+            } else {
+                try {
+                    msebResponse = new MsebResponse(jsonResponse.getInt("billAmount"),
+                            jsonResponse.getString("dueDate"),
+                            jsonResponse.getInt("consumptionUnits"), jsonResponse.getString("billMonth"));
+                    BillAmount = msebResponse.getBillAmount();
+                    DueDate = msebResponse.getDueDate();
+                    ConsumptionUnits = msebResponse.getConsumptionUnits();
+                    BillMonth = msebResponse.getBillMonth();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return DueDate;
             }
-            return DueDate;
         }
 
         @Override
         protected void onPostExecute(String dueDate) {
             dialog.dismiss();
-            llerrorDueDate.setVisibility(View.VISIBLE);
-            if (Check.ifTodayLessThanDue(dueDate)) {
-                llerrorDueDate.setBackgroundResource(R.drawable.rounded_green_layout);
-                bGetDetails.setVisibility(View.GONE);
-                tvnotexceeded.setVisibility(View.GONE);
-                bpaybill.setVisibility(View.VISIBLE);
-                tvbillAmount.setText("Bill Amount:" + BillAmount);
-                tvDueDate.setText("Due Date:" + DueDate);
-                tvbillMonth.setText("Bill Month: " + BillMonth);
-                tvConsunit.setText("Consumption Unit: " + ConsumptionUnits);
-                lleleccustno.setVisibility(View.VISIBLE);
-
+            if (dueDate == null) {
+                showAlertDialog();
             } else {
-                llerrorDueDate.setBackgroundResource(R.drawable.rounded_red_layout);
-                tvbillAmount.setText("Due Date Exceeded");
-                tvDueDate.setText("Your Due Date was on: " + dueDate);
+                llerrorDueDate.setVisibility(View.VISIBLE);
+                if (Check.ifTodayLessThanDue(dueDate)) {
+                    llerrorDueDate.setBackgroundResource(R.drawable.rounded_green_layout);
+                    bGetDetails.setVisibility(View.GONE);
+                    tvnotexceeded.setVisibility(View.GONE);
+                    bpaybill.setVisibility(View.VISIBLE);
+                    tvbillAmount.setText("Bill Amount:" + BillAmount);
+                    tvDueDate.setText("Due Date:" + DueDate);
+                    tvbillMonth.setText("Bill Month: " + BillMonth);
+                    tvConsunit.setText("Consumption Unit: " + ConsumptionUnits);
+                    lleleccustno.setVisibility(View.VISIBLE);
+
+                } else {
+                    llerrorDueDate.setBackgroundResource(R.drawable.rounded_red_layout);
+                    tvbillAmount.setText("Due Date Exceeded");
+                    tvDueDate.setText("Your Due Date was on: " + dueDate);
+                }
             }
         }
     }
@@ -238,20 +250,26 @@ public class MSEB extends Activity implements View.OnClickListener {
             nameValuePairs.add(new BasicNameValuePair("userId", UserId));
 
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_ELECTRICITY, nameValuePairs);
-            try {
-                msebPayBllResponse = new MsebPayBllResponse(jsonResponse.getInt("avaiBal"), jsonResponse.getInt("status"));
-                Status = msebPayBllResponse.getStatus();
-                AvailBal = msebPayBllResponse.getAvaiBal();
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (jsonResponse == null) {
+                return null;
+            } else {
+                try {
+                    msebPayBllResponse = new MsebPayBllResponse(jsonResponse.getInt("avaiBal"), jsonResponse.getInt("status"));
+                    Status = msebPayBllResponse.getStatus();
+                    AvailBal = msebPayBllResponse.getAvaiBal();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return String.valueOf(Status);
             }
-            return String.valueOf(Status);
         }
 
         @Override
         protected void onPostExecute(String status) {
             dialog.dismiss();
-            if (status.equals("0") || status.equals("-1")) {
+            if (status == null) {
+                showAlertDialog();
+            } else if (status.equals("0") || status.equals("-1")) {
                 new AlertDialog.Builder(MSEB.this)
                         .setTitle("Error")
                         .setMessage("Request Not Completed." +
@@ -286,5 +304,49 @@ public class MSEB extends Activity implements View.OnClickListener {
                 dialog.dismiss();
             }
         }
+    }
+
+    private void showAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("\tUnable to connect to Internet." +
+                "\n \tCheck Your Network Connection.")
+                .setCancelable(false)
+                .setNegativeButton("Retry", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (isNetworkAvailable()) {
+                            dialog.cancel();
+                        } else {
+                            showAlertDialog();
+                        }
+                    }
+                })
+                .setNeutralButton("Turn on Data", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                        startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private boolean isNetworkAvailable() {
+
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public static class NetworkChangeReceiver extends BroadcastReceiver {
+        public NetworkChangeReceiver() {
+        }
+
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            String status = NetworkUtil.getConnectivityStatusString(context);
+        }
+
     }
 }

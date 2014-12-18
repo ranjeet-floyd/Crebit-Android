@@ -2,8 +2,13 @@ package com.bitblue.crebit.servicespage.activities;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -17,6 +22,7 @@ import com.bitblue.IDs.dataCard;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.jsonparse.JSONParser;
+import com.bitblue.network.NetworkUtil;
 import com.bitblue.nullcheck.Check;
 import com.bitblue.requestparam.DataCardParams;
 import com.bitblue.response.DataCardResponse;
@@ -133,16 +139,17 @@ public class Datacard extends ActionBarActivity implements View.OnClickListener 
                     break;
                 }
                 if (Check.ifNull(Amount)) {
+                    et_amount.setText("");
+                    et_amount.setHint(" Enter correct Amount");
                     et_amount.setHintTextColor(getResources().getColor(R.color.red));
                     break;
                 }
                 if (Check.ifNumberInCorrect(Number)) {
                     et_number.setText("");
-                    et_number.setHint(" Enter correct number");
+                    et_number.setHint(" Enter correct Number");
                     et_number.setHintTextColor(getResources().getColor(R.color.red));
                     break;
                 }
-
                 new retrievedatacarddata().execute();
                 break;
 
@@ -173,32 +180,35 @@ public class Datacard extends ActionBarActivity implements View.OnClickListener 
             nameValuePairs.add(new BasicNameValuePair("Amount", Amount));
             nameValuePairs.add(new BasicNameValuePair("Source", SOURCE));
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_SERVICE, nameValuePairs);
-            try {
-                dataCardResponse = new DataCardResponse(jsonResponse.getString("transId"),
-                        jsonResponse.getString("message"),
-                        jsonResponse.getInt("statusCode"),
-                        jsonResponse.getString("availableBalance"));
+            if (jsonResponse == null) {
+                return null;
+            } else {
+                try {
+                    dataCardResponse = new DataCardResponse(jsonResponse.getString("transId"),
+                            jsonResponse.getString("message"),
+                            jsonResponse.getInt("statusCode"),
+                            jsonResponse.getString("availableBalance"));
 
-                TransId = dataCardResponse.getTransId();
-                Message = dataCardResponse.getMessage();
-                StatusCode = dataCardResponse.getStatusCode();
-                AvailableBalance = dataCardResponse.getAvailableBalance();
-            } catch (JSONException e) {
-                e.printStackTrace();
+                    TransId = dataCardResponse.getTransId();
+                    Message = dataCardResponse.getMessage();
+                    StatusCode = dataCardResponse.getStatusCode();
+                    AvailableBalance = dataCardResponse.getAvailableBalance();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return String.valueOf(StatusCode);
             }
-            return String.valueOf(StatusCode);
         }
 
         @Override
         protected void onPostExecute(String StatusCode) {
             dialog.dismiss();
-            if (StatusCode.equals("0") || StatusCode.equals("-1")) {
+            if (StatusCode == null) {
+                showAlertDialog();
+            } else if (StatusCode.equals("0") || StatusCode.equals("-1")) {
                 new AlertDialog.Builder(Datacard.this)
-                        .setTitle("Error")
-                        .setMessage("Request Not Completed." +
-                                "\n TransID: " + TransId +
-                                "\nMessage: " + Message +
-                                "\nStatus Code: " + StatusCode)
+                        .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
+                        .setMessage("Request Not Completed.")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -207,11 +217,11 @@ public class Datacard extends ActionBarActivity implements View.OnClickListener 
                         }).create().show();
             } else if (StatusCode.equals("1")) {
                 new AlertDialog.Builder(Datacard.this)
-                        .setTitle("Success")
-                        .setMessage("Request Not Completed." +
-                                "\n TransID: " + TransId +
+                        .setTitle("Success").setIcon(getResources().getDrawable(R.drawable.successicon))
+                        .setMessage("Request Completed." +
+                                "\n\n TransID: " + TransId +
                                 "\nMessage: " + Message +
-                                "\nStatus Code: " + StatusCode)
+                                "\nAvailable Balance: " + AvailableBalance)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -220,7 +230,7 @@ public class Datacard extends ActionBarActivity implements View.OnClickListener 
                         }).create().show();
             } else if (StatusCode.equals("2")) {
                 new AlertDialog.Builder(Datacard.this)
-                        .setTitle("Error")
+                        .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
                         .setMessage("Insufficient Balance")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -230,5 +240,49 @@ public class Datacard extends ActionBarActivity implements View.OnClickListener 
                         }).create().show();
             }
         }
+    }
+
+    private void showAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("\tUnable to connect to Internet." +
+                "\n \tCheck Your Network Connection.")
+                .setCancelable(false)
+                .setNegativeButton("Retry", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (isNetworkAvailable()) {
+                            dialog.cancel();
+                        } else {
+                            showAlertDialog();
+                        }
+                    }
+                })
+                .setNeutralButton("Turn on Data", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                        startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private boolean isNetworkAvailable() {
+
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public static class NetworkChangeReceiver extends BroadcastReceiver {
+        public NetworkChangeReceiver() {
+        }
+
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            String status = NetworkUtil.getConnectivityStatusString(context);
+        }
+
     }
 }

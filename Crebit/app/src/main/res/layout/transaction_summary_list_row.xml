@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_transumresult_showdata"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="40dp"
@@ -34,10 +35,10 @@
 
             <TextView
                 android:id="@+id/tv_transum_list_count"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:gravity="left"
                 android:text="1"
                 android:textSize="15dp"
                 android:textStyle="bold" />
@@ -86,10 +87,10 @@
 
             <TextView
                 android:id="@+id/tv_transum_list_cBalance"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:gravity="left"
                 android:text="1"
                 android:textSize="15dp" />
         </LinearLayout>
@@ -109,10 +110,10 @@
 
             <TextView
                 android:id="@+id/tv_tranSum_list_profit"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:gravity="left"
                 android:text="1"
                 android:textSize="15dp" />
         </LinearLayout>
@@ -132,10 +133,10 @@
 
             <TextView
                 android:id="@+id/tv_tranSum_list_charge"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:gravity="left"
                 android:text="1"
                 android:textSize="15dp" />
         </LinearLayout>
@@ -155,10 +156,10 @@
 
             <TextView
                 android:id="@+id/tv_tranSum_list_amount"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:gravity="left"
                 android:text="1"
                 android:textSize="15dp" />
 
@@ -179,10 +180,10 @@
 
             <TextView
                 android:id="@+id/tv_tranSum_list_status"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:gravity="left"
                 android:text="1"
                 android:textSize="15dp" />
         </LinearLayout>
@@ -202,10 +203,10 @@
 
             <TextView
                 android:id="@+id/tv_tranSum_list_source"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:gravity="left"
                 android:text="1"
                 android:textSize="15dp" />
         </LinearLayout>
@@ -225,10 +226,10 @@
 
             <TextView
                 android:id="@+id/tv_tranSum_list_tDate"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:gravity="left"
                 android:text="1"
                 android:textSize="15dp" />
         </LinearLayout>
@@ -248,10 +249,10 @@
 
             <TextView
                 android:id="@+id/tv_tranSum_list_operatorName"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:gravity="left"
                 android:text="1"
                 android:textSize="15dp" />
         </LinearLayout>
@@ -308,18 +309,23 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:layout_marginBottom="5dp">
+            android:gravity="left"
+            android:layout_marginBottom="5dp"
+            android:weightSum="2">
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="" />
 
             <Button
                 android:id="@+id/b_transum_checkstatus"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="30dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:background="@drawable/rounded_button"
                 android:textColor="@color/white"
                 android:text="Check Status"
+                android:layout_weight="1"
                 android:visibility="visible" />
         </LinearLayout>
     </LinearLayout>

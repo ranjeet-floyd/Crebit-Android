@@ -1,25 +1,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/crebitbackground"
     android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:background="@drawable/crebitbackground">
 
             <LinearLayout
                 android:layout_gravity="center"
                 android:id="@+id/ll_login_page"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/rounded_layout"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -29,15 +34,9 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/existingUser"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:text="@string/existingUser"
-                        android:textColor="@color/cool_black"
-                        android:textSize="15dp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"/>
 
                     <EditText
                         android:id="@+id/et_mobileNumber"
@@ -112,13 +111,10 @@
                         android:textStyle="bold"
                         android:layout_weight="1" />
                 </LinearLayout>
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"/>
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_below="@+id/ll_login_page"
-                android:layout_width="match_parent"
-                android:layout_height="40dp" />
         </LinearLayout>
     </ScrollView>
 

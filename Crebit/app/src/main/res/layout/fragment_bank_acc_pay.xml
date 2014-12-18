@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black">
+        android:background="@color/crebitbackground">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -16,7 +16,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/black">
+                android:background="@color/crebitbackground">
 
                 <LinearLayout
                     android:id="@+id/ll_bankacc"

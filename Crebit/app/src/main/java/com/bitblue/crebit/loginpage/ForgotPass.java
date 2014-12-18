@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,9 +21,9 @@ import android.widget.EditText;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.jsonparse.JSONParser;
+import com.bitblue.network.NetworkUtil;
 import com.bitblue.nullcheck.Check;
 import com.bitblue.requestparam.ForgotPassParam;
-import com.bitblue.requestparam.SignUpParams;
 import com.bitblue.response.ForgotPassResponse;
 
 import org.apache.http.NameValuePair;
@@ -44,7 +45,6 @@ public class ForgotPass extends ActionBarActivity implements View.OnClickListene
     private ForgotPassParam forgotPassParam;
     private JSONObject jsonResponse;
     private ForgotPassResponse forgotPassResponse;
-    private SignUpParams signUpParams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,14 +116,17 @@ public class ForgotPass extends ActionBarActivity implements View.OnClickListene
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DHS_FORGOT_PASSWORD, nameValuePairs);
             if (jsonResponse == null) {
                 return null;
+            } else {
+                try {
+                    forgotPassResponse = new ForgotPassResponse(jsonResponse.getString("status"));
+                    status = forgotPassResponse.getStatus();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return status;
+
             }
-            try {
-                forgotPassResponse = new ForgotPassResponse(jsonResponse.getString("status"));
-                status = forgotPassResponse.getStatus();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
+
         }
 
         @Override
@@ -164,11 +167,6 @@ public class ForgotPass extends ActionBarActivity implements View.OnClickListene
         builder.setMessage("\tUnable to connect to Internet." +
                 "\n \tCheck Your Network Connection.")
                 .setCancelable(false)
-                .setPositiveButton("Exit", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        finish();
-                    }
-                })
                 .setNegativeButton("Retry", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         if (isNetworkAvailable()) {
@@ -187,6 +185,17 @@ public class ForgotPass extends ActionBarActivity implements View.OnClickListene
                 });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    public static class NetworkChangeReceiver extends BroadcastReceiver {
+        public NetworkChangeReceiver() {
+        }
+
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            String status = NetworkUtil.getConnectivityStatusString(context);
+        }
+
     }
 
     private void clearField(EditText et) {

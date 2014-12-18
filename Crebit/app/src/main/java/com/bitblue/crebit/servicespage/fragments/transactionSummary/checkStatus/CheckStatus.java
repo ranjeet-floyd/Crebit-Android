@@ -1,11 +1,17 @@
 package com.bitblue.crebit.servicespage.fragments.transactionSummary.checkStatus;
 
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +22,7 @@ import android.widget.TextView;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.jsonparse.JSONParser;
+import com.bitblue.network.NetworkUtil;
 import com.bitblue.nullcheck.Check;
 import com.bitblue.requestparam.RefundOrTransParams;
 import com.bitblue.response.RefundOrTransResponse;
@@ -27,7 +34,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class CheckStatus extends Activity implements View.OnClickListener {
+public class CheckStatus extends ActionBarActivity implements View.OnClickListener {
     private String Status, OperatorName, Comments, Key, TransId, TypeId, UserId;
     private String RespStatus, Message, CyberTranID, OperatorId;
     private int cur;
@@ -46,6 +53,9 @@ public class CheckStatus extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.crebit);
         setContentView(R.layout.activity_check_status);
         Status = getIntent().getStringExtra("Status");
         Log.e("Status", Status);
@@ -72,6 +82,17 @@ public class CheckStatus extends Activity implements View.OnClickListener {
         tvTranid = (TextView) findViewById(R.id.tv_cs_TransId);
         tvMessage = (TextView) findViewById(R.id.tv_cs_Message);
         etcomment = (EditText) findViewById(R.id.et_cs_comment);
+        etcomment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            public void onFocusChange(View view, boolean hasfocus) {
+                if (hasfocus) {
+
+                    view.setBackgroundResource(R.drawable.edittext_focus);
+                } else {
+                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
+                }
+            }
+        });
         bchkstat = (Button) findViewById(R.id.b_cs_checkstatus);
         bsubrefreq = (Button) findViewById(R.id.b_subrefreq);
         prefs = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);
@@ -133,43 +154,91 @@ public class CheckStatus extends Activity implements View.OnClickListener {
             nameValuePairs.add(new BasicNameValuePair("TypeId", TypeId));
             nameValuePairs.add(new BasicNameValuePair("Comments", Comments));
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_REFUNDORTRANS_STATUS, nameValuePairs);
-            try {
-                refResponse = new RefundOrTransResponse(jsonResponse.getString("typeId"),
-                        jsonResponse.getString("status"), jsonResponse.getString("message"),
-                        jsonResponse.getString("cybertransId"), jsonResponse.getString("operatorId"));
-
-                Log.e("Response=", "\nTypeid: " +
-                        jsonResponse.getString("typeId") + "\nMessage: " +
-                        jsonResponse.getString("message") + "\nCybertransid: " +
-                        jsonResponse.getString("cybertransId") + "\nStatus: " +
-                        jsonResponse.getString("status"));
-                TypeId = refResponse.getTypeId();
-                RespStatus = refResponse.getStatus();
-                Message = refResponse.getMessage();
-                CyberTranID = refResponse.getCybertransId();
-                OperatorId = refResponse.getOperatorId();
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (jsonResponse == null) {
+                return null;
+            } else {
+                try {
+                    refResponse = new RefundOrTransResponse(jsonResponse.getString("typeId"),
+                            jsonResponse.getString("status"), jsonResponse.getString("message"),
+                            jsonResponse.getString("cybertransId"), jsonResponse.getString("operatorId"));
+                    Log.e("Response=", "\nTypeid: " +
+                            jsonResponse.getString("typeId") + "\nMessage: " +
+                            jsonResponse.getString("message") + "\nCybertransid: " +
+                            jsonResponse.getString("cybertransId") + "\nStatus: " +
+                            jsonResponse.getString("status"));
+                    TypeId = refResponse.getTypeId();
+                    RespStatus = refResponse.getStatus();
+                    Message = refResponse.getMessage();
+                    CyberTranID = refResponse.getCybertransId();
+                    OperatorId = refResponse.getOperatorId();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return RespStatus;
             }
-            return null;
         }
 
         @Override
         protected void onPostExecute(String status) {
             dialog.dismiss();
-
-            tvStatus.setText("Status: " + RespStatus);
-            tvTranid.setText("TransId: " + CyberTranID);
-            tvMessage.setText("Message: " + Message);
-            if ((cur == R.id.b_subrefreq) || Check.ifCrebitApi(OperatorName)) {
-                chkstatButton.setVisibility(View.INVISIBLE);
-                checkstatus.setVisibility(View.INVISIBLE);
+            if (status == null) {
+                showAlertDialog();
             } else {
-                chkstatButton.setVisibility(View.VISIBLE);
-                checkstatus.setVisibility(View.VISIBLE);
-                bchkstat.setVisibility(View.GONE);
+                if (Message.equals("null")) Message = "";
+                tvStatus.setText("Status: " + RespStatus);
+                tvTranid.setText("TransId: " + CyberTranID);
+                tvMessage.setText("Message: " + Message);
+                if ((cur == R.id.b_subrefreq) || Check.ifCrebitApi(OperatorName)) {
+                    chkstatButton.setVisibility(View.INVISIBLE);
+                    checkstatus.setVisibility(View.INVISIBLE);
+                } else {
+                    chkstatButton.setVisibility(View.VISIBLE);
+                    checkstatus.setVisibility(View.VISIBLE);
+                    bchkstat.setVisibility(View.GONE);
+                }
             }
+        }
+    }
+
+    private void showAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("\tUnable to connect to Internet." +
+                "\n \tCheck Your Network Connection.")
+                .setCancelable(false)
+                .setNegativeButton("Retry", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (isNetworkAvailable()) {
+                            dialog.cancel();
+                        } else {
+                            showAlertDialog();
+                        }
+                    }
+                })
+                .setNeutralButton("Turn on Data", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                        startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public static class NetworkChangeReceiver extends BroadcastReceiver {
+        public NetworkChangeReceiver() {
+        }
+
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            String status = NetworkUtil.getConnectivityStatusString(context);
         }
     }
 

@@ -1,8 +1,14 @@
 package com.bitblue.crebit.servicespage.fragments.transactionSummary.Result;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,6 +23,7 @@ import com.bitblue.crebit.R;
 import com.bitblue.crebit.servicespage.fragments.transactionSummary.TransSumResult;
 import com.bitblue.crebit.servicespage.fragments.transactionSummary.adapter.TransSumCustomAdapter;
 import com.bitblue.jsonparse.JSONParser;
+import com.bitblue.network.NetworkUtil;
 import com.bitblue.requestparam.TranSumParams;
 import com.bitblue.response.TranSumResponse;
 
@@ -29,7 +36,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class TransSumResultFragment extends Fragment implements View.OnClickListener {
-    private TextView tvtotalprofit, tvprofit, tvamount, tvtotalamount;
+    private TextView tvtotalprofit, tvprofit, tvamount, tvtotalamount, tvnodata;
     private JSONParser jsonParser;
     private JSONObject jsonResponse, tranResArrObject;
     private JSONArray tranResArr;
@@ -74,10 +81,9 @@ public class TransSumResultFragment extends Fragment implements View.OnClickList
     }
 
     private void initViews(View view) {
-        tvtotalprofit = (TextView) view.findViewById(R.id.tvtotalprofit);
-        tvtotalamount = (TextView) view.findViewById(R.id.tvtotalamount);
         tvprofit = (TextView) view.findViewById(R.id.tvprofit);
         tvamount = (TextView) view.findViewById(R.id.tvamount);
+        tvnodata = (TextView) view.findViewById(R.id.tv_tranSum_list_nodata);
     }
 
     private class retrieveTransactionData extends AsyncTask<String, String, String> {
@@ -103,48 +109,105 @@ public class TransSumResultFragment extends Fragment implements View.OnClickList
             nameValuePairs.add(new BasicNameValuePair("StatusId", String.valueOf(StatusId)));
             nameValuePairs.add(new BasicNameValuePair("TypeId", String.valueOf(TypeId)));
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_TRANSACTION_DETAILS, nameValuePairs);
-            try {
-                tranSumResponse = new TranSumResponse(jsonResponse.getDouble("totalAmount"),
-                        jsonResponse.getDouble("totalProfit"), jsonResponse.getJSONArray("dL_TransactionReturns"));
+            if (jsonResponse == null) {
+                return null;
+            } else {
+                try {
+                    tranSumResponse = new TranSumResponse(jsonResponse.getDouble("totalAmount"),
+                            jsonResponse.getDouble("totalProfit"), jsonResponse.getJSONArray("dL_TransactionReturns"));
 
-                TotalAmount = tranSumResponse.getTotalAmount();
-                TotalProfit = tranSumResponse.getTotalProfit();
-                tranResArr = tranSumResponse.getTranSumResults();
+                    TotalAmount = tranSumResponse.getTotalAmount();
+                    TotalProfit = tranSumResponse.getTotalProfit();
+                    tranResArr = tranSumResponse.getTranSumResults();
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return String.valueOf(TotalAmount);
             }
-            return null;
         }
 
         @Override
         protected void onPostExecute(String status) {
             dialog.dismiss();
-            tvamount.setText(String.valueOf(TotalAmount));
-            tvprofit.setText(String.valueOf(TotalProfit));
-
-            for (int i = 0; i < tranResArr.length(); i++) {
-                try {
-                    tranResArrObject = (JSONObject) tranResArr.get(i);
-                    transSumResult = new TransSumResult();
-                    transSumResult.setCount(i+1);
-                    transSumResult.setId(tranResArrObject.getString("id"));
-                    transSumResult.setcBalance(tranResArrObject.getString("cBalance"));
-                    transSumResult.setAmount(tranResArrObject.getString("amount"));
-                    transSumResult.setProfit(tranResArrObject.getString("profit"));
-                    transSumResult.setSource(tranResArrObject.getString("source"));
-                    transSumResult.settDate(tranResArrObject.getString("tDate"));
-                    transSumResult.setStatus(tranResArrObject.getString("status"));
-                    transSumResult.setOperaterName(tranResArrObject.getString("operaterName"));
-                    transSumResult.setOperaterId(tranResArrObject.getInt("operaterId"));
-                    transSumResult.setOpType(tranResArrObject.getInt("OpType"));
-                    transSumResult.setCharge(tranResArrObject.getString("charge"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            if (status == null) {
+                showAlertDialog();
+            } else {
+                tvamount.setText("Total Amount Rs: "+String.valueOf(TotalAmount));
+                tvprofit.setText("Total Profit Rs: "+String.valueOf(TotalProfit));
+                if (tranResArr.length() == 0) {
+                    tvnodata.setVisibility(View.VISIBLE);
+                    resultList.setVisibility(View.GONE);
+                } else {
+                    tvnodata.setVisibility(View.GONE);
+                    resultList.setVisibility(View.VISIBLE);
+                    for (int i = 0; i < tranResArr.length(); i++) {
+                        try {
+                            tranResArrObject = (JSONObject) tranResArr.get(i);
+                            transSumResult = new TransSumResult();
+                            transSumResult.setCount(i + 1);
+                            transSumResult.setId(tranResArrObject.getString("id"));
+                            transSumResult.setcBalance(tranResArrObject.getString("cBalance"));
+                            transSumResult.setAmount(tranResArrObject.getString("amount"));
+                            transSumResult.setProfit(tranResArrObject.getString("profit"));
+                            transSumResult.setSource(tranResArrObject.getString("source"));
+                            transSumResult.settDate(tranResArrObject.getString("tDate"));
+                            transSumResult.setStatus(tranResArrObject.getString("status"));
+                            transSumResult.setOperaterName(tranResArrObject.getString("operaterName"));
+                            transSumResult.setOperaterId(tranResArrObject.getInt("operaterId"));
+                            transSumResult.setOpType(tranResArrObject.getInt("OpType"));
+                            transSumResult.setCharge(tranResArrObject.getString("charge"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        transSumResultList.add(transSumResult);
+                    }
+                    resultList.setAdapter(new TransSumCustomAdapter(getActivity(), transSumResultList));
                 }
-                transSumResultList.add(transSumResult);
             }
-            resultList.setAdapter(new TransSumCustomAdapter(getActivity(), transSumResultList));
+        }
+    }
+
+    private void showAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("\tUnable to connect to Internet." +
+                "\n \tCheck Your Network Connection.")
+                .setCancelable(false)
+                .setNegativeButton("Retry", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (isNetworkAvailable()) {
+                            dialog.cancel();
+                        } else {
+                            showAlertDialog();
+                        }
+                    }
+                })
+                .setNeutralButton("Turn on Data", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                        startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private boolean isNetworkAvailable() {
+
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public static class NetworkChangeReceiver extends BroadcastReceiver {
+        public NetworkChangeReceiver() {
+        }
+
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            String status = NetworkUtil.getConnectivityStatusString(context);
         }
     }
 }

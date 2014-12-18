@@ -2,8 +2,13 @@ package com.bitblue.crebit.servicespage.activities;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -15,6 +20,7 @@ import android.widget.TextView;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.jsonparse.JSONParser;
+import com.bitblue.network.NetworkUtil;
 import com.bitblue.nullcheck.Check;
 import com.bitblue.requestparam.FundTransferParams;
 import com.bitblue.response.FundTransferResponse;
@@ -32,7 +38,6 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
     private TextView number, amount, status, availableBalance;
     private EditText et_number, et_amount;
     private Button transfer;
-
     private String UserId, Key, MobileTo, Amount, UserTypeA, UserTypeB;
 
     private String Status, AvailableBalance;
@@ -108,10 +113,11 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
                 MobileTo = et_number.getText().toString();
                 Amount = et_amount.getText().toString();
                 if (Check.ifNull(Amount)) {
+                    et_amount.setText("");
+                    et_amount.setHint(" Enter valid Amount");
                     et_amount.setHintTextColor(getResources().getColor(R.color.red));
                     break;
-                }
-                if (Check.ifNumberInCorrect(MobileTo)) {
+                } else if (Check.ifNumberInCorrect(MobileTo)) {
                     et_number.setText("");
                     et_number.setHint(" Enter correct number");
                     et_number.setHintTextColor(getResources().getColor(R.color.red));
@@ -144,82 +150,134 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
             nameValuePairs.add(new BasicNameValuePair("mobileTo", MobileTo));
             nameValuePairs.add(new BasicNameValuePair("amount", Amount));
             jsonArray = jsonParser.makeHttpPostRequest(API.DASHBOARD_TRANSFER, nameValuePairs);
-            try {
-                jsonResponse = jsonArray.getJSONObject(0);
-                fundTransferResponse = new FundTransferResponse(jsonResponse.getString("status"),
-                        jsonResponse.getString("availableBalance"));
-                Status = fundTransferResponse.getStatus();
-                AvailableBalance = fundTransferResponse.getAvailableBalance();
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (jsonArray == null) {
+                return null;
+            } else {
+                try {
+                    jsonResponse = jsonArray.getJSONObject(0);
+                    fundTransferResponse = new FundTransferResponse(jsonResponse.getString("status"),
+                            jsonResponse.getString("availableBalance"));
+                    Status = fundTransferResponse.getStatus();
+                    AvailableBalance = fundTransferResponse.getAvailableBalance();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return Status;
             }
-            return Status;
         }
 
         @Override
         protected void onPostExecute(String Status) {
             dialog.dismiss();
-            switch (Integer.parseInt(Status)) {
-                case 1:
-                case 2:
-                    new AlertDialog.Builder(FundTransfer.this)
-                            .setTitle("Success")
-                            .setMessage(" Transfer Completed. " +
-                                    "\n Available Balance" + AvailableBalance)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            }).create().show();
-                    break;
-                case 3:
-                    new AlertDialog.Builder(FundTransfer.this)
-                            .setTitle("Error")
-                            .setMessage("Not Enough Balance" +
-                                    "\n Available Balance" + AvailableBalance)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            }).create().show();
-                    break;
-                case 4:
-                    new AlertDialog.Builder(FundTransfer.this)
-                            .setTitle("Error")
-                            .setMessage("Mobile Number Incorrect")
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            }).create().show();
-                    break;
-                case 5:
-                    new AlertDialog.Builder(FundTransfer.this)
-                            .setTitle("Error")
-                            .setMessage(" Cannot Transfer From " + UserTypeA + " to " + UserTypeB)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            }).create().show();
-                    break;
-                case 6:
-                    new AlertDialog.Builder(FundTransfer.this)
-                            .setTitle("Error")
-                            .setMessage("Cannot Transfer to the same account")
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            }).create().show();
+            if (Status == null) {
+                showAlertDialog();
+            } else {
+                switch (Integer.parseInt(Status)) {
+                    case 1:
+                    case 2:
+                        new AlertDialog.Builder(FundTransfer.this)
+                                .setTitle("Success").setIcon(getResources().getDrawable(R.drawable.successicon))
+                                .setMessage(" Transfer Completed. " +
+                                        "\n\nAvailable Balance: " + AvailableBalance)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                }).create().show();
+                        break;
+                    case 3:
+                        new AlertDialog.Builder(FundTransfer.this)
+                                .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
+                                .setMessage("Not Enough Balance" +
+                                        "\n\n Available Balance: " + AvailableBalance)
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                }).create().show();
 
-                    break;
+                        break;
+                    case 4:
+                        new AlertDialog.Builder(FundTransfer.this)
+                                .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
+                                .setMessage("Mobile Number Incorrect")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                }).create().show();
+                        break;
+                    case 5:
+                        new AlertDialog.Builder(FundTransfer.this)
+                                .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
+                                .setMessage(" Cannot Transfer From " + UserTypeA.toUpperCase() + " to " + UserTypeB.toUpperCase())
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                }).create().show();
+                        break;
+                    case 6:
+                        new AlertDialog.Builder(FundTransfer.this)
+                                .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
+                                .setMessage("Cannot Transfer to the same account")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                }).create().show();
+                        break;
+                }
             }
         }
+    }
+
+    private void showAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("\tUnable to connect to Internet." +
+                "\n \tCheck Your Network Connection.")
+                .setCancelable(false)
+                .setNegativeButton("Retry", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (isNetworkAvailable()) {
+                            dialog.cancel();
+                        } else {
+                            showAlertDialog();
+                        }
+                    }
+                })
+                .setNeutralButton("Turn on Data", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                        startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private boolean isNetworkAvailable() {
+
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public static class NetworkChangeReceiver extends BroadcastReceiver {
+        public NetworkChangeReceiver() {
+        }
+
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            String status = NetworkUtil.getConnectivityStatusString(context);
+        }
+
     }
 }

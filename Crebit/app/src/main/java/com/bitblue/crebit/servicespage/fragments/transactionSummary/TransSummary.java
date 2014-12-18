@@ -174,20 +174,21 @@ public class TransSummary extends Fragment implements View.OnClickListener {
                                 }
                             }).create().show();
                     break;
-                }
-                Bundle args1 = new Bundle();
-                args1.putString("fromDate", fromDate);
-                args1.putString("toDate", toDate);
-                args1.putInt("StatusId", StatusId);
-                args1.putInt("TypeId", TypeId);
+                } else {
+                    Bundle args1 = new Bundle();
+                    args1.putString("fromDate", fromDate);
+                    args1.putString("toDate", toDate);
+                    args1.putInt("StatusId", StatusId);
+                    args1.putInt("TypeId", TypeId);
 
-                TransSumResultFragment transSumResultFragment = new TransSumResultFragment();
-                FragmentTransaction ft1 = getFragmentManager().beginTransaction();
-                transSumResultFragment.setArguments(args1);
-                ft1.replace(R.id.transumframe, transSumResultFragment);
-                ft1.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                ft1.addToBackStack(null);
-                ft1.commit();
+                    TransSumResultFragment transSumResultFragment = new TransSumResultFragment();
+                    FragmentTransaction ft1 = getFragmentManager().beginTransaction();
+                    transSumResultFragment.setArguments(args1);
+                    ft1.replace(R.id.transumframe, transSumResultFragment);
+                    ft1.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                    ft1.addToBackStack(null);
+                    ft1.commit();
+                }
                 break;
             case R.id.b_ts_srch_value:
                 value = etvalue.getText().toString();
@@ -196,16 +197,17 @@ public class TransSummary extends Fragment implements View.OnClickListener {
                     etvalue.setHint(" Enter Number");
                     etvalue.setHintTextColor(getResources().getColor(R.color.red));
                     break;
+                } else {
+                    Bundle args2 = new Bundle();
+                    args2.putString("Value", value);
+                    TranSumValueResultFragment transSumvalueResultFragment = new TranSumValueResultFragment();
+                    FragmentTransaction ft2 = getFragmentManager().beginTransaction();
+                    transSumvalueResultFragment.setArguments(args2);
+                    ft2.replace(R.id.transumframe, transSumvalueResultFragment);
+                    ft2.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                    ft2.addToBackStack(null);
+                    ft2.commit();
                 }
-                Bundle args2 = new Bundle();
-                args2.putString("Value", value);
-                TranSumValueResultFragment transSumvalueResultFragment = new TranSumValueResultFragment();
-                FragmentTransaction ft2 = getFragmentManager().beginTransaction();
-                transSumvalueResultFragment.setArguments(args2);
-                ft2.replace(R.id.transumframe, transSumvalueResultFragment);
-                ft2.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                ft2.addToBackStack(null);
-                ft2.commit();
                 break;
         }
 

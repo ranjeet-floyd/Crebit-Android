@@ -179,15 +179,16 @@ public class SignUp extends ActionBarActivity implements View.OnClickListener {
             jsonArray = jsonParser.makeHttpPostRequest(API.DHS_SIGNUP, nameValuePairs);
             if (jsonArray == null) {
                 return null;
+            } else {
+                try {
+                    JsonResponse = jsonArray.getJSONObject(0);
+                    signUpResponse = new SignUpResponse(JsonResponse.getString("status"));
+                    status = signUpResponse.getStatus();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return status;
             }
-            try {
-                JsonResponse = jsonArray.getJSONObject(0);
-                signUpResponse = new SignUpResponse(JsonResponse.getString("status"));
-                status = signUpResponse.getStatus();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return status;
         }
 
         @Override
@@ -221,7 +222,6 @@ public class SignUp extends ActionBarActivity implements View.OnClickListener {
                                 startActivity(openLoginActivity);
                             }
                         }).create().show();
-
             }
         }
     }
@@ -231,11 +231,6 @@ public class SignUp extends ActionBarActivity implements View.OnClickListener {
         builder.setMessage("\tUnable to connect to Internet." +
                 "\n \tCheck Your Network Connection.")
                 .setCancelable(false)
-                /*.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        finish();
-                    }
-                })*/
                 .setNegativeButton("Retry", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         if (isNetworkAvailable()) {
