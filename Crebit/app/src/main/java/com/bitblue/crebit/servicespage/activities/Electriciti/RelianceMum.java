@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bitblue.Applicaton.GlobalVariable;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.jsonparse.JSONParser;
@@ -49,6 +50,7 @@ public class RelianceMum extends Activity implements View.OnClickListener {
     private SharedPreferences prefs;
     private final static String MY_PREFS = "mySharedPrefs";
     private TextView transId, message, statcode, availablebal;
+    private GlobalVariable globalVariable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +105,7 @@ public class RelianceMum extends Activity implements View.OnClickListener {
         prefs = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);
         UserId = prefs.getString("userId", "");
         Key = prefs.getString("userKey", "");
+        globalVariable = (GlobalVariable) getApplicationContext();
     }
 
     @Override
@@ -187,7 +190,7 @@ public class RelianceMum extends Activity implements View.OnClickListener {
                 showAlertDialog();
             } else if (StatusCode.equals("0") || StatusCode.equals("-1")) {
                 new AlertDialog.Builder(RelianceMum.this)
-                        .setTitle("Error")
+                        .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
                         .setMessage("Request Not Completed.")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -197,21 +200,19 @@ public class RelianceMum extends Activity implements View.OnClickListener {
                         }).create().show();
             } else if (StatusCode.equals("1")) {
                 new AlertDialog.Builder(RelianceMum.this)
-                        .setTitle("Success")
-                        .setMessage("Request Completed.")
+                        .setTitle("Success").setIcon(getResources().getDrawable(R.drawable.successicon))
+                        .setMessage("Request Completed." +
+                                "\n\nAvailable Balance: " + AvailableBalance)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.dismiss();
                             }
                         }).create().show();
-                transId.setText("TransId: " + TransId);
-                message.setText("Message: " + Message);
-                statcode.setText("StatusCode: " + StatusCode);
-                availablebal.setText("AvailableBalance: " + AvailableBalance);
+                globalVariable.setAvailableBalance(AvailableBalance);
             } else if (StatusCode.equals("2")) {
                 new AlertDialog.Builder(RelianceMum.this)
-                        .setTitle("Error")
+                        .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
                         .setMessage("Insufficient Balance")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override

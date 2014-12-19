@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bitblue.Applicaton.GlobalVariable;
 import com.bitblue.IDs.gasBill;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
@@ -26,6 +27,9 @@ import com.bitblue.network.NetworkUtil;
 import com.bitblue.nullcheck.Check;
 import com.bitblue.requestparam.GasBillParams;
 import com.bitblue.response.GasBillResponse;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -47,6 +51,7 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
     private String TransId, Message;
     private int StatusCode;
     private String AvailableBalance;
+    private Tracker tracker;
 
     private ArrayAdapter<String> adapter;
     private String[] items;
@@ -55,18 +60,37 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
     private GasBillResponse gasBillResponse;
     private GasBillParams gasBillParams;
     private List<NameValuePair> nameValuePairs;
-
+    private GlobalVariable globalVariable;
     private SharedPreferences prefs;
     private final static String MY_PREFS = "mySharedPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        tracker = ((GlobalVariable) getApplication()).getTracker(GlobalVariable.TrackerName.APP_TRACKER);
+        tracker.setScreenName("GasBill Page");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+
         setContentView(R.layout.activity_gas_bill);
         items = getResources().getStringArray(R.array.gasbill_operator);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         initViews();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //Get an Analytics tracker to report app starts & uncaught exceptions etc.
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //Stop the analytics tracking
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 
     private void initViews() {
@@ -109,6 +133,7 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
         prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE);
         UserId = prefs.getString("userId", "");
         Key = prefs.getString("userKey", "");
+        globalVariable = (GlobalVariable) getApplicationContext();
 
     }
 
@@ -116,6 +141,11 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.b_gas_operator:
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Button")
+                        .setAction("Clicked on Select Operator Button on GasBill Page")
+                        .setLabel("Select Operator Button")
+                        .build());
                 new AlertDialog.Builder(this)
                         .setTitle("Select Operator")
                         .setAdapter(adapter, new DialogInterface.OnClickListener() {
@@ -128,6 +158,11 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
                         }).create().show();
                 break;
             case R.id.b_gas_recharge:
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Button")
+                        .setAction("Clicked on Recharge Button on GasBill Page")
+                        .setLabel("Recharge Button")
+                        .build());
                 Number = et_number.getText().toString();
                 try {
                     Amount = Double.parseDouble(et_amount.getText().toString());
@@ -217,6 +252,8 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
                             }
                         }).create().show();
             } else if (StatusCode.equals("1")) {
+                if (Message == null || Message.equals("null"))
+                    Message = "";
                 new AlertDialog.Builder(GasBill.this)
                         .setTitle("Success").setIcon(getResources().getDrawable(R.drawable.successicon))
                         .setMessage("Request Completed." +
@@ -229,6 +266,7 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
                                 dialogInterface.dismiss();
                             }
                         }).create().show();
+                globalVariable.setAvailableBalance(AvailableBalance);
             } else if (StatusCode.equals("2")) {
                 new AlertDialog.Builder(GasBill.this)
                         .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))

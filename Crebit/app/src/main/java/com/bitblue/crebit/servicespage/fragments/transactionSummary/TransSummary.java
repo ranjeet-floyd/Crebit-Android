@@ -16,12 +16,16 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bitblue.Applicaton.GlobalVariable;
 import com.bitblue.IDs.status;
 import com.bitblue.IDs.type;
 import com.bitblue.crebit.R;
 import com.bitblue.crebit.servicespage.fragments.DatePickerFragment;
 import com.bitblue.crebit.servicespage.fragments.transactionSummary.Result.TranSumValueResultFragment;
 import com.bitblue.crebit.servicespage.fragments.transactionSummary.Result.TransSumResultFragment;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,8 +47,23 @@ public class TransSummary extends Fragment implements View.OnClickListener {
     private ArrayAdapter<String> statusAdapter;
     private String[] typelist;
     private ArrayAdapter<String> typeAdapter;
+    private Tracker tracker;
 
     public TransSummary() {
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //Get an Analytics tracker to report app starts & uncaught exceptions etc.
+        GoogleAnalytics.getInstance(getActivity()).reportActivityStart(getActivity());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //Stop the analytics tracking
+        GoogleAnalytics.getInstance(getActivity()).reportActivityStop(getActivity());
     }
 
     @Override
@@ -54,6 +73,9 @@ public class TransSummary extends Fragment implements View.OnClickListener {
                 false);
         statlist = getResources().getStringArray(R.array.status);
         typelist = getResources().getStringArray(R.array.type);
+        tracker = ((GlobalVariable) getActivity().getApplication()).getTracker(GlobalVariable.TrackerName.APP_TRACKER);
+        tracker.setScreenName("Transaction Summary Page");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
         initViews(view);
         return view;
     }
@@ -130,15 +152,36 @@ public class TransSummary extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.b_ts_from:
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Button")
+                        .setAction("Clicked on From Button on TranSum Page")
+                        .setLabel("From Button")
+                        .build());
+
                 cur = FROM_DATE;
                 showDatePicker();
                 break;
             case R.id.b_ts_to:
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Button")
+                        .setAction("Clicked on To Button on TranSum Page")
+                        .setLabel("To Button")
+                        .build());
+
                 cur = TO_DATE;
                 showDatePicker();
                 break;
 
             case R.id.b_ts_status:
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Button")
+                        .setAction("Clicked on Status Button on TranSum Page")
+                        .setLabel("Status Button")
+                        .build());
+
                 new AlertDialog.Builder(getActivity())
                         .setTitle("Select Status")
                         .setAdapter(statusAdapter, new DialogInterface.OnClickListener() {
@@ -151,6 +194,13 @@ public class TransSummary extends Fragment implements View.OnClickListener {
                         }).create().show();
                 break;
             case R.id.b_ts_type:
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Button")
+                        .setAction("Clicked on Type Button on TranSum Page")
+                        .setLabel("Type Button")
+                        .build());
+
                 new AlertDialog.Builder(getActivity())
                         .setTitle("Select Type")
                         .setAdapter(typeAdapter, new DialogInterface.OnClickListener() {
@@ -163,6 +213,13 @@ public class TransSummary extends Fragment implements View.OnClickListener {
                         }).create().show();
                 break;
             case R.id.b_ts_search:
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Button")
+                        .setAction("Clicked on Search Button on TranSum Page")
+                        .setLabel("Search Button")
+                        .build());
+
                 if (from_Date.getText().toString().equals("from") || to_Date.getText().toString().equals("to")) {
                     new AlertDialog.Builder(getActivity())
                             .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
@@ -191,6 +248,13 @@ public class TransSummary extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.b_ts_srch_value:
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Button")
+                        .setAction("Clicked on Searchbyvalue Button on Transum Page")
+                        .setLabel("Srchbyvalue Button")
+                        .build());
+
                 value = etvalue.getText().toString();
                 if (value.equals("")) {
                     etvalue.setText("");

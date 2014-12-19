@@ -9,11 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.bitblue.Applicaton.GlobalVariable;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.crebit.servicespage.listAdapter.OpMarCustomAdapter;
 import com.bitblue.jsonparse.JSONParser;
 import com.bitblue.response.MarginResult;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +28,7 @@ import java.util.ArrayList;
 public class Margin extends Fragment {
     private JSONParser jsonParser;
     private ListView listView;
+    private Tracker tracker;
 
     public Margin() {
     }
@@ -34,9 +39,27 @@ public class Margin extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_margin, container, false);
         listView = (ListView) view.findViewById(R.id.operator_margin_list);
+        tracker = ((GlobalVariable) getActivity().getApplication()).getTracker(GlobalVariable.TrackerName.APP_TRACKER);
+        tracker.setScreenName("Margin Page");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
         new retrieveMargin().execute();
         return view;
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //Get an Analytics tracker to report app starts & uncaught exceptions etc.
+        GoogleAnalytics.getInstance(getActivity()).reportActivityStart(getActivity());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //Stop the analytics tracking
+        GoogleAnalytics.getInstance(getActivity()).reportActivityStop(getActivity());
+    }
+
 
     private class retrieveMargin extends AsyncTask<String, String, String> {
         ProgressDialog dialog = new ProgressDialog(getActivity());
@@ -69,11 +92,11 @@ public class Margin extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             dialog.dismiss();
-            marginResultArrayList = new ArrayList<MarginResult>();
+            marginResultArrayList = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++) {
                 try {
                     jsonObject = jsonArray.getJSONObject(i);
-                    marginResult = new MarginResult(String.valueOf(i), jsonObject.getString("type"),
+                    marginResult = new MarginResult(String.valueOf(i + 1), jsonObject.getString("type"),
                             jsonObject.getString("name"), jsonObject.getString("margin"));
                 } catch (JSONException e) {
                     e.printStackTrace();

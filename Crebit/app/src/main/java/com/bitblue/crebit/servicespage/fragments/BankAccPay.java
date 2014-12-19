@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bitblue.Applicaton.GlobalVariable;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.jsonparse.JSONParser;
@@ -27,6 +28,9 @@ import com.bitblue.network.NetworkUtil;
 import com.bitblue.nullcheck.Check;
 import com.bitblue.requestparam.BankAccParams;
 import com.bitblue.response.BankAccResponse;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -53,15 +57,32 @@ public class BankAccPay extends Fragment implements View.OnClickListener {
 
     private SharedPreferences prefs;
     private final static String MY_PREFS = "mySharedPrefs";
+    private Tracker tracker;
 
     public BankAccPay() {
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        //Get an Analytics tracker to report app starts & uncaught exceptions etc.
+        GoogleAnalytics.getInstance(getActivity()).reportActivityStart(getActivity());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //Stop the analytics tracking
+        GoogleAnalytics.getInstance(getActivity()).reportActivityStop(getActivity());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bank_acc_pay, container, false);
+        tracker = ((GlobalVariable) getActivity().getApplication()).getTracker(GlobalVariable.TrackerName.APP_TRACKER);
+        tracker.setScreenName("Bak Account Pay Page");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
         initViews(view);
         return view;
     }
@@ -146,6 +167,11 @@ public class BankAccPay extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.b_bap_submit:
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Button")
+                        .setAction("Clicked on Submit Button on BankAccountPay Page")
+                        .setLabel("To Button")
+                        .build());
                 Name = etname.getText().toString();
                 Account = etaccno.getText().toString();
                 IFSC = etifsc.getText().toString();
@@ -181,7 +207,6 @@ public class BankAccPay extends Fragment implements View.OnClickListener {
                     etamount.setHintTextColor(getResources().getColor(R.color.red));
                     break;
                 }
-
                 new retrievedata().execute();
                 break;
 

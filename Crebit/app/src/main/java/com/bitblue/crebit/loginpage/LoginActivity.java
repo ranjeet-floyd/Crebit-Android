@@ -15,8 +15,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
+import com.bitblue.Applicaton.GlobalVariable;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.crebit.servicespage.service;
@@ -25,6 +25,9 @@ import com.bitblue.network.NetworkUtil;
 import com.bitblue.nullcheck.Check;
 import com.bitblue.requestparam.LoginParams;
 import com.bitblue.response.LoginResponse;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -39,7 +42,6 @@ import java.util.List;
 public class LoginActivity extends ActionBarActivity implements View.OnClickListener {
     private JSONParser jsonParser = new JSONParser();
     private JSONArray jsonArray = null;
-    private TextView existinguser;
     private EditText mNumber, passwd;
     private Button login, forgotPass, signUp;
     private String logoutmessage;
@@ -47,6 +49,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     private String Version = "1.0";
     private String userName, availableBalance, userId, userKey, uType;
     private boolean isActive;
+    private Tracker tracker;
     private LoginParams loginParams;
     private JSONObject JsonResponse;
     private LoginResponse loginResponse;
@@ -56,12 +59,31 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        tracker = ((GlobalVariable) getApplication()).getTracker(GlobalVariable.TrackerName.APP_TRACKER);
+        tracker.setScreenName("Login Page");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+
         setContentView(R.layout.activity_login);
         getSupportActionBar().setIcon(R.drawable.crebit_icon);
         logoutmessage = getIntent().getStringExtra("logout");
         initViews();
         if (!isNetworkAvailable())
             showAlertDialog();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //Get an Analytics tracker to report app starts & uncaught exceptions etc.
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //Stop the analytics tracking
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 
     @Override
@@ -117,6 +139,13 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
         switch (view.getId()) {
             case R.id.b_login:
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Button")
+                        .setAction("Clicked on Login Button on Login Page")
+                        .setLabel("Login Button")
+                        .build());
+
                 mobile = mNumber.getText().toString();
                 pass = passwd.getText().toString();
                 if (Check.ifNumberInCorrect(mobile)) {
@@ -132,10 +161,20 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 new retrieveData().execute();
                 break;
             case R.id.b_forgot_pass:
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Button")
+                        .setAction("Clicked on Forgot Pass Button on login Page")
+                        .setLabel("Forgot Password Button")
+                        .build());
                 Intent openForgotPass = new Intent(LoginActivity.this, ForgotPass.class);
                 startActivity(openForgotPass);
                 break;
             case R.id.b_signUp:
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Button")
+                        .setAction("Clicked on Signup Button on login Page")
+                        .setLabel("SignUp Button")
+                        .build());
                 Intent opensignUp = new Intent(LoginActivity.this, SignUp.class);
                 startActivity(opensignUp);
                 break;
@@ -214,6 +253,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 prefs.putBoolean("isActive", isActive);
                 prefs.putString("uType", uType);
                 prefs.commit();
+                //  globalVariable.setAvailableBalance(availableBalance);
                 clearField(mNumber);
                 clearField(passwd);
                 Intent openService = new Intent(LoginActivity.this, service.class);
@@ -255,6 +295,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     public static class NetworkChangeReceiver extends BroadcastReceiver {
         public NetworkChangeReceiver() {
         }
+
         @Override
         public void onReceive(final Context context, final Intent intent) {
             String status = NetworkUtil.getConnectivityStatusString(context);

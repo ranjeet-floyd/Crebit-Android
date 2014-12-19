@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bitblue.Applicaton.GlobalVariable;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.jsonparse.JSONParser;
@@ -26,6 +27,9 @@ import com.bitblue.network.NetworkUtil;
 import com.bitblue.nullcheck.Check;
 import com.bitblue.requestparam.RefundOrTransParams;
 import com.bitblue.response.RefundOrTransResponse;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -49,10 +53,15 @@ public class CheckStatus extends ActionBarActivity implements View.OnClickListen
     private RefundOrTransResponse refResponse;
     private SharedPreferences prefs;
     private final static String MY_PREFS = "mySharedPrefs";
+    private Tracker tracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        tracker = ((GlobalVariable) getApplication()).getTracker(GlobalVariable.TrackerName.APP_TRACKER);
+        tracker.setScreenName("Check Status Page");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setIcon(R.drawable.crebit);
@@ -109,9 +118,29 @@ public class CheckStatus extends ActionBarActivity implements View.OnClickListen
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        //Get an Analytics tracker to report app starts & uncaught exceptions etc.
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //Stop the analytics tracking
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.b_cs_checkstatus:
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Button")
+                        .setAction("Clicked on Check Status Button on CheckStatus Page")
+                        .setLabel("Check Status Button")
+                        .build());
                 cur = R.id.b_cs_checkstatus;
                 Comments = etcomment.getText().toString();
                 if (Check.ifNull(Comments))
@@ -119,6 +148,12 @@ public class CheckStatus extends ActionBarActivity implements View.OnClickListen
                 new checkrefundresult().execute();
                 break;
             case R.id.b_subrefreq:
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Button")
+                        .setAction("Clicked on Submit request button on CheckStatus Page")
+                        .setLabel("Submit Button")
+                        .build());
                 cur = R.id.b_subrefreq;
                 Comments = etcomment.getText().toString();
                 if (Check.ifNull(Comments)) {
@@ -241,5 +276,4 @@ public class CheckStatus extends ActionBarActivity implements View.OnClickListen
             String status = NetworkUtil.getConnectivityStatusString(context);
         }
     }
-
 }

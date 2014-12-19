@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bitblue.Applicaton.GlobalVariable;
 import com.bitblue.IDs.prePaid;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
@@ -27,6 +28,9 @@ import com.bitblue.network.NetworkUtil;
 import com.bitblue.nullcheck.Check;
 import com.bitblue.requestparam.PrePaidParams;
 import com.bitblue.response.PrePaidResponse;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -40,10 +44,10 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
     private TextView operator, number, amount;
     private EditText et_number, et_amount;
     private Button recharge, operatorType;
-    private TextView transId, message, statcode, availablebal;
 
     private String UserId, Key, OperatorId, Number, Amount, Account = "";
     private static final String SOURCE = "2";
+    private Tracker tracker;
 
     private String[] items;
     private ArrayAdapter<String> adapter;
@@ -59,11 +63,15 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
 
     private SharedPreferences prefs;
     private final static String MY_PREFS = "mySharedPrefs";
-
+    private GlobalVariable globalVariable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        tracker = ((GlobalVariable) getApplication()).getTracker(GlobalVariable.TrackerName.APP_TRACKER);
+        tracker.setScreenName("PrePaid Page");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+
         setContentView(R.layout.activity_pre_paid);
         items = getResources().getStringArray(R.array.prepaid_operator);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -112,12 +120,32 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
         prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE);
         UserId = prefs.getString("userId", "");
         Key = prefs.getString("userKey", "");
+        globalVariable = (GlobalVariable) getApplicationContext();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //Get an Analytics tracker to report app starts & uncaught exceptions etc.
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //Stop the analytics tracking
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.b_pre_operator:
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Button")
+                        .setAction("Clicked on Select Operator Button on PrePaid Page")
+                        .setLabel("Select Operator Button")
+                        .build());
                 new AlertDialog.Builder(this)
                         .setTitle("Select Operator")
                         .setAdapter(adapter, new DialogInterface.OnClickListener() {
@@ -130,6 +158,11 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
                         }).create().show();
                 break;
             case R.id.b_pre_recharge:
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Button")
+                        .setAction("Clicked on Recharge Button on PrePaid Page")
+                        .setLabel("Recharge Button")
+                        .build());
                 Number = et_number.getText().toString();
                 try {
                     Amount = et_amount.getText().toString();
@@ -233,6 +266,7 @@ public class PrePaid extends ActionBarActivity implements View.OnClickListener {
                                 dialogInterface.dismiss();
                             }
                         }).create().show();
+                globalVariable.setAvailableBalance(AvailableBalance);
             } else if (StatusCode.equals("2")) {
                 new AlertDialog.Builder(PrePaid.this)
                         .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))

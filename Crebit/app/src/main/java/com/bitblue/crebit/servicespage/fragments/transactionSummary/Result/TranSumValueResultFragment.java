@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bitblue.Applicaton.GlobalVariable;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.crebit.servicespage.fragments.transactionSummary.TransSumResult;
@@ -26,6 +27,9 @@ import com.bitblue.jsonparse.JSONParser;
 import com.bitblue.network.NetworkUtil;
 import com.bitblue.requestparam.TranSumParams;
 import com.bitblue.response.TranSumResponse;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -52,6 +56,7 @@ public class TranSumValueResultFragment extends Fragment {
     private final static String MY_PREFS = "mySharedPrefs";
     private String UserId, Key;
     private double TotalAmount, TotalProfit;
+    private Tracker tracker;
 
     public TranSumValueResultFragment() {
 
@@ -65,11 +70,27 @@ public class TranSumValueResultFragment extends Fragment {
         UserId = prefs.getString("userId", "");
         Key = prefs.getString("userKey", "");
         Value = getArguments().getString("Value");
+        tracker = ((GlobalVariable) getActivity().getApplication()).getTracker(GlobalVariable.TrackerName.APP_TRACKER);
+        tracker.setScreenName("Transaction Summary srchbyvalue Result Page");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
         initViews(view);
         new retrieveTransactionData().execute();
         resultList = (ListView) view.findViewById(R.id.lv_transumvalue_result);
 
         return view;
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        //Get an Analytics tracker to report app starts & uncaught exceptions etc.
+        GoogleAnalytics.getInstance(getActivity()).reportActivityStart(getActivity());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //Stop the analytics tracking
+        GoogleAnalytics.getInstance(getActivity()).reportActivityStop(getActivity());
     }
 
     private void initViews(View view) {

@@ -23,4 +23,5 @@ public class API {
     public final static String DHS_TORRENT_POWER = "http://crebit.in/dhs/torrentPower";
     public final static String DHS_BANK_ACC_PAY = "http://crebit.in/dashboard/bankReq";
     public final static String DASHBOARD_REFUNDORTRANS_STATUS = "http://crebit.in/dashboard/refundOrTransStatus";
+    public final static String GET_BALANCE="http://crebit.in/user/balance/";
 }

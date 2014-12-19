@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bitblue.Applicaton.GlobalVariable;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.jsonparse.JSONParser;
@@ -57,7 +58,7 @@ public class MSEB extends Activity implements View.OnClickListener {
     private MsebPayBllResponse msebPayBllResponse;
     private List<NameValuePair> nameValuePairs;
     private int Status, AvailBal;
-
+    private GlobalVariable globalVariable;
     private SharedPreferences prefs;
     private final static String MY_PREFS = "mySharedPrefs";
     private String BillMonth;
@@ -121,6 +122,7 @@ public class MSEB extends Activity implements View.OnClickListener {
         prefs = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);
         UserId = prefs.getString("userId", "");
         Key = prefs.getString("userKey", "");
+        globalVariable=(GlobalVariable)getApplicationContext();
     }
 
     @Override
@@ -271,9 +273,8 @@ public class MSEB extends Activity implements View.OnClickListener {
                 showAlertDialog();
             } else if (status.equals("0") || status.equals("-1")) {
                 new AlertDialog.Builder(MSEB.this)
-                        .setTitle("Error")
-                        .setMessage("Request Not Completed." +
-                                "\nAvailable Balance: " + AvailBal)
+                        .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
+                        .setMessage("Request Not Completed.")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -282,18 +283,19 @@ public class MSEB extends Activity implements View.OnClickListener {
                         }).create().show();
             } else if (status.equals("1")) {
                 new AlertDialog.Builder(MSEB.this)
-                        .setTitle("Success")
+                        .setTitle("Success").setIcon(getResources().getDrawable(R.drawable.successicon))
                         .setMessage("Request Completed." +
-                                "\nAvailable Balance: " + AvailBal)
+                                "\n\nAvailable Balance: " + AvailBal)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.dismiss();
                             }
                         }).create().show();
+                globalVariable.setAvailableBalance(String.valueOf(AvailBal));
             } else if (status.equals("2")) {
                 new AlertDialog.Builder(MSEB.this)
-                        .setTitle("Error")
+                        .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
                         .setMessage("Insufficient Balance")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override

@@ -51,6 +51,7 @@ public class TransSumCustomAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup viewGroup) {
+
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.transaction_summary_list_row, null);
             initViews(convertView);

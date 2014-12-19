@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bitblue.Applicaton.GlobalVariable;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.jsonparse.JSONParser;
@@ -24,6 +25,9 @@ import com.bitblue.network.NetworkUtil;
 import com.bitblue.nullcheck.Check;
 import com.bitblue.requestparam.FundTransferParams;
 import com.bitblue.response.FundTransferResponse;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -35,19 +39,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FundTransfer extends ActionBarActivity implements View.OnClickListener {
-    private TextView number, amount, status, availableBalance;
+    private TextView number, amount;
     private EditText et_number, et_amount;
     private Button transfer;
     private String UserId, Key, MobileTo, Amount, UserTypeA, UserTypeB;
 
     private String Status, AvailableBalance;
-
+    private GlobalVariable globalVariable;
     private JSONParser jsonParser;
     private JSONArray jsonArray;
     private JSONObject jsonResponse;
     private FundTransferResponse fundTransferResponse;
     private FundTransferParams fundTransferParams;
     private List<NameValuePair> nameValuePairs;
+    private Tracker tracker;
 
     private SharedPreferences prefs;
     private final static String MY_PREFS = "mySharedPrefs";
@@ -55,10 +60,30 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        tracker = ((GlobalVariable) getApplication()).getTracker(GlobalVariable.TrackerName.APP_TRACKER);
+        tracker.setScreenName("FundTransfer Page");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+
         setContentView(R.layout.activity_fund_transfer);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        globalVariable = (GlobalVariable) getApplicationContext();
         initViews();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //Get an Analytics tracker to report app starts & uncaught exceptions etc.
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //Stop the analytics tracking
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 
     private void initViews() {
@@ -110,6 +135,14 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.b_ft_recharge:
+
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Button")
+                        .setAction("Clicked on Transfer Button on FundTransfer Page")
+                        .setLabel("Transfer Button")
+                        .build());
+
                 MobileTo = et_number.getText().toString();
                 Amount = et_amount.getText().toString();
                 if (Check.ifNull(Amount)) {
@@ -185,6 +218,7 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
                                         dialogInterface.dismiss();
                                     }
                                 }).create().show();
+                        globalVariable.setAvailableBalance(AvailableBalance);
                         break;
                     case 3:
                         new AlertDialog.Builder(FundTransfer.this)

@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bitblue.Applicaton.GlobalVariable;
 import com.bitblue.IDs.torrpow;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
@@ -48,9 +49,9 @@ public class TorrentPower extends Activity implements View.OnClickListener {
     private List<NameValuePair> nameValuePairs;
     private TorPowerParams torPowerParams;
     private TorPowerResponse torPowerResponse;
-    private TextView tvStats, tvMssage, tvAvailableBalance;
     private SharedPreferences prefs;
     private final static String MY_PREFS = "mySharedPrefs";
+    private GlobalVariable globalVariable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +113,7 @@ public class TorrentPower extends Activity implements View.OnClickListener {
         prefs = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);
         UserId = prefs.getString("userId", "");
         Key = prefs.getString("userKey", "");
+        globalVariable = (GlobalVariable) getApplicationContext();
 
     }
 
@@ -208,13 +210,10 @@ public class TorrentPower extends Activity implements View.OnClickListener {
             dialog.dismiss();
             if (StatusCode == null) {
                 showAlertDialog();
-            }
-             else if (StatusCode.equals("0") || StatusCode.equals("-1")) {
+            } else if (StatusCode.equals("0") || StatusCode.equals("-1")) {
                 new AlertDialog.Builder(TorrentPower.this)
-                        .setTitle("Error")
-                        .setMessage("Request Not Completed." +
-                                "\nMessage: " + Message +
-                                "\nAvailable Balance: " + AvaiBal)
+                        .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
+                        .setMessage("Request Not Completed.")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -222,10 +221,12 @@ public class TorrentPower extends Activity implements View.OnClickListener {
                             }
                         }).create().show();
             } else if (StatusCode.equals("1")) {
+                if (Message == null || Message.equals("null"))
+                    Message = "";
                 new AlertDialog.Builder(TorrentPower.this)
-                        .setTitle("Success")
+                        .setTitle("Success").setIcon(getResources().getDrawable(R.drawable.successicon))
                         .setMessage("Request Completed." +
-                                "\nMessage: " + Message +
+                                "\n\nMessage: " + Message +
                                 "\nAvailable Balance: " + AvaiBal)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -233,12 +234,10 @@ public class TorrentPower extends Activity implements View.OnClickListener {
                                 dialogInterface.dismiss();
                             }
                         }).create().show();
-                tvStats.setText("Status: " + Status);
-                tvMssage.setText("Message: " + Message);
-                tvAvailableBalance.setText("AvailableBalance: " + AvaiBal);
+                globalVariable.setAvailableBalance(String.valueOf(AvaiBal));
             } else if (StatusCode.equals("2")) {
                 new AlertDialog.Builder(TorrentPower.this)
-                        .setTitle("Error")
+                        .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
                         .setMessage("Insufficient Balance")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override

@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bitblue.Applicaton.GlobalVariable;
 import com.bitblue.apinames.API;
 import com.bitblue.crebit.R;
 import com.bitblue.crebit.servicespage.fragments.transactionSummary.TransSumResult;
@@ -26,6 +27,9 @@ import com.bitblue.jsonparse.JSONParser;
 import com.bitblue.network.NetworkUtil;
 import com.bitblue.requestparam.TranSumParams;
 import com.bitblue.response.TranSumResponse;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -36,7 +40,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class TransSumResultFragment extends Fragment implements View.OnClickListener {
-    private TextView tvtotalprofit, tvprofit, tvamount, tvtotalamount, tvnodata;
+    private TextView tvprofit, tvamount, tvnodata;
     private JSONParser jsonParser;
     private JSONObject jsonResponse, tranResArrObject;
     private JSONArray tranResArr;
@@ -47,6 +51,7 @@ public class TransSumResultFragment extends Fragment implements View.OnClickList
     private ArrayList<NameValuePair> nameValuePairs;
     private ArrayList<TransSumResult> transSumResultList = new ArrayList<TransSumResult>();
 
+    private Tracker tracker;
     private String UserId, Key, fromDate, toDate;
     private int StatusId, TypeId;
 
@@ -63,6 +68,20 @@ public class TransSumResultFragment extends Fragment implements View.OnClickList
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        //Get an Analytics tracker to report app starts & uncaught exceptions etc.
+        GoogleAnalytics.getInstance(getActivity()).reportActivityStart(getActivity());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //Stop the analytics tracking
+        GoogleAnalytics.getInstance(getActivity()).reportActivityStop(getActivity());
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trans_sum_result, container, false);
@@ -74,6 +93,9 @@ public class TransSumResultFragment extends Fragment implements View.OnClickList
         UserId = prefs.getString("userId", "");
         Key = prefs.getString("userKey", "");
         tranSumCustomAdapter = new TransSumCustomAdapter();
+        tracker = ((GlobalVariable) getActivity().getApplication()).getTracker(GlobalVariable.TrackerName.APP_TRACKER);
+        tracker.setScreenName("Transaction Summary Result Page");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
         initViews(view);
         resultList = (ListView) view.findViewById(R.id.lv_transum_result);
         new retrieveTransactionData().execute();
@@ -133,8 +155,8 @@ public class TransSumResultFragment extends Fragment implements View.OnClickList
             if (status == null) {
                 showAlertDialog();
             } else {
-                tvamount.setText("Total Amount Rs: "+String.valueOf(TotalAmount));
-                tvprofit.setText("Total Profit Rs: "+String.valueOf(TotalProfit));
+                tvamount.setText("Total Amount Rs: " + String.valueOf(TotalAmount));
+                tvprofit.setText("Total Profit Rs: " + String.valueOf(TotalProfit));
                 if (tranResArr.length() == 0) {
                     tvnodata.setVisibility(View.VISIBLE);
                     resultList.setVisibility(View.GONE);

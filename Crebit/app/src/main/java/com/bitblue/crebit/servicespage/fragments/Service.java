@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bitblue.Applicaton.GlobalVariable;
 import com.bitblue.crebit.R;
 import com.bitblue.crebit.servicespage.activities.BroadBand;
 import com.bitblue.crebit.servicespage.activities.Datacard;
@@ -19,10 +20,14 @@ import com.bitblue.crebit.servicespage.activities.GasBill;
 import com.bitblue.crebit.servicespage.activities.Insurance;
 import com.bitblue.crebit.servicespage.activities.PostPaid;
 import com.bitblue.crebit.servicespage.activities.PrePaid;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 public class Service extends Fragment implements View.OnClickListener {
     ImageView postPaid, prePaid, dataCard, dth, insurance, electricity, gasBill, broadBand, fundTransfer;
     TextView postpaid, prepaid, datacard, Dth, Insurance, Electricity, gasbill, broadband, fundtransfer;
+    private Tracker tracker;
 
     public Service() {
     }
@@ -32,6 +37,9 @@ public class Service extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_service_list, container,
                 false);
+        tracker = ((GlobalVariable) getActivity().getApplication()).getTracker(GlobalVariable.TrackerName.APP_TRACKER);
+        tracker.setScreenName("Services  Page");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
         initViews(view);
         return view;
     }
@@ -73,49 +81,133 @@ public class Service extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        //Get an Analytics tracker to report app starts & uncaught exceptions etc.
+        GoogleAnalytics.getInstance(getActivity()).reportActivityStart(getActivity());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //Stop the analytics tracking
+        GoogleAnalytics.getInstance(getActivity()).reportActivityStop(getActivity());
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ib_postPaid:
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Services Page items")
+                        .setAction("Clicked on postpaid item on services Page")
+                        .setLabel("postpaid image")
+                        .build());
+
                 Intent openPostPaidActivity = new Intent(getActivity(), PostPaid.class);
                 startActivity(openPostPaidActivity);
                 break;
             case R.id.ib_prePaid:
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Services Page items")
+                        .setAction("Clicked on prepaid item on services Page")
+                        .setLabel("prepaid image")
+                        .build());
+
                 Intent openPrePaidActivity = new Intent(getActivity(), PrePaid.class);
                 startActivity(openPrePaidActivity);
                 break;
             case R.id.ib_dth:
-                Intent openDthActivity = new Intent(getActivity(),Dth.class);
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Services Page items")
+                        .setAction("Clicked on dth item on services Page")
+                        .setLabel("dth image")
+                        .build());
+
+                Intent openDthActivity = new Intent(getActivity(), Dth.class);
                 startActivity(openDthActivity);
                 break;
             case R.id.ib_datacard:
+
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Services Page items")
+                        .setAction("Clicked on datacard item on services Page")
+                        .setLabel("datacard image")
+                        .build());
+
                 Intent opendataCardActivity = new Intent(getActivity(), Datacard.class);
                 startActivity(opendataCardActivity);
                 break;
             case R.id.ib_insurance:
+
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Services Page items")
+                        .setAction("Clicked on insurance item on services Page")
+                        .setLabel("insurance image")
+                        .build());
+
                 Intent openinsuranceActivity = new Intent(getActivity(), Insurance.class);
                 startActivity(openinsuranceActivity);
                 break;
             case R.id.ib_electricity:
+
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Services Page items")
+                        .setAction("Clicked on electricity item on services Page")
+                        .setLabel("electricity image")
+                        .build());
+
                 Intent openElectricityActivity = new Intent(getActivity(), Electricity.class);
                 startActivity(openElectricityActivity);
                 break;
             case R.id.ib_gasBill:
+
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Services Page items")
+                        .setAction("Clicked on gasbill item on services Page")
+                        .setLabel("gasbill image")
+                        .build());
+
                 Intent opengasBillActivity = new Intent(getActivity(), GasBill.class);
                 startActivity(opengasBillActivity);
                 break;
             case R.id.ib_broadband:
+
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Services Page items")
+                        .setAction("Clicked on broadband item on services Page")
+                        .setLabel("broadband image")
+                        .build());
+
                 Intent openBroadBandActivity = new Intent(getActivity(), BroadBand.class);
                 startActivity(openBroadBandActivity);
                 break;
             case R.id.ib_fundTransfer:
+
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Services Page items")
+                        .setAction("Clicked on fundtransfer item on services Page")
+                        .setLabel("fundtransfer image")
+                        .build());
+
                 Intent openFundTransferActivity = new Intent(getActivity(), FundTransfer.class);
                 startActivity(openFundTransferActivity);
                 break;
         }
     }
+
     @Override
     public void onDetach() {
         super.onDetach();
 
-      }
+    }
 }
