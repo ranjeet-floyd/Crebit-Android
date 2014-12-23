@@ -1,8 +1,10 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@android:style/Theme.Light.NoTitleBar.Fullscreen"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/splashscreen"
-    tools:context=".SplashScreenActivity">
-    </LinearLayout>
+    android:background="@drawable/background"
+    tools:context=".SplashScreenActivity"
+    android:backgroundTintMode="multiply"
+    android:backgroundTint="@color/air_force_blue">
+    </RelativeLayout>

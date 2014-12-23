@@ -60,7 +60,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginLeft="5dp"
-                android:text="Operator" />
+                android:text="Operator"
+                android:textSize="15dp" />
 
             <TextView
                 android:id="@+id/tv_margin_list_operator"
@@ -85,7 +86,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginLeft="5dp"
-                android:text="Operator Type" />
+                android:text="Operator Type"
+                android:textSize="15dp" />
 
             <TextView
                 android:id="@+id/tv_margin_list_type"
@@ -110,7 +112,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginLeft="5dp"
-                android:text="Margin" />
+                android:text="Margin"
+                android:textSize="15dp" />
 
             <TextView
                 android:id="@+id/tv_margin_list_margin"

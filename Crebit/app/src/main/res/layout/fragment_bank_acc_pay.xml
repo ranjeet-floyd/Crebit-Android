@@ -22,7 +22,20 @@
                     android:id="@+id/ll_bankacc"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:orientation="vertical"></LinearLayout>
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/bankAccPay"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:textSize="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:text="Bank Account Pay"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:background="@color/crebitbackground"
+                        android:textColor="@color/white_smoke" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_bap_form"
@@ -37,7 +50,7 @@
                         <LinearLayout
                             android:id="@+id/ll_bap"
                             android:layout_width="match_parent"
-                            android:layout_height="350dp"
+                            android:layout_height="wrap_content"
                             android:layout_below="@+id/ll_bankacc"
                             android:layout_marginBottom="10dp"
                             android:layout_marginLeft="10dp"
@@ -52,6 +65,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:text="@string/name"
+                                android:layout_marginTop="10dp"
                                 android:textColor="@color/black"
                                 android:textSize="15dp" />
 
@@ -63,7 +77,6 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginTop="5dp"
                                 android:layout_marginRight="10dp"
-                                android:background="@drawable/rounded_edit_text"
                                 android:hint="  Enter Name "
                                 android:imeOptions="actionNext"
                                 android:singleLine="true" />
@@ -85,7 +98,6 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:layout_marginTop="5dp"
-                                android:background="@drawable/rounded_edit_text"
                                 android:hint="  Enter Account Number "
                                 android:imeOptions="actionNext"
                                 android:inputType="phone"
@@ -108,7 +120,6 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginTop="5dp"
                                 android:layout_marginRight="10dp"
-                                android:background="@drawable/rounded_edit_text"
                                 android:hint=" Enter IFSC code "
                                 android:imeOptions="actionNext"
                                 android:inputType="text"
@@ -131,7 +142,6 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:layout_marginTop="5dp"
-                                android:background="@drawable/rounded_edit_text"
                                 android:hint=" Enter Mobile Number "
                                 android:imeOptions="actionNext"
                                 android:inputType="phone"
@@ -154,11 +164,21 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"
                                 android:layout_marginTop="5dp"
-                                android:background="@drawable/rounded_edit_text"
                                 android:hint=" Enter Amount "
                                 android:imeOptions="actionDone"
                                 android:inputType="phone"
                                 android:singleLine="true" />
+
+                            <Button
+                                android:id="@+id/b_bap_submit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:background="@drawable/rounded_button"
+                                android:text="Submit"
+                                android:textColor="@color/white" />
                         </LinearLayout>
                     </ScrollView>
                 </LinearLayout>
@@ -170,16 +190,6 @@
                     android:layout_below="@+id/ll_bap_form"
                     android:layout_gravity="center_vertical"
                     android:orientation="vertical">
-
-                    <Button
-                        android:id="@+id/b_bap_submit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/rounded_button"
-                        android:text="Submit"
-                        android:textColor="@color/white" />
 
                 </LinearLayout>
 

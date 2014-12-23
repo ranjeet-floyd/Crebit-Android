@@ -20,20 +20,12 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|center_horizontal"
                 android:orientation="vertical"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp">
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginLeft="10dp"
-                        android:src="@drawable/crebit"
-                        android:gravity="center_vertical"
-                        android:layout_gravity="center_vertical" />
 
                     <TextView
                         android:id="@+id/Service"
@@ -42,7 +34,8 @@
                         android:textSize="20dp"
                         android:layout_marginLeft="10dp"
                         android:text="Services"
-                        android:gravity="center_vertical"
+                        android:gravity="center"
+                        android:layout_gravity="center"
                         android:background="@color/crebitbackground"
                         android:textColor="@color/white_smoke" />
                 </LinearLayout>
@@ -54,26 +47,30 @@
                     android:background="@drawable/rounded_layout">
 
                     <LinearLayout
-
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:gravity="center_horizontal"
                         android:orientation="horizontal"
                         android:weightSum="2">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center_horizontal"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/rounded_layout">
 
-                            <ImageView
+                            <ImageButton
                                 android:id="@+id/ib_postPaid"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:src="@drawable/postpad" />
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/postpad"/>
 
                             <TextView
                                 android:id="@+id/tv_postPaid"
@@ -81,21 +78,25 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/postPaid"
                                 android:textStyle="bold"
+                                android:gravity="center"
                                 android:textColor="@color/black" />
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center_horizontal"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:layout_marginLeft="5dp"
+                            android:background="@drawable/rounded_layout">
 
-                            <ImageView
+                            <ImageButton
                                 android:id="@+id/ib_prePaid"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:src="@drawable/prepad" />
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/prepad"
+                                />
 
                             <TextView
                                 android:id="@+id/tv_prePaid"
@@ -112,21 +113,25 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:gravity="center_horizontal"
                         android:orientation="horizontal"
                         android:weightSum="2">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center_horizontal"
-                            android:orientation="vertical">
+                            android:layout_marginRight="5dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/rounded_layout">
 
-                            <ImageView
+                            <ImageButton
                                 android:id="@+id/ib_insurance"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:src="@drawable/insuranc" />
 
                             <TextView
@@ -139,16 +144,18 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center_horizontal"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:layout_marginLeft="5dp"
+                            android:background="@drawable/rounded_layout">
 
-                            <ImageView
+                            <ImageButton
                                 android:id="@+id/ib_electricity"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:src="@drawable/electricty" />
 
                             <TextView
@@ -166,21 +173,25 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:gravity="center_horizontal"
                         android:orientation="horizontal"
                         android:weightSum="2">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center_horizontal"
-                            android:orientation="vertical">
+                            android:layout_marginRight="5dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/rounded_layout">
 
-                            <ImageView
+                            <ImageButton
                                 android:id="@+id/ib_gasBill"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:src="@drawable/gasbil" />
 
                             <TextView
@@ -193,16 +204,18 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center_horizontal"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:layout_marginLeft="5dp"
+                            android:background="@drawable/rounded_layout">
 
-                            <ImageView
+                            <ImageButton
                                 android:id="@+id/ib_broadband"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:src="@drawable/broadbnd" />
 
                             <TextView
@@ -221,21 +234,25 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:gravity="center_horizontal"
                         android:orientation="horizontal"
                         android:weightSum="2">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center_horizontal"
-                            android:orientation="vertical">
+                            android:layout_marginRight="5dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/rounded_layout">
 
-                            <ImageView
+                            <ImageButton
                                 android:id="@+id/ib_datacard"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:src="@drawable/datacrd" />
 
                             <TextView
@@ -249,16 +266,18 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center_horizontal"
-                            android:orientation="vertical">
+                            android:layout_marginLeft="5dp"
+                            android:orientation="vertical"
+                            android:background="@drawable/rounded_layout">
 
-                            <ImageView
+                            <ImageButton
                                 android:id="@+id/ib_dth"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:src="@drawable/dthh" />
 
                             <TextView
@@ -278,18 +297,21 @@
                         android:gravity="center_horizontal"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:background="@drawable/rounded_layout">
 
-                            <ImageView
+                            <ImageButton
                                 android:id="@+id/ib_fundTransfer"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
+                                android:layout_width="150dp"
+                                android:layout_height="match_parent"
                                 android:src="@drawable/fundtransfr" />
 
                             <TextView

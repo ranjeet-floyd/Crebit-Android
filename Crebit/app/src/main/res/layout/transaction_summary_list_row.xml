@@ -7,7 +7,7 @@
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
     android:layout_marginTop="20dp"
-    android:background="@drawable/stylish_layout"
+    android:background="@drawable/rounded_layout"
     android:orientation="vertical"
     android:paddingBottom="10dp"
     android:paddingLeft="10dp"
@@ -40,7 +40,6 @@
                 android:layout_weight="1"
                 android:gravity="left"
                 android:text="1"
-                android:textSize="15dp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -69,8 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="1"
-                android:textSize="15dp" />
+                android:text="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -91,8 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="1"
-                android:textSize="15dp" />
+                android:text="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -114,8 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="1"
-                android:textSize="15dp" />
+                android:text="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -137,8 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="1"
-                android:textSize="15dp" />
+                android:text="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -160,8 +155,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="1"
-                android:textSize="15dp" />
+                android:text="1" />
 
         </LinearLayout>
 
@@ -184,8 +178,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="1"
-                android:textSize="15dp" />
+                android:text="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -207,8 +200,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="1"
-                android:textSize="15dp" />
+                android:text="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -230,8 +222,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="1"
-                android:textSize="15dp" />
+                android:text="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -253,8 +244,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="1"
-                android:textSize="15dp" />
+                android:text="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -276,8 +266,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="1"
-                android:textSize="15dp" />
+                android:text="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -299,34 +288,41 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="1"
-                android:textSize="15dp" />
+                android:text="1" />
         </LinearLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
-            android:gravity="left"
             android:layout_marginBottom="5dp"
             android:weightSum="2">
+
             <TextView
-                android:layout_width="50dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="" />
 
-            <Button
-                android:id="@+id/b_transum_checkstatus"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:background="@drawable/rounded_button"
-                android:textColor="@color/white"
-                android:text="Check Status"
-                android:layout_weight="1"
-                android:visibility="visible" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <Button
+                    android:id="@+id/b_transum_checkstatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:background="@drawable/rounded_button"
+                    android:textColor="@color/white"
+                    android:text="Check Status"
+                    android:visibility="visible" />
+            </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

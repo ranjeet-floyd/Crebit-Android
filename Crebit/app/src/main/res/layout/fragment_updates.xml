@@ -2,106 +2,84 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/crebitbackground"
-    tools:context="com.bitblue.crebit.servicespage.fragments.Updates">
+    tools:context="com.bitblue.crebit.servicespage.fragments.margin.Margin">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp">
-
-                <LinearLayout
-                    android:id="@+id/ll_updates"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_layout">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:background="@color/crebitbackground"
-                        android:gravity="center_horizontal" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_up_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_below="@+id/ll_updates"
-                    android:background="@drawable/rounded_layout"
-                    android:gravity="center_horizontal">
-
-                    <TextView
-                        android:gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:textSize="@dimen/abc_text_size_body_1_material"
-                        android:text="@string/update1" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_up_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/ll_up_1"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/rounded_layout">
-
-                    <TextView
-                        android:gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:textSize="@dimen/abc_text_size_body_1_material"
-                        android:text="@string/update2" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_up_3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/ll_up_2"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/rounded_layout">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:textSize="@dimen/abc_text_size_body_1_material"
-                        android:gravity="center"
-                        android:text="@string/update3" />
-                </LinearLayout>
-            </RelativeLayout>
-        </ScrollView>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/ll_updates"
             android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            android:background="@color/black"
-            android:gravity="center_horizontal">
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:orientation="horizontal"
+            android:weightSum="2">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/rl_updates_update"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/bitBlue"
-                android:textColor="@color/white" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="UPDATES"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/ll_updates"
+            android:layout_marginTop="5dp"
+            android:background="@color/black" />
+
+        <LinearLayout
+            android:id="@+id/ll_updates_progressbar"
+            android:layout_below="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/rounded_layout"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:weightSum="2">
+
+            <ProgressBar
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:id="@+id/updates_progressBar"
+                android:layout_marginTop="40dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                style="?android:attr/progressBarStyle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_updates_listview"
+            android:layout_below="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/crebitbackground">
+
+            <ListView
+                android:id="@+id/updates_list"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_below="@+id/view"
+                android:dividerHeight="10dp"
+                android:background="@color/crebitbackground"></ListView>
         </LinearLayout>
     </RelativeLayout>
 </FrameLayout>

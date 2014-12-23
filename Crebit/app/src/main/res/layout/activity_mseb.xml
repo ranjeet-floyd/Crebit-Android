@@ -37,12 +37,11 @@
                 <AutoCompleteTextView
                     android:id="@+id/b_elec_mseb_BU"
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:textSize="15dp"
-                    android:background="@color/white_smoke"
                     android:inputType="number" />
 
                 <TextView
@@ -57,16 +56,27 @@
                 <EditText
                     android:id="@+id/et_elec_mseb_cust_acc_no"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
-                    android:background="@color/white_smoke"
                     android:hint="  Enter Account no. "
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:singleLine="true" />
+
+                <Button
+                    android:id="@+id/b_elec_mseb_getDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rounded_button"
+                    android:text="Get Details"
+                    android:textColor="@color/white" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -76,16 +86,6 @@
                 android:layout_below="@+id/ll_elec_mseb"
                 android:layout_gravity="center_vertical"
                 android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/b_elec_mseb_getDetails"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/rounded_button"
-                    android:text="Get Details"
-                    android:textColor="@color/white" />
 
             </LinearLayout>
 

@@ -1,20 +1,29 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'CrebitKey'
+            keyPassword 'androidcrebit@2014'
+            storeFile file('D:/Downloaded Softwares/androidcrebit.jks')
+            storePassword 'androidcrebit@2014'
+        }
+    }
     compileSdkVersion 21
     buildToolsVersion "21.1.1"
-
     defaultConfig {
-        applicationId "com.bitblue.crebit"
+        applicationId "in.crebit.app.WebView"
         minSdkVersion 10
         targetSdkVersion 21
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
+        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
     compileOptions {
@@ -22,6 +31,8 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
+    productFlavors {
+    }
 }
 
 dependencies {
@@ -29,4 +40,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.2'
     compile 'com.android.support:support-v4:21.0.2'
     compile 'com.google.android.gms:play-services:6.1.71'
+    compile files('D:/Azhar/GitHub/Crebit/.idea/libraries/calligraphy-1.2.0.jar')
 }

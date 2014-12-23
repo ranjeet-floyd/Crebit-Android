@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Crrebit</string>
+    <string name="app_name">Crebit</string>
     <string name="mobileNumber">Number:</string>
     <string name="password">Password:</string>
     <string name="newUser">New User ?</string>
     <string name="crebitWallet">Crebit Wallet</string>
     <string name="login">  Login </string>
-    <string name="forgotPassword"><u>Forgot Password</u></string>
-    <string name="forgotPasswd">Forgot Password</string>
-    <string name="signUp"><u>SignUp</u></string>
+    <string name="forgotPassword">Forgot Password </string>
+    <string name="forgotPasswd"> Forgot Password? </string>
+    <string name="signUp">Create An Account</string>
     <string name="EnterNumber">Enter your mobile number here to reset password. </string>
     <string name="mobile">Mobile</string>
     <string name="bitBlue">BitBlue Technologies - 2014</string>
@@ -162,17 +162,6 @@
     <string name="toDate">To</string>
     <string name="status">Status</string>
     <string name="type">Type</string>
-    <string name="update1">Send Money To Anywhere Across India\n
-                           Upto  Rs.5000 Charges: 1%% And\n
-                           Above Rs.5000 Charges: 0.5%%\n
-                           Timing: Monday to Friday 9:00 AM to 6:00 PM\n
-                                   Saturday: 9:00 AM to 4:00 PM\n</string>
-    <string name="update2">Utility Bill: Rs.5 Charges\n
-                           https://www.facebook.com/\n
-                           crebitwalletsupport@crebit.in\n
-                           Ph: 0250-3297961\n
-                           Monday to Friday-> 10:00 AM to 4:30 PM\n</string>
-    <string name="update3">Create a personal Account and get Rs. 10 cash back\n</string>
     <string name="title_activity_post_paid">Post Paid</string>
     <string name="title_activity_datacard">Data Card</string>
     <string name="title_activity_pre_paid">Pre Paid</string>
@@ -188,7 +177,7 @@
     <string name="Message"> Message: </string>
     <string name="StatusCode"> StatusCode: </string>
     <string name="AvailableBalance"> AvailableBalance: </string>
-    <string name="BU"> Select BU </string>
+    <string name="BU"> Enter BU Code: </string>
     <string name="Number">Number </string>
     <string name="Amount">Amount </string>
     <string name="Enter_Number">\tEnter Number </string>

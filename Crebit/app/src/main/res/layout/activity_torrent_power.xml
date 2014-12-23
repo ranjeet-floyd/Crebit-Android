@@ -61,7 +61,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
-                    android:background="@color/white_smoke"
                     android:hint="  Enter Service no. "
                     android:imeOptions="actionDone"
                     android:inputType="phone"
@@ -84,7 +83,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
-                    android:background="@color/white_smoke"
                     android:hint="  Enter mobile Number "
                     android:imeOptions="actionDone"
                     android:inputType="phone"
@@ -107,11 +105,21 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
-                    android:background="@color/white_smoke"
                     android:hint="  Enter bill Amount "
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:singleLine="true" />
+
+                <Button
+                    android:id="@+id/b_elec_torpow_paybill"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rounded_button"
+                    android:text="Pay Bill"
+                    android:textColor="@color/white" />
             </LinearLayout>
 
             <LinearLayout
@@ -120,16 +128,6 @@
                 android:layout_below="@+id/ll_elec_torrpow"
                 android:layout_gravity="center_vertical"
                 android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/b_elec_torpow_paybill"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/rounded_button"
-                    android:text="Pay Bill"
-                    android:textColor="@color/white" />
 
             </LinearLayout>
         </LinearLayout>

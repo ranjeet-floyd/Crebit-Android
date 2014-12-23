@@ -16,7 +16,7 @@
             <LinearLayout
                 android:id="@+id/signUpForm"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
@@ -43,14 +43,13 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:text="Select"
-                    android:background="@android:drawable/btn_dropdown"
-                    />
+                    android:background="@android:drawable/btn_dropdown" />
 
                 <TextView
                     android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
                     android:text="@string/name"
                     android:textColor="@color/black"
                     android:textSize="15dp" />
@@ -63,7 +62,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="10dp"
-                    android:background="@color/white_smoke"
                     android:hint="  Enter Name "
                     android:inputType="text"
                     android:imeOptions="actionNext"
@@ -73,7 +71,7 @@
                     android:id="@+id/tv_mobNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
                     android:text="@string/mobNum"
                     android:textColor="@color/black"
                     android:textSize="15dp" />
@@ -86,7 +84,6 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="10dp"
-                    android:background="@color/white_smoke"
                     android:hint="  Enter Mobile Number "
                     android:imeOptions="actionNext"
                     android:inputType="phone"
@@ -96,7 +93,7 @@
                     android:id="@+id/tv_passwd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
                     android:text="@string/passwd"
                     android:textColor="@color/black"
                     android:textSize="15dp" />
@@ -109,11 +106,21 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
-                    android:background="@color/white_smoke"
                     android:hint=" Enter Password "
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
                     android:singleLine="true" />
+
+                <Button
+                    android:id="@+id/b_signUpSubmit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rounded_button"
+                    android:text="Submit"
+                    android:textColor="@color/white" />
             </LinearLayout>
 
             <LinearLayout
@@ -124,15 +131,7 @@
                 android:layout_gravity="center_vertical"
                 android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/b_signUpSubmit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/rounded_button"
-                    android:text="Submit"
-                    android:textColor="@color/white" />
+
             </LinearLayout>
 
             <LinearLayout

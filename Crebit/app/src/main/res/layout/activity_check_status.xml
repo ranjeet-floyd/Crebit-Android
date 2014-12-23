@@ -19,19 +19,44 @@
             android:layout_height="wrap_content"
             android:text="Check Your Recharge Status"
             android:textSize="20dp"
-            android:textColor="@color/white"
             android:gravity="center"
-            android:background="@color/crebitbackground" />
+            android:textColor="@color/black" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black" />
 
         <Button
             android:id="@+id/b_cs_checkstatus"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:paddingLeft="10dp"
+            android:layout_marginTop="10dp"
             android:paddingRight="10dp"
             android:background="@drawable/rounded_button"
             android:text="click here"
+            android:layout_gravity="center"
             android:textColor="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_checkstatus_progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/ll_checkstatusButton"
+        android:background="@drawable/rounded_layout"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:id="@+id/checkstatus_progressBar"
+            android:layout_marginTop="30dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            style="?android:attr/progressBarStyle" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -101,7 +126,6 @@
             android:layout_height="35dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/rounded_edit_text"
             android:cursorVisible="true"
             android:hint="  Enter request for refund "
             android:imeOptions="actionDone"

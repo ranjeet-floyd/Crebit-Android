@@ -38,15 +38,48 @@
             android:background="@color/black" />
 
         <LinearLayout
+            android:id="@+id/ll_margin_progressbar"
             android:layout_below="@+id/view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="150dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/rounded_layout"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:weightSum="2">
+
+            <ProgressBar
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:id="@+id/margin_progressBar"
+                android:layout_marginTop="40dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                style="?android:attr/progressBarStyle" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_margin_listview"
+            android:layout_below="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/crebitbackground">
 
             <ListView
                 android:id="@+id/operator_margin_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/view"></ListView>
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_below="@+id/view"
+                android:dividerHeight="10dp"
+                android:background="@color/crebitbackground"></ListView>
         </LinearLayout>
     </RelativeLayout>
 </FrameLayout>

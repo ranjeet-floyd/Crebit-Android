@@ -5,23 +5,25 @@
     android:background="@drawable/crebitbackground"
     android:orientation="vertical"
     tools:context="com.bitblue.crebit.loginpage.ForgotPass">
+
     <LinearLayout
         android:id="@+id/layout_enterNumber"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/rounded_layout"
         android:orientation="vertical">
+
         <TextView
             android:id="@+id/tv_EnterNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:text="@string/EnterNumber"
             android:textSize="17dp" />
 
@@ -30,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp" />
 
         <EditText
             android:id="@+id/et_MobileNumber"
@@ -38,19 +40,10 @@
             android:layout_height="35dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/white_smoke"
             android:hint="  Enter Mobile Number "
             android:imeOptions="actionDone"
             android:inputType="phone"
             android:singleLine="true" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layout_enterNumber"
-        android:layout_gravity="center_vertical"
-        android:orientation="horizontal">
 
         <Button
             android:id="@+id/b_forgotpassSubmit"
@@ -58,12 +51,12 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/rounded_button"
             android:text="Submit"
             android:textColor="@color/white" />
-
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="25dp"

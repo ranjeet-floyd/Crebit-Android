@@ -23,43 +23,66 @@
             android:weightSum="2">
 
             <TextView
-                android:id="@+id/tvtotaltaken"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvbaltaken"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:text="Total Received Rs:"
+                android:background="@drawable/roundedtextview"
                 android:textSize="15dp"
                 android:textStyle="bold"
                 android:gravity="center_horizontal" />
-
-            <TextView
-                android:id="@+id/tvbaltaken"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="100"
-                android:textStyle="bold"
-                android:textSize="15dp"
-                android:layout_weight="1" />
         </LinearLayout>
 
-        <LinearLayout android:orientation="vertical"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:layout_below="@+id/ll_balsum_balgiven">
 
-            <TextView
-                android:id="@+id/tv_balSum_list_nodata"
+            <LinearLayout
+                android:id="@+id/ll_balsum_progressbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="NO DATA!!"
-                android:background="@drawable/crebitbackground"
-                android:textColor="@color/radical_red"
-                android:gravity="center_horizontal|center_vertical"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:textSize="30dp"
-                android:visibility="invisible" />
+                android:layout_height="150dp"
+                android:layout_marginBottom="50dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_layout"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp">
+
+                <ProgressBar
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:id="@+id/balsum_progressBar"
+                    android:layout_marginTop="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    style="?android:attr/progressBarStyle" />
+
+                <TextView
+                    android:id="@+id/tv_balSum_list_nodata"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="NO DATA"
+                    android:textColor="@color/radical_red"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:textSize="30dp"
+                    android:visibility="invisible" />
+            </LinearLayout>
+
 
             <ListView
                 android:id="@+id/lv_balsum_result"
@@ -67,10 +90,11 @@
                 android:layout_height="match_parent"
                 android:layout_below="@id/ll_balsum_balgiven"
                 android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/black"></ListView>
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:dividerHeight="10dp"
+                android:background="@color/crebitbackground"></ListView>
         </LinearLayout>
     </RelativeLayout>
 </FrameLayout>

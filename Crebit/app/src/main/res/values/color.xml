@@ -825,6 +825,7 @@
     <color name="toolbox">#746CC0</color>
     <color name="topaz">#FFC87C</color>
     <color name="tractor_red">#FD0E35</color>
+    <color name="transparent">#00000000</color>
     <color name="tron_blue">#7DFDFE</color>
     <color name="tropical_rain_forest">#00755E</color>
     <color name="true_blue">#0073CF</color>
