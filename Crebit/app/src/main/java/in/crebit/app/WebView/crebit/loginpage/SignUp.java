@@ -11,8 +11,10 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -73,8 +75,65 @@ public class SignUp extends ActionBarActivity implements View.OnClickListener {
         tvmobNum = (TextView) findViewById(R.id.tv_mobNum);
         tvpasswd = (TextView) findViewById(R.id.tv_passwd);
         etname = (EditText) findViewById(R.id.et_name);
+        etname.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                tvname.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                tvname.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvname.setVisibility(View.VISIBLE);
+            }
+
+        });
+
         etpasswd = (EditText) findViewById(R.id.et_passwd);
+        etpasswd.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                tvpasswd.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                tvpasswd.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvpasswd.setVisibility(View.VISIBLE);
+            }
+
+        });
+
         etmobNum = (EditText) findViewById(R.id.et_mobNum);
+        etmobNum.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                tvmobNum.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                tvmobNum.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvmobNum.setVisibility(View.VISIBLE);
+            }
+
+        });
+
         bSignUpSubmit = (Button) findViewById(R.id.b_signUpSubmit);
         baccType = (Button) findViewById(R.id.b_accType);
         bSignUpSubmit.setOnClickListener(this);
@@ -170,6 +229,9 @@ public class SignUp extends ActionBarActivity implements View.OnClickListener {
             if (status == null) {
                 showAlertDialog();
             } else if (status.equals("1")) {
+                clearField(etname);
+                clearField(etpasswd);
+                clearField(etmobNum);
                 new AlertDialog.Builder(SignUp.this)
                         .setTitle("Success").setIcon(getResources().getDrawable(R.drawable.successicon))
                         .setMessage("\t\t\tRegistration Successful\n" +

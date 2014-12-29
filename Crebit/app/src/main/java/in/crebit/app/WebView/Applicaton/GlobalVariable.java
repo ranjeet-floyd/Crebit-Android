@@ -12,6 +12,25 @@ import in.crebit.app.WebView.R;
 public class GlobalVariable extends Application {
     private String availableBalance;
     private String uType;
+    private String userID;
+    private String userKey;
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public String getUserKey() {
+        return userKey;
+    }
+
+    public void setUserKey(String userKey) {
+        this.userKey = userKey;
+    }
+
     public String getAvailableBalance() {
         return availableBalance;
     }

@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -36,7 +37,7 @@ import in.crebit.app.WebView.crebit.servicespage.fragments.transactionSummary.Re
 
 public class TransSummary extends Fragment implements View.OnClickListener {
     private TextView tranSum, tvfromto, tvstatus, tvtype;
-    private Button from_Date, to_Date, bstatus, btype, search, valuesearch;
+    private Button from_Date, to_Date, bstatus, btype, search, valuesearch, todaytransearch;
     private EditText etvalue;
     Date from, to;
     private String fromDate, toDate, value;
@@ -50,6 +51,7 @@ public class TransSummary extends Fragment implements View.OnClickListener {
     private String[] typelist;
     private ArrayAdapter<String> typeAdapter;
     private Tracker tracker;
+    private LinearLayout transumFrame;
 
     public TransSummary() {
     }
@@ -94,6 +96,7 @@ public class TransSummary extends Fragment implements View.OnClickListener {
         bstatus = (Button) view.findViewById(R.id.b_ts_status);
         btype = (Button) view.findViewById(R.id.b_ts_type);
         search = (Button) view.findViewById(R.id.b_ts_search);
+        todaytransearch = (Button) view.findViewById(R.id.b_ts_get_today_tran_search);
         valuesearch = (Button) view.findViewById(R.id.b_ts_srch_value);
         etvalue = (EditText) view.findViewById(R.id.et_ts_value);
 
@@ -104,10 +107,13 @@ public class TransSummary extends Fragment implements View.OnClickListener {
 
         search.setOnClickListener(this);
         valuesearch.setOnClickListener(this);
+        todaytransearch.setOnClickListener(this);
+
         statusAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_dropdown_item, statlist);
         typeAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_dropdown_item, typelist);
+        transumFrame = (LinearLayout) view.findViewById(R.id.ll_transum_content);
     }
 
     private void showDatePicker() {
@@ -257,12 +263,7 @@ public class TransSummary extends Fragment implements View.OnClickListener {
                     args1.putInt("StatusId", StatusId);
                     args1.putInt("TypeId", TypeId);
 
-                    TransSumResultFragment transSumResultFragment = new TransSumResultFragment();
-                    FragmentTransaction ft1 = getFragmentManager().beginTransaction();
-                    transSumResultFragment.setArguments(args1);
-                    ft1.replace(R.id.transumframe, transSumResultFragment);
-
-                    ft1.commit();
+                    startTranSumResultFragment(args1);
                 }
                 break;
             case R.id.b_ts_srch_value:
@@ -282,15 +283,51 @@ public class TransSummary extends Fragment implements View.OnClickListener {
                 } else {
                     Bundle args2 = new Bundle();
                     args2.putString("Value", value);
-                    TranSumValueResultFragment transSumvalueResultFragment = new TranSumValueResultFragment();
-                    FragmentTransaction ft2 = getFragmentManager().beginTransaction();
-                    transSumvalueResultFragment.setArguments(args2);
-                    ft2.replace(R.id.transumframe, transSumvalueResultFragment);
-                    ft2.commit();
+                    startTranSumValueResultFragment(args2);
+                    clearField(etvalue);
                 }
+                break;
+
+            case R.id.b_ts_get_today_tran_search:
+
+                tracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Button")
+                        .setAction("Clicked on get today transaction Button on Transum Page")
+                        .setLabel("getTodaySummary Button")
+                        .build());
+                Bundle args1 = new Bundle();
+                args1.putString("fromDate", "");
+                args1.putString("toDate", "");
+                args1.putInt("StatusId", -1);
+                args1.putInt("TypeId", -1);
+                startTranSumResultFragment(args1);
                 break;
         }
 
     }
+
+    private void startTranSumValueResultFragment(Bundle args2) {
+        TranSumValueResultFragment transSumvalueResultFragment = new TranSumValueResultFragment();
+        FragmentTransaction ft2 = getFragmentManager().beginTransaction();
+        transSumvalueResultFragment.setArguments(args2);
+        ft2.replace(R.id.transumframe, transSumvalueResultFragment);
+        ft2.commit();
+        transumFrame.setVisibility(View.INVISIBLE);
+    }
+
+    private void startTranSumResultFragment(Bundle args1) {
+
+        TransSumResultFragment transSumResultFragment = new TransSumResultFragment();
+        FragmentTransaction ft1 = getFragmentManager().beginTransaction();
+        transSumResultFragment.setArguments(args1);
+        ft1.replace(R.id.transumframe, transSumResultFragment);
+        ft1.commit();
+        transumFrame.setVisibility(View.INVISIBLE);
+    }
+
+    private void clearField(EditText et) {
+        et.setText("");
+    }
+
 }
 

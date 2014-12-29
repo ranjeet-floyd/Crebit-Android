@@ -12,6 +12,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -43,7 +45,7 @@ public class MSEB extends Activity implements View.OnClickListener {
     private String UserId, Key, Bu, DueDate, CusMob, BuCode, CusAcc;
     private int ServiceId = 40, BillAmount, ConsumptionUnits;
 
-    private TextView tvBu, tvcustAccNo, tvbillAmount, tvDueDate, tvnotexceeded, tvbillMonth, tvConsunit;
+    private TextView tvBu, tvcustAccNo, tvcustMobNo, tvbillAmount, tvDueDate, tvnotexceeded, tvbillMonth, tvConsunit;
     private Button bGetDetails, bpaybill;
     private EditText etcustAccNo, etcusMobNo;
     private LinearLayout llerrorDueDate, lleleccustno;
@@ -78,6 +80,7 @@ public class MSEB extends Activity implements View.OnClickListener {
         tvnotexceeded = (TextView) findViewById(R.id.tv_elec_mseb_Not_Exceeded);
         tvbillMonth = (TextView) findViewById(R.id.tv_elec_mseb_BillMonth);
         tvConsunit = (TextView) findViewById(R.id.tv_elec_mseb_ConsumptionUnits);
+        tvcustMobNo = (TextView) findViewById(R.id.tv_elec_mseb_cust_mobno);
         actvbu = (AutoCompleteTextView) findViewById(R.id.b_elec_mseb_BU);
         ArrayAdapter adapter = new ArrayAdapter
                 (this, R.layout.dropdownlist, items);
@@ -87,7 +90,43 @@ public class MSEB extends Activity implements View.OnClickListener {
         bGetDetails = (Button) findViewById(R.id.b_elec_mseb_getDetails);
         bpaybill = (Button) findViewById(R.id.b_elec_mseb_paybill);
         etcustAccNo = (EditText) findViewById(R.id.et_elec_mseb_cust_acc_no);
+        etcustAccNo.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                tvcustAccNo.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                tvcustAccNo.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvcustAccNo.setVisibility(View.VISIBLE);
+            }
+
+        });
         etcusMobNo = (EditText) findViewById(R.id.et_elec_mseb_cust_mobno);
+        etcusMobNo.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                tvcustMobNo.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                tvcustMobNo.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvcustMobNo.setVisibility(View.VISIBLE);
+            }
+
+        });
         llerrorDueDate = (LinearLayout) findViewById(R.id.ll_error_result);
         lleleccustno = (LinearLayout) findViewById(R.id.ll_elec_mseb_cust_mobno);
         bGetDetails.setOnClickListener(this);

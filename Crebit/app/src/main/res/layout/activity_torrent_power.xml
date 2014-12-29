@@ -44,71 +44,95 @@
                     android:background="@android:drawable/btn_dropdown"
                     android:text="Select"></Button>
 
-                <TextView
-                    android:id="@+id/tv_elec_torrpow_serviceno"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text=" Service No."
-                    android:textColor="@color/black"
-                    android:textSize="15dp" />
-
-                <EditText
-                    android:id="@+id/et_elec_torrpow_serviceno"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:hint="  Enter Service no. "
-                    android:imeOptions="actionDone"
-                    android:inputType="phone"
-                    android:singleLine="true" />
-
-                <TextView
-                    android:id="@+id/tv_elec_torrpow_custmobno"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text=" Customer Mobile"
-                    android:textColor="@color/black"
-                    android:textSize="15dp" />
+                    android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/et_elec_torrpow_custmobno"
+                    <TextView
+                        android:id="@+id/tv_elec_torrpow_serviceno"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Service No:"
+                        android:gravity="center_horizontal"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/et_elec_torrpow_serviceno"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:hint="Enter Service No"
+                        android:imeOptions="actionNext"
+                        android:inputType="phone"
+                        android:singleLine="true" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:hint="  Enter mobile Number "
-                    android:imeOptions="actionDone"
-                    android:inputType="phone"
-                    android:singleLine="true" />
-
-                <TextView
-                    android:id="@+id/tv_elec_torrpow_amount"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/Amount"
-                    android:textColor="@color/black"
-                    android:textSize="15dp" />
+                    android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/et_elec_torrpow_amount"
+                    <TextView
+                        android:id="@+id/tv_elec_torrpow_custmobno"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Mobile  No:"
+                        android:gravity="center_horizontal"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/et_elec_torrpow_custmobno"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:hint="  Enter Mobile No "
+                        android:imeOptions="actionNext"
+                        android:inputType="phone"
+                        android:singleLine="true" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:hint="  Enter bill Amount "
-                    android:imeOptions="actionDone"
-                    android:inputType="phone"
-                    android:singleLine="true" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_elec_torrpow_amount"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Amount Rs:"
+                        android:gravity="center_horizontal"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/et_elec_torrpow_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:hint="  Enter Amount "
+                        android:imeOptions="actionDone"
+                        android:inputType="phone"
+                        android:singleLine="true" />
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/b_elec_torpow_paybill"

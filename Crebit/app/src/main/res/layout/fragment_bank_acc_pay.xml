@@ -5,6 +5,7 @@
     tools:context="com.bitblue.crebit.servicespage.fragments.BankAccPay">
 
     <RelativeLayout
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/crebitbackground">
@@ -19,29 +20,9 @@
                 android:background="@color/crebitbackground">
 
                 <LinearLayout
-                    android:id="@+id/ll_bankacc"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/bankAccPay"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:textSize="20dp"
-                        android:layout_marginLeft="10dp"
-                        android:text="Bank Account Pay"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:background="@color/crebitbackground"
-                        android:textColor="@color/white_smoke" />
-                </LinearLayout>
-
-                <LinearLayout
                     android:id="@+id/ll_bap_form"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/ll_bankacc">
+                    android:layout_height="wrap_content">
 
                     <ScrollView
                         android:layout_width="match_parent"
@@ -53,121 +34,160 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/ll_bankacc"
                             android:layout_marginBottom="10dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
                             android:layout_marginTop="5dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
                             android:background="@drawable/rounded_layout"
                             android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/tv_bap_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:text="@string/name"
-                                android:layout_marginTop="10dp"
-                                android:textColor="@color/black"
-                                android:textSize="15dp" />
-
-                            <EditText
-                                android:id="@+id/et_bap_name"
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="35dp"
-                                android:layout_marginBottom="20dp"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginRight="10dp"
-                                android:hint="  Enter Name "
-                                android:imeOptions="actionNext"
-                                android:singleLine="true" />
-
-                            <TextView
-                                android:id="@+id/tv_bap_accNum"
-                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:text="Account Number"
-                                android:textColor="@color/black"
-                                android:textSize="15dp" />
+                                android:orientation="horizontal">
 
-                            <EditText
-                                android:id="@+id/et_bap_accNum"
+                                <TextView
+                                    android:id="@+id/tv_bap_name"
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="10dp"
+                                    android:text="Name:"
+                                    android:gravity="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="17sp"
+                                    android:visibility="gone" />
+
+                                <EditText
+                                    android:id="@+id/et_bap_name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="35dp"
+                                    android:layout_marginBottom="20dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:hint="  Enter Name "
+                                    android:imeOptions="actionNext"
+                                    android:singleLine="true" />
+                            </LinearLayout>
+
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="35dp"
-                                android:layout_marginBottom="20dp"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
-                                android:layout_marginTop="5dp"
-                                android:hint="  Enter Account Number "
-                                android:imeOptions="actionNext"
-                                android:inputType="phone"
-                                android:singleLine="true" />
-
-                            <TextView
-                                android:id="@+id/tv_bap_ifsc"
-                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:text="IFSC Code"
-                                android:textColor="@color/black"
-                                android:textSize="15dp" />
+                                android:orientation="horizontal">
 
-                            <EditText
-                                android:id="@+id/et_bap_ifsc"
+                                <TextView
+                                    android:id="@+id/tv_bap_accNum"
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="10dp"
+                                    android:text="Acc. No:"
+                                    android:gravity="center_horizontal"
+                                    android:textColor="@color/black"
+                                    android:textSize="17sp"
+                                    android:visibility="gone" />
+
+                                <EditText
+                                    android:id="@+id/et_bap_accNum"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="35dp"
+                                    android:layout_marginBottom="20dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:layout_marginTop="5dp"
+                                    android:hint="  Enter Acc Number "
+                                    android:imeOptions="actionNext"
+                                    android:inputType="phone"
+                                    android:singleLine="true" />
+                            </LinearLayout>
+
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="35dp"
-                                android:layout_marginBottom="20dp"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginRight="10dp"
-                                android:hint=" Enter IFSC code "
-                                android:imeOptions="actionNext"
-                                android:inputType="text"
-                                android:singleLine="true" />
-
-                            <TextView
-                                android:id="@+id/tv_bap_mobNum"
-                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:text="@string/mobNum"
-                                android:textColor="@color/black"
-                                android:textSize="15dp" />
+                                android:orientation="horizontal">
 
-                            <EditText
-                                android:id="@+id/et_bap_mobNum"
+                                <TextView
+                                    android:id="@+id/tv_bap_ifsc"
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="10dp"
+                                    android:text="IFSC Code:"
+                                    android:gravity="center_horizontal"
+                                    android:textColor="@color/black"
+                                    android:textSize="17sp"
+                                    android:visibility="gone" />
+
+                                <EditText
+                                    android:id="@+id/et_bap_ifsc"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="35dp"
+                                    android:layout_marginBottom="20dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginRight="10dp"
+                                    android:hint=" Enter IFSC code "
+                                    android:imeOptions="actionNext"
+                                    android:inputType="text"
+                                    android:singleLine="true" />
+                            </LinearLayout>
+
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="35dp"
-                                android:layout_marginBottom="20dp"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
-                                android:layout_marginTop="5dp"
-                                android:hint=" Enter Mobile Number "
-                                android:imeOptions="actionNext"
-                                android:inputType="phone"
-                                android:singleLine="true" />
-
-                            <TextView
-                                android:id="@+id/tv_bap_amount"
-                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:text="Amount"
-                                android:textColor="@color/black"
-                                android:textSize="15dp" />
+                                android:orientation="horizontal">
 
-                            <EditText
-                                android:id="@+id/et_bap_amount"
+                                <TextView
+                                    android:id="@+id/tv_bap_mobNum"
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="10dp"
+                                    android:text="Mobile No:"
+                                    android:gravity="center_horizontal"
+                                    android:textColor="@color/black"
+                                    android:textSize="17sp"
+                                    android:visibility="gone" />
+
+                                <EditText
+                                    android:id="@+id/et_bap_mobNum"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="35dp"
+                                    android:layout_marginBottom="20dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:layout_marginTop="5dp"
+                                    android:hint=" Enter Mobile Number "
+                                    android:imeOptions="actionNext"
+                                    android:inputType="phone"
+                                    android:singleLine="true" />
+                            </LinearLayout>
+
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="35dp"
-                                android:layout_marginBottom="20dp"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
-                                android:layout_marginTop="5dp"
-                                android:hint=" Enter Amount "
-                                android:imeOptions="actionDone"
-                                android:inputType="phone"
-                                android:singleLine="true" />
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/tv_bap_amount"
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="10dp"
+                                    android:text="Amount Rs:"
+                                    android:gravity="center_horizontal"
+                                    android:textColor="@color/black"
+                                    android:textSize="17sp"
+                                    android:visibility="gone" />
+
+                                <EditText
+                                    android:id="@+id/et_bap_amount"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="35dp"
+                                    android:layout_marginBottom="20dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:layout_marginTop="5dp"
+                                    android:hint=" Enter Amount "
+                                    android:imeOptions="actionDone"
+                                    android:inputType="phone"
+                                    android:singleLine="true" />
+                            </LinearLayout>
 
                             <Button
                                 android:id="@+id/b_bap_submit"

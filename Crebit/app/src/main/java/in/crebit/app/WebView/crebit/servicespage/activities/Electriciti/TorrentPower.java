@@ -12,6 +12,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -68,41 +70,64 @@ public class TorrentPower extends Activity implements View.OnClickListener {
         tvamount = (TextView) findViewById(R.id.tv_elec_torrpow_amount);
 
         etServiceNo = (EditText) findViewById(R.id.et_elec_torrpow_serviceno);
-        /*etServiceNo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        etServiceNo.addTextChangedListener(new TextWatcher() {
 
-            public void onFocusChange(View view, boolean hasfocus) {
-                if (hasfocus) {
-
-                    view.setBackgroundResource(R.drawable.edittext_focus);
-                } else {
-                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
-                }
+            @Override
+            public void afterTextChanged(Editable s) {
+                tvServiceno.setVisibility(View.VISIBLE);
             }
-        });*/
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                tvServiceno.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvServiceno.setVisibility(View.VISIBLE);
+            }
+
+        });
+
         etmobNo = (EditText) findViewById(R.id.et_elec_torrpow_custmobno);
-       /* etmobNo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        etmobNo.addTextChangedListener(new TextWatcher() {
 
-            public void onFocusChange(View view, boolean hasfocus) {
-                if (hasfocus) {
-
-                    view.setBackgroundResource(R.drawable.edittext_focus);
-                } else {
-                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
-                }
+            @Override
+            public void afterTextChanged(Editable s) {
+                tvcustmob.setVisibility(View.VISIBLE);
             }
-        });*/
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                tvcustmob.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvcustmob.setVisibility(View.VISIBLE);
+            }
+
+        });
         etamount = (EditText) findViewById(R.id.et_elec_torrpow_amount);
-       /* etamount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        etamount.addTextChangedListener(new TextWatcher() {
 
-            public void onFocusChange(View view, boolean hasfocus) {
-                if (hasfocus) {
-
-                    view.setBackgroundResource(R.drawable.edittext_focus);
-                } else {
-                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
-                }
+            @Override
+            public void afterTextChanged(Editable s) {
+                tvamount.setVisibility(View.VISIBLE);
             }
-        });*/
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                tvamount.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvamount.setVisibility(View.VISIBLE);
+            }
+
+        });
+
         bcity = (Button) findViewById(R.id.b_elec_torrpow_city);
         bpayBill = (Button) findViewById(R.id.b_elec_torpow_paybill);
         bcity.setOnClickListener(this);
@@ -227,6 +252,11 @@ public class TorrentPower extends Activity implements View.OnClickListener {
                             }
                         }).create().show();
             } else if (StatusCode.equals("1")) {
+
+                clearField(etServiceNo);
+                clearField(etmobNo);
+                clearField(etamount);
+
                 if (Message == null || Message.equals("null"))
                     Message = "";
                 new AlertDialog.Builder(TorrentPower.this)
@@ -299,4 +329,9 @@ public class TorrentPower extends Activity implements View.OnClickListener {
         }
 
     }
+
+    private void clearField(EditText et) {
+        et.setText("");
+    }
+
 }

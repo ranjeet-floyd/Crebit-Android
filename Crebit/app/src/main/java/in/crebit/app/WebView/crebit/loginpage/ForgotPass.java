@@ -19,6 +19,7 @@ import android.text.SpannableString;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -39,6 +40,7 @@ import in.crebit.app.WebView.response.ForgotPassResponse;
 
 public class ForgotPass extends ActionBarActivity implements View.OnClickListener {
     private JSONParser jsonParser = new JSONParser();
+    private TextView enterNumber;
     private EditText etmobileNumber;
     private Button bforgotPassword;
     private String mobileNumber, status;
@@ -70,18 +72,8 @@ public class ForgotPass extends ActionBarActivity implements View.OnClickListene
     }
 
     public void initViews() {
+        enterNumber = (TextView) findViewById(R.id.tv_EnterNumber);
         etmobileNumber = (EditText) findViewById(R.id.et_MobileNumber);
-        /*etmobileNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-            public void onFocusChange(View view, boolean hasfocus) {
-                if (hasfocus) {
-
-                    view.setBackgroundResource(R.drawable.edittext_focus);
-                } else {
-                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
-                }
-            }
-        });*/
         bforgotPassword = (Button) findViewById(R.id.b_forgotpassSubmit);
         bforgotPassword.setOnClickListener(this);
     }
@@ -141,6 +133,7 @@ public class ForgotPass extends ActionBarActivity implements View.OnClickListene
             if (name == null) {
                 showAlertDialog();
             } else if (status.equals("2")) {
+                clearField(etmobileNumber);
                 notifyuser();
             }
         }

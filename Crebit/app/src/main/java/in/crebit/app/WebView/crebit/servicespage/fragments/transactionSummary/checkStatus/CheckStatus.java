@@ -103,7 +103,7 @@ public class CheckStatus extends ActionBarActivity implements View.OnClickListen
         prefs = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);
         UserId = prefs.getString("userId", "");
         Log.e("Uid", UserId);
-        TypeId = prefs.getString("uType", "");
+        TypeId = "2";
         Log.e("typeid", TypeId);
         Key = prefs.getString("userKey", "");
         Log.e("key", Key);
@@ -187,6 +187,7 @@ public class CheckStatus extends ActionBarActivity implements View.OnClickListen
             nameValuePairs.add(new BasicNameValuePair("TransId", TransId));
             nameValuePairs.add(new BasicNameValuePair("TypeId", TypeId));
             nameValuePairs.add(new BasicNameValuePair("Comments", Comments));
+            Log.e("Request:", "\nUserID" + UserId + "\nKey" + Key + "\nTransId" + TransId + "\nTypeID" + TypeId + "\nComments" + Comments);
             jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_REFUNDORTRANS_STATUS, nameValuePairs);
             if (jsonResponse == null) {
                 return null;
@@ -195,16 +196,17 @@ public class CheckStatus extends ActionBarActivity implements View.OnClickListen
                     refResponse = new RefundOrTransResponse(jsonResponse.getString("typeId"),
                             jsonResponse.getString("status"), jsonResponse.getString("message"),
                             jsonResponse.getString("cybertransId"), jsonResponse.getString("operatorId"));
-                    Log.e("Response=", "\nTypeid: " +
-                            jsonResponse.getString("typeId") + "\nMessage: " +
-                            jsonResponse.getString("message") + "\nCybertransid: " +
-                            jsonResponse.getString("cybertransId") + "\nStatus: " +
-                            jsonResponse.getString("status"));
                     TypeId = refResponse.getTypeId();
                     RespStatus = refResponse.getStatus();
                     Message = refResponse.getMessage();
                     CyberTranID = refResponse.getCybertransId();
                     OperatorId = refResponse.getOperatorId();
+                    Log.e("Response=", "\nTypeid: " +
+                            jsonResponse.getString("typeId") + "\nMessage: " +
+                            jsonResponse.getString("message") + "\nCybertransid: " +
+                            jsonResponse.getString("cybertransId") + "\nStatus: " +
+                            jsonResponse.getString("status"));
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -214,16 +216,80 @@ public class CheckStatus extends ActionBarActivity implements View.OnClickListen
 
         @Override
         protected void onPostExecute(String status) {
-            //   dialog.dismiss();
             progressbarlayout.setVisibility(View.GONE);
 
             if (status == null) {
                 showAlertDialog();
             } else {
-                if (Message.equals("null")) Message = "";
-                tvStatus.setText("Status: " + RespStatus);
-                tvTranid.setText("TransId: " + CyberTranID);
-                tvMessage.setText("Message: " + Message);
+                int statcode = Integer.parseInt(status);
+                switch (statcode) {
+                    case 0:
+                        tvStatus.setText("Status: " + "Failed");
+                        setMessage();
+                        setLayoutVisibility(statcode);
+                        break;
+                    case 1:
+                        tvStatus.setText("Status: " + "Success");
+                        setMessage();
+                        setLayoutVisibility(statcode);
+                        break;
+                    case 2:
+                        tvStatus.setText("Status: " + "Pending");
+                        setMessage();
+                        setLayoutVisibility(statcode);
+                        break;
+                    case 3:
+                        tvStatus.setText("Status: " + "In Progress");
+                        setMessage();
+                        setLayoutVisibility(statcode);
+                        break;
+                    case 4:
+                        tvStatus.setText("Status: " + "Reject");
+                        setMessage();
+                        setLayoutVisibility(statcode);
+                        break;
+                    case 5:
+                        tvStatus.setText("Status: " + "Received");
+                        setMessage();
+                        setLayoutVisibility(statcode);
+                        break;
+                    case 6:
+                        tvStatus.setText("Status: " + "Other");
+                        setMessage();
+                        setLayoutVisibility(statcode);
+                        break;
+                    case 7:
+                        tvStatus.setText("Status: " + "Not Known");
+                        setMessage();
+                        setLayoutVisibility(statcode);
+                        break;
+                    case 8:
+                        tvStatus.setText("Status: " + "Awaiting");
+                        setMessage();
+                        setLayoutVisibility(statcode);
+                        break;
+                    case 9:
+                        tvStatus.setText("Status: " + "Refunded");
+                        setMessage();
+                        setLayoutVisibility(statcode);
+                        break;
+                    default:
+                        break;
+
+                }
+            }
+
+            clearField(etcomment);
+        }
+
+        private void setMessage() {
+            if (Message == null) Message = "";
+            tvTranid.setText("Operator TransId: " + CyberTranID);
+            tvMessage.setText("Message: " + Message);
+        }
+
+        private void setLayoutVisibility(int statcode) {
+            if (statcode == 1) {
                 if ((cur == R.id.b_subrefreq) || Check.ifCrebitApi(OperatorName)) {
                     chkstatButton.setVisibility(View.INVISIBLE);
                     checkstatus.setVisibility(View.INVISIBLE);
@@ -231,9 +297,25 @@ public class CheckStatus extends ActionBarActivity implements View.OnClickListen
                 } else {
                     chkstatButton.setVisibility(View.VISIBLE);
                     checkstatus.setVisibility(View.VISIBLE);
+                    checkstatus.setBackgroundDrawable(getResources().getDrawable(R.drawable.rounded_green_layout));
+                    bchkstat.setVisibility(View.GONE);
+                }
+            } else {
+                if ((cur == R.id.b_subrefreq) || Check.ifCrebitApi(OperatorName)) {
+                    chkstatButton.setVisibility(View.INVISIBLE);
+                    checkstatus.setVisibility(View.INVISIBLE);
+
+                } else {
+                    chkstatButton.setVisibility(View.VISIBLE);
+                    checkstatus.setVisibility(View.VISIBLE);
+                    checkstatus.setBackgroundDrawable(getResources().getDrawable(R.drawable.rounded_red_layout));
                     bchkstat.setVisibility(View.GONE);
                 }
             }
+        }
+
+        private void clearField(EditText et) {
+            et.setText("");
         }
     }
 
@@ -279,4 +361,6 @@ public class CheckStatus extends ActionBarActivity implements View.OnClickListen
             String status = NetworkUtil.getConnectivityStatusString(context);
         }
     }
+
+
 }

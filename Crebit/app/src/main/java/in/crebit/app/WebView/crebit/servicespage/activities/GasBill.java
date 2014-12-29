@@ -12,8 +12,10 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -102,33 +104,52 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
 
     private void initViews() {
         tvoperator = (TextView) findViewById(R.id.tv_gas_operator);
-        tvnumber = (TextView) findViewById(R.id.et_gas_number);
+        tvnumber = (TextView) findViewById(R.id.tv_gas_number);
         tvamount = (TextView) findViewById(R.id.tv_gas_amount);
 
         et_number = (EditText) findViewById(R.id.et_gas_number);
-       /* et_number.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        et_number.addTextChangedListener(new TextWatcher() {
 
-            public void onFocusChange(View view, boolean hasfocus) {
-                if (hasfocus) {
-
-                    view.setBackgroundResource(R.drawable.edittext_focus);
-                } else {
-                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
-                }
+            @Override
+            public void afterTextChanged(Editable s) {
+                tvnumber.setVisibility(View.VISIBLE);
             }
-        });*/
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                tvnumber.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvnumber.setVisibility(View.VISIBLE);
+            }
+
+        });
+
         et_amount = (EditText) findViewById(R.id.et_gas_amount);
-       /* et_amount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        et_amount.addTextChangedListener(new TextWatcher() {
 
-            public void onFocusChange(View view, boolean hasfocus) {
-                if (hasfocus) {
+            @Override
+            public void afterTextChanged(Editable s) {
+                tvamount.setVisibility(View.VISIBLE);
 
-                    view.setBackgroundResource(R.drawable.edittext_focus);
-                } else {
-                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
-                }
             }
-        });*/
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                tvamount.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvamount.setVisibility(View.VISIBLE);
+
+            }
+
+        });
+
 
         recharge = (Button) findViewById(R.id.b_gas_recharge);
         operatorType = (Button) findViewById(R.id.b_gas_operator);
@@ -259,6 +280,8 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
                             }
                         }).create().show();
             } else if (StatusCode.equals("1")) {
+                clearField(et_number);
+                clearField(et_amount);
                 if (Message == null || Message.equals("null"))
                     Message = "";
                 new AlertDialog.Builder(GasBill.this)
@@ -331,4 +354,9 @@ public class GasBill extends ActionBarActivity implements View.OnClickListener {
         }
 
     }
+
+    private void clearField(EditText et) {
+        et.setText("");
+    }
+
 }

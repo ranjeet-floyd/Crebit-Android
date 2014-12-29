@@ -31,7 +31,7 @@ import org.json.JSONObject;
 import in.crebit.app.WebView.Applicaton.GlobalVariable;
 import in.crebit.app.WebView.R;
 import in.crebit.app.WebView.apinames.API;
-import in.crebit.app.WebView.crebit.servicespage.fragments.BankAccPay;
+import in.crebit.app.WebView.crebit.servicespage.fragments.BankAccPay.BankAccPayContent;
 import in.crebit.app.WebView.crebit.servicespage.fragments.Service;
 import in.crebit.app.WebView.crebit.servicespage.fragments.balanceSummary.BalSummary;
 import in.crebit.app.WebView.crebit.servicespage.fragments.margin.Margin;
@@ -151,7 +151,7 @@ public class
                         .setAction("Open Bank Account Pay Page")
                         .setLabel("Service Page")
                         .build());
-                fragment = new BankAccPay();
+                fragment = new BankAccPayContent();
                 getSupportFragmentManager()
                         .popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 getSupportFragmentManager().beginTransaction()

@@ -1,0 +1,61 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="in.crebit.app.WebView.crebit.servicespage.fragments.BankAccPay.BankAccPayContent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/ll_bankacc_content"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="vertical"
+            android:background="@color/crebitbackground">
+
+            <TextView
+                android:id="@+id/tv_bankAccPay_content"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:textSize="20dp"
+                android:layout_marginLeft="10dp"
+                android:text="Bank Account Pay"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:background="@color/crebitbackground"
+                android:textColor="@color/white_smoke" />
+        </LinearLayout>
+
+        <android.support.v4.app.FragmentTabHost
+            android:layout_below="@id/ll_bankacc_content"
+            android:id="@android:id/tabhost"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/crebitbackground">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/crebitbackground">
+
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="fill_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_layout" />
+
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+        </android.support.v4.app.FragmentTabHost>
+    </RelativeLayout>
+</FrameLayout>

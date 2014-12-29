@@ -77,29 +77,9 @@ public class ChangePassword extends ActionBarActivity implements View.OnClickLis
         old_pass = (TextView) findViewById(R.id.tv_cp_oldpass);
         new_pass = (TextView) findViewById(R.id.tv_cp_newpass);
         et_oldPass = (EditText) findViewById(R.id.et_cp_oldpass);
-        /*et_oldPass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
-            public void onFocusChange(View view, boolean hasfocus) {
-                if (hasfocus) {
-
-                    view.setBackgroundResource(R.drawable.edittext_focus);
-                } else {
-                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
-                }
-            }
-        });*/
         et_newPass = (EditText) findViewById(R.id.et_cp_newpass);
-        /*et_newPass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
-            public void onFocusChange(View view, boolean hasfocus) {
-                if (hasfocus) {
-
-                    view.setBackgroundResource(R.drawable.edittext_focus);
-                } else {
-                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
-                }
-            }
-        });*/
         change = (Button) findViewById(R.id.b_cp_change);
         change.setOnClickListener(this);
         prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE);
@@ -190,6 +170,8 @@ public class ChangePassword extends ActionBarActivity implements View.OnClickLis
             if (status == null)
                 showAlertDialog();
             if (status.equals("1")) {
+                clearField(et_oldPass);
+                clearField(et_newPass);
                 new AlertDialog.Builder(ChangePassword.this)
                         .setTitle("Password Recovery")
                         .setMessage("  Password has been changed\n" +
@@ -261,4 +243,9 @@ public class ChangePassword extends ActionBarActivity implements View.OnClickLis
             String status = NetworkUtil.getConnectivityStatusString(context);
         }
     }
+
+    private void clearField(EditText et) {
+        et.setText("");
+    }
+
 }

@@ -17,7 +17,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import org.apache.http.NameValuePair;
 import org.json.JSONArray;
@@ -29,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import in.crebit.app.WebView.Applicaton.GlobalVariable;
 import in.crebit.app.WebView.IDs.balsumtype;
 import in.crebit.app.WebView.R;
 import in.crebit.app.WebView.crebit.servicespage.fragments.DatePickerFragment;
@@ -39,7 +45,7 @@ import in.crebit.app.WebView.response.BalSumResponse;
 
 public class BalSummary extends Fragment implements View.OnClickListener {
     TextView balSum;
-    Button from_Date, to_Date, btype, bsearch;
+    Button from_Date, to_Date, btype, bsearch, todaybalsearch;
     EditText ettype;
     private String UserId, Key, TypeId, Value;
     private Double TotalBalanceGiven;
@@ -63,6 +69,8 @@ public class BalSummary extends Fragment implements View.OnClickListener {
     private service Service;
     private SharedPreferences prefs;
     private final static String MY_PREFS = "mySharedPrefs";
+    private LinearLayout balsumFrame;
+    private Tracker tracker;
 
     public BalSummary() {
     }
@@ -72,13 +80,17 @@ public class BalSummary extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bal_summary, container, false);
+        tracker = ((GlobalVariable) getActivity().getApplication()).getTracker(GlobalVariable.TrackerName.APP_TRACKER);
+        tracker.setScreenName("Balance Summary Page");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+        balsumFrame = (LinearLayout) view.findViewById(R.id.ll_balsum_content);
         items = getResources().getStringArray(R.array.bs_status);
         initViews(view);
         return view;
     }
 
     private void initViews(View view) {
-        balSum=(TextView)view.findViewById(R.id.balSum);
+        balSum = (TextView) view.findViewById(R.id.balSum);
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/coperplategothiclight.ttf");
         balSum.setTypeface(font);
         from_Date = (Button) view.findViewById(R.id.b_balsum_from);
@@ -86,16 +98,35 @@ public class BalSummary extends Fragment implements View.OnClickListener {
         btype = (Button) view.findViewById(R.id.b_balsum_type);
         ettype = (EditText) view.findViewById(R.id.et_balsum_type);
         bsearch = (Button) view.findViewById(R.id.b_balsum_search);
+        todaybalsearch = (Button) view.findViewById(R.id.b_ts_get_today_tran_search);
+
         from_Date.setOnClickListener(this);
         to_Date.setOnClickListener(this);
         btype.setOnClickListener(this);
         bsearch.setOnClickListener(this);
+        todaybalsearch.setOnClickListener(this);
+
         adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_dropdown_item, items);
 
         prefs = this.getActivity().getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);
         UserId = prefs.getString("userId", "");
         Key = prefs.getString("userKey", "");
+        balsumFrame = (LinearLayout) view.findViewById(R.id.ll_balsum_content);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //Get an Analytics tracker to report app starts & uncaught exceptions etc.
+        GoogleAnalytics.getInstance(getActivity()).reportActivityStart(getActivity());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //Stop the analytics tracking
+        GoogleAnalytics.getInstance(getActivity()).reportActivityStop(getActivity());
     }
 
     private void showDatePicker() {
@@ -206,16 +237,36 @@ public class BalSummary extends Fragment implements View.OnClickListener {
                     args.putString("toDate", toDate);
                     args.putString("TypeId", TypeId);
                     args.putString("Value", Value);
-                    BalSumResultFragment balSumResultFragment = new BalSumResultFragment();
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    balSumResultFragment.setArguments(args);
-                    ft.replace(R.id.balsumframe, balSumResultFragment);
-                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                    ft.addToBackStack(null);
-                    ft.commit();
+                    startbalSumResultFragment(args);
+                    balsumFrame.setVisibility(View.INVISIBLE);
+                    clearField(ettype);
                 }
+                break;
+
+            case R.id.b_ts_get_today_tran_search:
+                Bundle args = new Bundle();
+                args.putString("fromDate", "");
+                args.putString("toDate", "");
+                args.putString("TypeId", "0");
+                args.putString("Value", null);
+                startbalSumResultFragment(args);
+                balsumFrame.setVisibility(View.INVISIBLE);
+                clearField(ettype);
                 break;
         }
 
     }
+
+    private void startbalSumResultFragment(Bundle args) {
+        BalSumResultFragment balSumResultFragment = new BalSumResultFragment();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        balSumResultFragment.setArguments(args);
+        ft.replace(R.id.balsumframe, balSumResultFragment);
+        ft.commit();
+    }
+
+    private void clearField(EditText et) {
+        et.setText("");
+    }
+
 }

@@ -1,0 +1,67 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="in.crebit.app.WebView.crebit.servicespage.fragments.BankAccPay.Last5Trans"
+    android:background="@color/crebitbackground">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp">
+
+            <LinearLayout
+                android:id="@+id/ll_bap_progressbar"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginBottom="50dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_layout"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp">
+
+                <ProgressBar
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:id="@+id/bap_progressBar"
+                    android:layout_marginTop="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    style="?android:attr/progressBarStyle" />
+
+                <TextView
+                    android:id="@+id/tv_bap_list_nodata"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="NO DATA"
+                    android:textColor="@color/radical_red"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:textSize="30dp"
+                    android:visibility="invisible" />
+            </LinearLayout>
+
+
+            <ListView
+                android:id="@+id/lv_bap_result"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:dividerHeight="10dp"
+                android:background="@color/crebitbackground"></ListView>
+        </LinearLayout>
+
+    </RelativeLayout>
+</FrameLayout>

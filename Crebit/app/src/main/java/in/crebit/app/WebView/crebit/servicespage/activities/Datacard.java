@@ -12,8 +12,10 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -103,31 +105,48 @@ public class Datacard extends ActionBarActivity implements View.OnClickListener 
         tvoperator = (TextView) findViewById(R.id.tv_dc_operator);
         tvnumber = (TextView) findViewById(R.id.tv_dc_number);
         tvamount = (TextView) findViewById(R.id.tv_dc_amount);
-
         et_number = (EditText) findViewById(R.id.et_dc_number);
-        /*et_number.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        et_number.addTextChangedListener(new TextWatcher() {
 
-            public void onFocusChange(View view, boolean hasfocus) {
-                if (hasfocus) {
-
-                    view.setBackgroundResource(R.drawable.edittext_focus);
-                } else {
-                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
-                }
+            @Override
+            public void afterTextChanged(Editable s) {
+                tvnumber.setVisibility(View.VISIBLE);
             }
-        });*/
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                tvnumber.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvnumber.setVisibility(View.VISIBLE);
+            }
+
+        });
+
         et_amount = (EditText) findViewById(R.id.et_dc_amount);
-        /*et_amount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        et_amount.addTextChangedListener(new TextWatcher() {
 
-            public void onFocusChange(View view, boolean hasfocus) {
-                if (hasfocus) {
+            @Override
+            public void afterTextChanged(Editable s) {
+                tvamount.setVisibility(View.VISIBLE);
 
-                    view.setBackgroundResource(R.drawable.edittext_focus);
-                } else {
-                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
-                }
             }
-        });*/
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                tvamount.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvamount.setVisibility(View.VISIBLE);
+
+            }
+
+        });
 
         recharge = (Button) findViewById(R.id.b_dc_recharge);
         operatorType = (Button) findViewById(R.id.b_dc_operator);
@@ -184,7 +203,7 @@ public class Datacard extends ActionBarActivity implements View.OnClickListener 
                     et_amount.setHintTextColor(getResources().getColor(R.color.red));
                     break;
                 }
-                if (Check.ifNumberInCorrect(Number)) {
+                if (Check.ifNull(Number)) {
                     et_number.setText("");
                     et_number.setHint(" Enter correct Number");
                     et_number.setHintTextColor(getResources().getColor(R.color.red));
@@ -256,6 +275,8 @@ public class Datacard extends ActionBarActivity implements View.OnClickListener 
                             }
                         }).create().show();
             } else if (StatusCode.equals("1")) {
+                clearField(et_number);
+                clearField(et_amount);
                 new AlertDialog.Builder(Datacard.this)
                         .setTitle("Success").setIcon(getResources().getDrawable(R.drawable.successicon))
                         .setMessage("Request Completed." +
@@ -325,5 +346,9 @@ public class Datacard extends ActionBarActivity implements View.OnClickListener 
             String status = NetworkUtil.getConnectivityStatusString(context);
         }
 
+    }
+
+    private void clearField(EditText et) {
+        et.setText("");
     }
 }

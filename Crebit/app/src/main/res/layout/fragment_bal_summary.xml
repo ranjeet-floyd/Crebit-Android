@@ -1,12 +1,11 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/balsumframe"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    tools:context="com.bitblue.crebit.servicespage.fragments.balanceSummary.BalSummary">
+    android:background="@color/black">
 
     <LinearLayout
+        android:id="@+id/ll_balsum_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/crebitbackground">
@@ -81,11 +80,10 @@
                                 android:id="@+id/b_balsum_from"
                                 android:layout_width="wrap_content"
                                 android:layout_height="45dp"
-                                android:layout_marginRight="5dp"
                                 android:background="@android:drawable/btn_dropdown"
                                 android:text="from"
                                 android:textColor="@color/black"
-                                android:textSize="15dp"
+                                android:textSize="12dp"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -104,7 +102,7 @@
                                 android:background="@android:drawable/btn_dropdown"
                                 android:text="to"
                                 android:textColor="@color/black"
-                                android:textSize="15dp"
+                                android:textSize="12dp"
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </LinearLayout>
@@ -186,9 +184,33 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/ll_bs_end"
-                    android:layout_below="@id/ll_bs_holder"
+                    android:id="@+id/ll_balsum_getodaytran"
                     android:layout_width="match_parent"
+                    android:layout_below="@id/ll_bs_holder"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/rounded_layout">
+
+                    <Button
+                        android:id="@+id/b_ts_get_today_tran_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/rounded_button"
+                        android:text="Get Today's Summary"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_ts_end"
+                    android:layout_width="match_parent"
+                    android:layout_below="@id/ll_balsum_getodaytran"
                     android:layout_height="40dp"
                     android:orientation="vertical" />
             </RelativeLayout>

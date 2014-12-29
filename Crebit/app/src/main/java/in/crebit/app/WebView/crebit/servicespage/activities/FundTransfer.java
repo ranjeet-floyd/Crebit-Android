@@ -12,8 +12,10 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -99,30 +101,48 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
         amount = (TextView) findViewById(R.id.tv_ft_amount);
 
         et_number = (EditText) findViewById(R.id.et_ft_number);
-       /* et_number.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        et_number.addTextChangedListener(new TextWatcher() {
 
-            public void onFocusChange(View view, boolean hasfocus) {
-                if (hasfocus) {
-
-                    view.setBackgroundResource(R.drawable.edittext_focus);
-                } else {
-                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
-                }
+            @Override
+            public void afterTextChanged(Editable s) {
+                number.setVisibility(View.VISIBLE);
             }
-        });*/
-        et_amount = (EditText) findViewById(R.id.et_ft_amount);
-       /* et_amount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
-            public void onFocusChange(View view, boolean hasfocus) {
-                if (hasfocus) {
-
-                    view.setBackgroundResource(R.drawable.edittext_focus);
-                } else {
-                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
-                }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                number.setVisibility(View.GONE);
             }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                number.setVisibility(View.VISIBLE);
+            }
+
         });
-*/
+
+        et_amount = (EditText) findViewById(R.id.et_ft_amount);
+        et_amount.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                amount.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                amount.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                amount.setVisibility(View.VISIBLE);
+
+            }
+
+        });
+
         transfer = (Button) findViewById(R.id.b_ft_recharge);
         transfer.setOnClickListener(this);
 
@@ -216,6 +236,8 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
                 switch (Integer.parseInt(Status)) {
                     case 1:
                     case 2:
+                        clearField(et_number);
+                        clearField(et_amount);
                         new AlertDialog.Builder(FundTransfer.this)
                                 .setTitle("Success").setIcon(getResources().getDrawable(R.drawable.successicon))
                                 .setMessage(" Transfer Completed. " +
@@ -322,4 +344,8 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
         }
 
     }
+    private void clearField(EditText et) {
+        et.setText("");
+    }
+
 }

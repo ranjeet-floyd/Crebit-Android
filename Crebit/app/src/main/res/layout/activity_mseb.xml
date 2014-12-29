@@ -42,29 +42,37 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:textSize="15dp"
-                    android:inputType="number" />
+                    android:inputType="text" />
 
-                <TextView
-                    android:id="@+id/tv_elec_mseb_cust_acc_no"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text=" Customer Account No."
-                    android:textColor="@color/black"
-                    android:textSize="15dp" />
-
-                <EditText
-                    android:id="@+id/et_elec_mseb_cust_acc_no"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:hint="  Enter Account no. "
-                    android:imeOptions="actionDone"
-                    android:inputType="phone"
-                    android:singleLine="true" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_elec_mseb_cust_acc_no"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Acc. No:"
+                        android:gravity="center_horizontal"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/et_elec_mseb_cust_acc_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:hint="Enter Acc Number"
+                        android:imeOptions="actionDone"
+                        android:inputType="phone"
+                        android:singleLine="true" />
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/b_elec_mseb_getDetails"
@@ -153,44 +161,55 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/rounded_layout"
                 android:orientation="vertical"
-                android:visibility="invisible">
+                android:visibility="gone">
 
-                <TextView
-                    android:id="@+id/tv_elec_mseb_cust_mobno"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text=" Customer Mobile No."
-                    android:textColor="@color/black"
-                    android:textSize="15dp" />
-
-                <EditText
-                    android:id="@+id/et_elec_mseb_cust_mobno"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:id="@+id/tv_elec_mseb_cust_mobno"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Mob. No."
+                        android:gravity="center_horizontal"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/et_elec_mseb_cust_mobno"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:hint="Enter Mobile Number"
+                        android:imeOptions="actionNext"
+                        android:inputType="phone"
+                        android:singleLine="true" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/b_elec_mseb_paybill"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_elec_mseb_cust_mobno"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/white_smoke"
-                    android:hint="  Enter Mobile no. "
-                    android:imeOptions="actionDone"
-                    android:inputType="phone"
-                    android:singleLine="true" />
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rounded_button"
+                    android:text="Pay Bill"
+                    android:textColor="@color/white"
+                    android:visibility="visible" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/b_elec_mseb_paybill"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ll_elec_mseb_cust_mobno"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/rounded_button"
-                android:text="Pay Bill"
-                android:textColor="@color/white"
-                android:visibility="invisible" />
+
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

@@ -12,8 +12,10 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -107,30 +109,48 @@ public class BroadBand extends ActionBarActivity implements View.OnClickListener
         amount = (TextView) findViewById(R.id.tv_bb_amount);
 
         et_number = (EditText) findViewById(R.id.et_bb_number);
-        /*et_number.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        et_number.addTextChangedListener(new TextWatcher() {
 
-            public void onFocusChange(View view, boolean hasfocus) {
-                if (hasfocus) {
-
-                    view.setBackgroundResource(R.drawable.edittext_focus);
-                } else {
-                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
-                }
+            @Override
+            public void afterTextChanged(Editable s) {
+                number.setVisibility(View.VISIBLE);
             }
-        });*/
-        et_amount = (EditText) findViewById(R.id.et_bb_amount);
-       /* et_amount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
-            public void onFocusChange(View view, boolean hasfocus) {
-                if (hasfocus) {
-
-                    view.setBackgroundResource(R.drawable.edittext_focus);
-                } else {
-                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
-                }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                number.setVisibility(View.GONE);
             }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                number.setVisibility(View.VISIBLE);
+            }
+
         });
-*/
+
+        et_amount = (EditText) findViewById(R.id.et_bb_amount);
+        et_amount.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                amount.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                amount.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                amount.setVisibility(View.VISIBLE);
+
+            }
+
+        });
+
         recharge = (Button) findViewById(R.id.b_bb_recharge);
         operatorType = (Button) findViewById(R.id.b_bb_operator);
         recharge.setOnClickListener(this);
@@ -258,6 +278,9 @@ public class BroadBand extends ActionBarActivity implements View.OnClickListener
                             }
                         }).create().show();
             } else if (StatusCode.equals("1")) {
+                clearField(et_number);
+                clearField(et_amount);
+
                 new AlertDialog.Builder(BroadBand.this)
                         .setTitle("Success").setIcon(getResources().getDrawable(R.drawable.successicon))
                         .setMessage("Request Completed." +
@@ -328,4 +351,9 @@ public class BroadBand extends ActionBarActivity implements View.OnClickListener
         }
 
     }
+
+    private void clearField(EditText et) {
+        et.setText("");
+    }
+
 }

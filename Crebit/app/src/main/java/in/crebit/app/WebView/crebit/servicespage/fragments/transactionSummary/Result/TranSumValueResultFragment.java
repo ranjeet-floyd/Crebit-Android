@@ -156,8 +156,8 @@ public class TranSumValueResultFragment extends Fragment {
             if (status == null) {
                 showAlertDialog();
             } else {
-                tvtotalamount.setText("Total Amount Rs: " + String.valueOf(TotalAmount));
-                tvtotalprofit.setText("Total Profit Rs: " + String.valueOf(TotalProfit));
+                tvtotalamount.setText("Amount Rs: " + String.valueOf(TotalAmount));
+                tvtotalprofit.setText("Profit Rs: " + String.valueOf(TotalProfit));
 
                 if (tranValueResArr.length() == 0) {
                     resultList.setVisibility(View.GONE);

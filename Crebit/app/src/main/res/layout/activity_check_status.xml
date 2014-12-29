@@ -34,6 +34,7 @@
             android:paddingLeft="10dp"
             android:layout_marginTop="10dp"
             android:paddingRight="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_button"
             android:text="click here"
             android:layout_gravity="center"

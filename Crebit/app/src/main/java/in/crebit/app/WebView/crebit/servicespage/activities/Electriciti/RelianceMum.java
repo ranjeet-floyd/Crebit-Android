@@ -12,6 +12,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -63,42 +65,64 @@ public class RelianceMum extends Activity implements View.OnClickListener {
         tvcycCode = (TextView) findViewById(R.id.tv_elec_reliance_cycode);
         tvAmount = (TextView) findViewById(R.id.tv_elec_reliance_amount);
         etcustAccNo = (EditText) findViewById(R.id.et_elec_reliance_cust_acc_no);
-        /*etcustAccNo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        etcustAccNo.addTextChangedListener(new TextWatcher() {
 
-            public void onFocusChange(View view, boolean hasfocus) {
-                if (hasfocus) {
-
-                    view.setBackgroundResource(R.drawable.edittext_focus);
-                } else {
-                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
-                }
+            @Override
+            public void afterTextChanged(Editable s) {
+                tvcustAccNo.setVisibility(View.VISIBLE);
             }
-        });*/
-        etcycCode = (EditText) findViewById(R.id.et_elec_reliance_cycode);
-       /* etcycCode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
-            public void onFocusChange(View view, boolean hasfocus) {
-                if (hasfocus) {
-
-                    view.setBackgroundResource(R.drawable.edittext_focus);
-                } else {
-                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
-                }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                tvcustAccNo.setVisibility(View.GONE);
             }
-        });*/
-        etAmount = (EditText) findViewById(R.id.et_elec_reliance_amount);
-        /*etAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
-            public void onFocusChange(View view, boolean hasfocus) {
-                if (hasfocus) {
-
-                    view.setBackgroundResource(R.drawable.edittext_focus);
-                } else {
-                    view.setBackgroundResource(R.drawable.edittext_lostfocus);
-                }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvcustAccNo.setVisibility(View.VISIBLE);
             }
+
         });
-*/
+        etcycCode = (EditText) findViewById(R.id.et_elec_reliance_cycode);
+        etcycCode.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                tvcycCode.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                tvcycCode.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvcycCode.setVisibility(View.VISIBLE);
+            }
+
+        });
+
+        etAmount = (EditText) findViewById(R.id.et_elec_reliance_amount);
+        etAmount.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                tvAmount.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                tvAmount.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvAmount.setVisibility(View.VISIBLE);
+            }
+
+        });
+
         bpayBill = (Button) findViewById(R.id.b_elec_reliance_payBill);
         bpayBill.setOnClickListener(this);
         prefs = getSharedPreferences(MY_PREFS, Context.MODE_PRIVATE);

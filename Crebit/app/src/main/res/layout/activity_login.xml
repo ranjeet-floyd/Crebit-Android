@@ -18,7 +18,8 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="40dp"/>
+                android:layout_height="40dp" />
+
             <LinearLayout
                 android:id="@+id/ll_login_page"
                 android:layout_width="match_parent"
@@ -57,7 +58,6 @@
                         android:imeOptions="actionDone"
                         android:inputType="textWebPassword"
                         android:singleLine="true" />
-
                     <Button
                         android:id="@+id/b_login"
                         android:layout_width="match_parent"
@@ -110,6 +110,7 @@
                         android:background="@null" />
                 </LinearLayout>
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="40dp" />

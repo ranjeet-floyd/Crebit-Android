@@ -167,8 +167,8 @@ public class TransSumResultFragment extends Fragment implements View.OnClickList
             if (status == null) {
                 showAlertDialog();
             } else {
-                tvamount.setText("Total Amount Rs: " + String.valueOf(TotalAmount));
-                tvprofit.setText("Total Profit Rs: " + String.valueOf(TotalProfit));
+                tvamount.setText("Amount Rs: " + String.valueOf(TotalAmount));
+                tvprofit.setText("Profit Rs: " + String.valueOf(TotalProfit));
                 if (tranResArr.length() == 0) {
                     resultList.setVisibility(View.GONE);
                     progressBar.setVisibility(View.GONE);

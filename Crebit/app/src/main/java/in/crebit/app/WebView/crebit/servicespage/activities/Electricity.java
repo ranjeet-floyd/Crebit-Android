@@ -4,6 +4,8 @@ import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
@@ -15,11 +17,17 @@ import in.crebit.app.WebView.crebit.servicespage.activities.Electriciti.TorrentP
 
 public class Electricity extends ActionBarActivity {
     private Bundle savedInstanceState;
+    private SpannableString s;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.savedInstanceState=savedInstanceState;
         setContentView(R.layout.activity_electricity);
+        s = new SpannableString("Electricity");
+        s.setSpan(new in.crebit.app.WebView.customfont.TypefaceSpan(this, "coperplategothiclight.ttf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        getSupportActionBar().setTitle(s);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         initViews();
