@@ -73,7 +73,6 @@ public class Updates extends Fragment {
 
     private class update extends AsyncTask<String, String, String> {
         ProgressDialog dialog = new ProgressDialog(getActivity());
-        String jsonResult;
         JSONArray jsonArray;
         JSONObject jsonObject;
         UpdateResult updateResult;
@@ -92,22 +91,26 @@ public class Updates extends Fragment {
         @Override
         protected String doInBackground(String... params) {
             jsonParser = new JSONParser();
-            jsonResult = jsonParser.getResponse(API.DHS_ADMIN_UPDATE);
-            if (jsonResult == null) return null;
-            try {
-                jsonArray = new JSONArray(jsonResult);
-                if (jsonArray == null) return null;
-            } catch (JSONException e) {
-                e.printStackTrace();
+            String Response = jsonParser.getResponse(API.DHS_ADMIN_UPDATE);
+            if (Response == null || Response.equals("error")) {
+                return Response;
+            } else {
+                try {
+                    jsonArray = new JSONArray(Response);
+                    if (jsonArray == null) return null;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return Response;
             }
-            return jsonResult;
         }
 
-
         @Override
-        protected void onPostExecute(String s) {
-            if (jsonResult == null || jsonArray == null) {
+        protected void onPostExecute(String status) {
+            if (status == null) {
                 showAlertDialog();
+            } else if (status.equals("error")) {
+                showErrorDialog();
             }
             // dialog.dismiss();
             else {
@@ -149,6 +152,21 @@ public class Updates extends Fragment {
                     public void onClick(DialogInterface dialog, int i) {
                         dialog.dismiss();
                         startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void showErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("\tThere was a problem with server " +
+                "\n \tTry again after sometime")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
                     }
                 });
         AlertDialog alert = builder.create();

@@ -165,7 +165,7 @@ public class TorrentPower extends Activity implements View.OnClickListener {
                     bcity.setTextColor(getResources().getColor(R.color.red));
                     break;
                 }
-                if (Check.ifAccountNumberIncorrect(CusAcc)) {
+                if (Check.ifNumberInCorrect(CusAcc)) {
                     etServiceNo.setText("");
                     etServiceNo.setHint(" Enter correct number");
                     etServiceNo.setHintTextColor(getResources().getColor(R.color.red));
@@ -217,11 +217,12 @@ public class TorrentPower extends Activity implements View.OnClickListener {
             nameValuePairs.add(new BasicNameValuePair("cusMob", CusMob));
             nameValuePairs.add(new BasicNameValuePair("amount", Amount));
             nameValuePairs.add(new BasicNameValuePair("Bu", Bu));
-            jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DHS_TORRENT_POWER, nameValuePairs);
-            if (jsonResponse == null) {
-                return null;
+            String Response = jsonParser.makeHttpPostRequestforJsonObject(API.DHS_TORRENT_POWER, nameValuePairs);
+            if (Response == null ||Response.equals("error")) {
+                return Response;
             } else {
                 try {
+                    jsonResponse = new JSONObject(Response);
                     torPowerResponse = new TorPowerResponse(jsonResponse.getInt("Status"),
                             jsonResponse.getString("Message"),
                             jsonResponse.getInt("AvaiBal"));
@@ -241,6 +242,8 @@ public class TorrentPower extends Activity implements View.OnClickListener {
             dialog.dismiss();
             if (StatusCode == null) {
                 showAlertDialog();
+            } else if (StatusCode.equals("error")) {
+                showErrorDialog();
             } else if (StatusCode.equals("0") || StatusCode.equals("-1")) {
                 new AlertDialog.Builder(TorrentPower.this)
                         .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
@@ -262,8 +265,8 @@ public class TorrentPower extends Activity implements View.OnClickListener {
                 new AlertDialog.Builder(TorrentPower.this)
                         .setTitle("Success").setIcon(getResources().getDrawable(R.drawable.successicon))
                         .setMessage("Request Completed." +
-                                "\n\nMessage: " + Message +
-                                "\nAvailable Balance: " + AvaiBal)
+                                "\n\nMessage: " + "Bill Payment Request Successfully Accepted" +
+                                "\n\nAvailable Balance Rs: " + AvaiBal)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -305,6 +308,21 @@ public class TorrentPower extends Activity implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int i) {
                         dialog.dismiss();
                         startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void showErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("\tThere was a problem with server " +
+                "\n \tTry again after sometime")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
                     }
                 });
         AlertDialog alert = builder.create();

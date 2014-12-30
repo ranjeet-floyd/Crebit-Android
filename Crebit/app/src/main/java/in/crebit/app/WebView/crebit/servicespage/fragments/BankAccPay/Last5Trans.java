@@ -118,11 +118,18 @@ public class Last5Trans extends Fragment {
             nameValuePairs = new ArrayList<NameValuePair>();
             nameValuePairs.add(new BasicNameValuePair("userId", userId));
             nameValuePairs.add(new BasicNameValuePair("password", password));
-            lasTranArr = jsonParser.makeHttpPostRequest(API.DASHBOARD_GET_ACCOUNT, nameValuePairs);
-            if (lasTranArr == null)
-                return null;
+            String Response = jsonParser.makeHttpPostRequest(API.DASHBOARD_GET_ACCOUNT, nameValuePairs);
+            if (Response == null || Response.equals("error"))
+                return Response;
             else {
-                return "resultsuccess";
+                try {
+                    lasTranArr = new JSONArray(Response);
+                    if (lasTranArr == null)
+                        return null;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return Response;
             }
         }
 
@@ -130,6 +137,8 @@ public class Last5Trans extends Fragment {
         protected void onPostExecute(String status) {
             if (status == null) {
                 showAlertDialog();
+            } else if (status.equals("error")) {
+                showErrorDialog();
             } else {
                 if (lasTranArr.length() == 0) {
                     resultList.setVisibility(View.GONE);
@@ -229,6 +238,21 @@ public class Last5Trans extends Fragment {
                     public void onClick(DialogInterface dialog, int i) {
                         dialog.dismiss();
                         startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void showErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("\tThere was a problem with server " +
+                "\n \tTry again after sometime")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
                     }
                 });
         AlertDialog alert = builder.create();

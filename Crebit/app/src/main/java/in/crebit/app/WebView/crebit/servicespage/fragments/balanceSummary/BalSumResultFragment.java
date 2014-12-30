@@ -111,11 +111,12 @@ public class BalSumResultFragment extends Fragment {
             nameValuePairs.add(new BasicNameValuePair("ToDate", toDate));
             nameValuePairs.add(new BasicNameValuePair("TypeId", TypeId));
             nameValuePairs.add(new BasicNameValuePair("Value", Value));
-            jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_BALANCE_USE, nameValuePairs);
-            if (jsonResponse == null) {
-                return null;
+            String Response = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_BALANCE_USE, nameValuePairs);
+            if (Response==null||Response.equals("error")) {
+                return Response;
             } else {
                 try {
+                    jsonResponse = new JSONObject(Response);
                     balSumResponse = new BalSumResponse(jsonResponse.getDouble("totalBalanceGiven"),
                             jsonResponse.getDouble("totalBalanceTaken"),
                             jsonResponse.getJSONArray("balanceUse"));
@@ -134,6 +135,8 @@ public class BalSumResultFragment extends Fragment {
             //dialog.dismiss();
             if (status == null) {
                 showAlertDialog();
+            } else if (status.equals("error")) {
+                showErrorDialog();
             } else {
                 tvbaltaken.setText("Total Received Rs: " + String.valueOf(TotalBalanceTaken));
                 if (balanceUseArr.length() == 0) {
@@ -189,6 +192,21 @@ public class BalSumResultFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int i) {
                         dialog.dismiss();
                         startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void showErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("\tThere was a problem with server " +
+                "\n \tTry again after sometime")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
                     }
                 });
         AlertDialog alert = builder.create();

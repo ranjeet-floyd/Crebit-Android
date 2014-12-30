@@ -208,11 +208,12 @@ public class SignUp extends ActionBarActivity implements View.OnClickListener {
             nameValuePairs.add(new BasicNameValuePair("name", name));
             nameValuePairs.add(new BasicNameValuePair("pass", password));
             nameValuePairs.add(new BasicNameValuePair("mobile", mobilenumber));
-            jsonArray = jsonParser.makeHttpPostRequest(API.DHS_SIGNUP, nameValuePairs);
-            if (jsonArray == null) {
-                return null;
+            String Response = jsonParser.makeHttpPostRequest(API.DHS_SIGNUP, nameValuePairs);
+            if (Response == null ||Response.equals("error")) {
+                return Response;
             } else {
                 try {
+                    jsonArray = new JSONArray(Response);
                     JsonResponse = jsonArray.getJSONObject(0);
                     signUpResponse = new SignUpResponse(JsonResponse.getString("status"));
                     status = signUpResponse.getStatus();
@@ -228,6 +229,8 @@ public class SignUp extends ActionBarActivity implements View.OnClickListener {
             dialog.dismiss();
             if (status == null) {
                 showAlertDialog();
+            } else if (status.equals("error")) {
+                showErrorDialog();
             } else if (status.equals("1")) {
                 clearField(etname);
                 clearField(etpasswd);
@@ -280,6 +283,21 @@ public class SignUp extends ActionBarActivity implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int i) {
                         dialog.dismiss();
                         startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void showErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("\tThere was a problem with server " +
+                "\n \tTry again after sometime")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
                     }
                 });
         AlertDialog alert = builder.create();

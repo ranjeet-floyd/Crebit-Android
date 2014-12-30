@@ -142,11 +142,12 @@ public class TransSumResultFragment extends Fragment implements View.OnClickList
             nameValuePairs.add(new BasicNameValuePair("ToDate", toDate));
             nameValuePairs.add(new BasicNameValuePair("StatusId", String.valueOf(StatusId)));
             nameValuePairs.add(new BasicNameValuePair("TypeId", String.valueOf(TypeId)));
-            jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_TRANSACTION_DETAILS, nameValuePairs);
-            if (jsonResponse == null) {
-                return null;
+            String Response = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_TRANSACTION_DETAILS, nameValuePairs);
+            if (Response == null || Response.equals("error")) {
+                return Response;
             } else {
                 try {
+                    jsonResponse = new JSONObject(Response);
                     tranSumResponse = new TranSumResponse(jsonResponse.getDouble("totalAmount"),
                             jsonResponse.getDouble("totalProfit"), jsonResponse.getJSONArray("dL_TransactionReturns"));
 
@@ -166,6 +167,8 @@ public class TransSumResultFragment extends Fragment implements View.OnClickList
             // dialog.dismiss();
             if (status == null) {
                 showAlertDialog();
+            } else if (status.equals("error")) {
+                showErrorDialog();
             } else {
                 tvamount.setText("Amount Rs: " + String.valueOf(TotalAmount));
                 tvprofit.setText("Profit Rs: " + String.valueOf(TotalProfit));
@@ -228,6 +231,21 @@ public class TransSumResultFragment extends Fragment implements View.OnClickList
                     public void onClick(DialogInterface dialog, int i) {
                         dialog.dismiss();
                         startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void showErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("\tThere was a problem with server " +
+                "\n \tTry again after sometime")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
                     }
                 });
         AlertDialog alert = builder.create();

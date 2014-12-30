@@ -235,11 +235,12 @@ public class PostPaid extends ActionBarActivity implements View.OnClickListener 
             nameValuePairs.add(new BasicNameValuePair("Amount", String.valueOf(Amount)));
             nameValuePairs.add(new BasicNameValuePair("account", Account));
             nameValuePairs.add(new BasicNameValuePair("Source", SOURCE));
-            jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_SERVICE, nameValuePairs);
-            if (jsonResponse == null) {
-                return null;
+            String Response = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_SERVICE, nameValuePairs);
+            if (Response == null || Response.equals("error")) {
+                return Response;
             } else {
                 try {
+                    jsonResponse = new JSONObject(Response);
                     postPaidResponse = new PostPaidResponse(jsonResponse.getString("transId"),
                             jsonResponse.getString("message"),
                             jsonResponse.getInt("statusCode"),
@@ -261,11 +262,23 @@ public class PostPaid extends ActionBarActivity implements View.OnClickListener 
             dialog.dismiss();
             if (StatusCode == null) {
                 showAlertDialog();
-            } else if (StatusCode.equals("0") || StatusCode.equals("-1")) {
+            } else if (StatusCode.equals("error")) {
+                showErrorDialog();
+            } else if (StatusCode.equals("0")) {
                 TransId = Message = AvailableBalance = "";
                 new AlertDialog.Builder(PostPaid.this)
                         .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
                         .setMessage("Request Not Completed.")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).create().show();
+            } else if (StatusCode.equals("-1")) {
+                new AlertDialog.Builder(PostPaid.this)
+                        .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
+                        .setMessage("Request Not Completed.\n" +Message)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -280,7 +293,7 @@ public class PostPaid extends ActionBarActivity implements View.OnClickListener 
                         .setMessage("Request Completed.\n" +
                                 "Transaction ID: " + TransId +
                                 "\n\nMessage: " + Message +
-                                "\nAvailable Balance: " + AvailableBalance)
+                                "\nAvailable Balance Rs: " + AvailableBalance)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -323,6 +336,21 @@ public class PostPaid extends ActionBarActivity implements View.OnClickListener 
                     public void onClick(DialogInterface dialog, int i) {
                         dialog.dismiss();
                         startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void showErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("\tThere was a problem with server " +
+                "\n \tTry again after sometime")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
                     }
                 });
         AlertDialog alert = builder.create();

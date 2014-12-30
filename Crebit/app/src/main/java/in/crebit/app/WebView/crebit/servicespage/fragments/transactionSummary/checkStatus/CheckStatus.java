@@ -188,11 +188,12 @@ public class CheckStatus extends ActionBarActivity implements View.OnClickListen
             nameValuePairs.add(new BasicNameValuePair("TypeId", TypeId));
             nameValuePairs.add(new BasicNameValuePair("Comments", Comments));
             Log.e("Request:", "\nUserID" + UserId + "\nKey" + Key + "\nTransId" + TransId + "\nTypeID" + TypeId + "\nComments" + Comments);
-            jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_REFUNDORTRANS_STATUS, nameValuePairs);
-            if (jsonResponse == null) {
-                return null;
+            String Response = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_REFUNDORTRANS_STATUS, nameValuePairs);
+            if (Response==null||Response.equals("error")) {
+                return Response;
             } else {
                 try {
+                    jsonResponse = new JSONObject(Response);
                     refResponse = new RefundOrTransResponse(jsonResponse.getString("typeId"),
                             jsonResponse.getString("status"), jsonResponse.getString("message"),
                             jsonResponse.getString("cybertransId"), jsonResponse.getString("operatorId"));
@@ -206,7 +207,6 @@ public class CheckStatus extends ActionBarActivity implements View.OnClickListen
                             jsonResponse.getString("message") + "\nCybertransid: " +
                             jsonResponse.getString("cybertransId") + "\nStatus: " +
                             jsonResponse.getString("status"));
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -214,12 +214,14 @@ public class CheckStatus extends ActionBarActivity implements View.OnClickListen
             }
         }
 
+
         @Override
         protected void onPostExecute(String status) {
             progressbarlayout.setVisibility(View.GONE);
-
             if (status == null) {
                 showAlertDialog();
+            } else if (status.equals("error")) {
+                showErrorDialog();
             } else {
                 int statcode = Integer.parseInt(status);
                 switch (statcode) {
@@ -339,6 +341,21 @@ public class CheckStatus extends ActionBarActivity implements View.OnClickListen
                     public void onClick(DialogInterface dialog, int i) {
                         dialog.dismiss();
                         startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void showErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("\tThere was a problem with server " +
+                "\n \tTry again after sometime")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
                     }
                 });
         AlertDialog alert = builder.create();

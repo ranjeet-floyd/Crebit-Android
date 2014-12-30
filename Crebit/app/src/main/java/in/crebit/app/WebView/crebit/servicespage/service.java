@@ -17,7 +17,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -199,7 +198,7 @@ public class
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         s = new SpannableString("Crebit Wallet");
-        s.setSpan(new in.crebit.app.WebView.customfont.TypefaceSpan(this,"coperplategothicbold.ttf"), 0, s.length(),
+        s.setSpan(new in.crebit.app.WebView.customfont.TypefaceSpan(this, "coperplategothicbold.ttf"), 0, s.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         actionBar.setTitle(s);
     }
@@ -253,6 +252,8 @@ public class
     }
 
     private class retrieveBalance extends AsyncTask<String, String, String> {
+        String status;
+
 
         @Override
         protected void onPreExecute() {
@@ -261,33 +262,29 @@ public class
         @Override
         protected String doInBackground(String... strings) {
             jsonParser = new JSONParser();
-            String response = jsonParser.getResponse(API.GET_BALANCE + userID);
-            try {
-                jsonResponse = new JSONObject(response);
-                if (jsonResponse == null) {
-                    availableBalance = "0.0";
-                    return null;
-                } else {
-                    String status = null;
-                    try {
-                        status = jsonResponse.getString("Status");
-                        if (status.equals("1"))
-                            availableBalance = jsonResponse.getString("AvailBal");
-                        Log.e("Available Balance  ", availableBalance);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+            String Response = jsonParser.getResponse(API.GET_BALANCE + userID);
+            if (Response == null || Response.equals("error")) {
+                return Response;
+            } else {
+                try {
+                    jsonResponse = new JSONObject(Response);
+                    String status = jsonResponse.getString("Status");
+                    if (status.equals("1"))
+                        availableBalance = jsonResponse.getString("AvailBal");
+                    return availableBalance;
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+                return Response;
             }
-            return availableBalance;
         }
 
         @Override
-        protected void onPostExecute(String balance) {
-            if (balance == null) {
+        protected void onPostExecute(String status) {
+            if (status == null) {
                 showAlertDialog();
+            } else if (status.equals("error")) {
+                showErrorDialog();
             } else {
                 invalidateOptionsMenu();
             }
@@ -325,6 +322,21 @@ public class
                     public void onClick(DialogInterface dialog, int i) {
                         dialog.dismiss();
                         startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void showErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("\tThere was a problem with server " +
+                "\n \tTry again after sometime")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
                     }
                 });
         AlertDialog alert = builder.create();

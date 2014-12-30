@@ -285,11 +285,12 @@ public class
             nameValuePairs.add(new BasicNameValuePair("IFSC", IFSC));
             nameValuePairs.add(new BasicNameValuePair("Account", Account));
             nameValuePairs.add(new BasicNameValuePair("Amount", String.valueOf(Amount)));
-            jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DHS_BANK_ACC_PAY, nameValuePairs);
-            if (jsonResponse == null) {
-                return null;
+            String Response = jsonParser.makeHttpPostRequestforJsonObject(API.DHS_BANK_ACC_PAY, nameValuePairs);
+            if (Response == null || Response.equals("error")) {
+                return Response;
             } else {
                 try {
+                    jsonResponse = new JSONObject(Response);
                     bankAccResponse = new BankAccResponse(jsonResponse.getString("status"),
                             jsonResponse.getString("availableBalance"),
                             jsonResponse.getString("refId"));
@@ -308,6 +309,8 @@ public class
         protected void onPostExecute(String StatusCode) {
             if (StatusCode == null) {
                 showAlertDialog();
+            } else if (StatusCode.equals("error")) {
+                showErrorDialog();
             } else if (StatusCode.equals("0") || StatusCode.equals("-1")) {
                 new AlertDialog.Builder(getActivity())
                         .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
@@ -372,6 +375,21 @@ public class
                     public void onClick(DialogInterface dialog, int i) {
                         dialog.dismiss();
                         startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void showErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("\tThere was a problem with server " +
+                "\n \tTry again after sometime")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
                     }
                 });
         AlertDialog alert = builder.create();

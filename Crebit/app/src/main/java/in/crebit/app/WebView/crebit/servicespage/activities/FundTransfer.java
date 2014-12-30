@@ -210,11 +210,12 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
             nameValuePairs.add(new BasicNameValuePair("key", Key));
             nameValuePairs.add(new BasicNameValuePair("mobileTo", MobileTo));
             nameValuePairs.add(new BasicNameValuePair("amount", Amount));
-            jsonArray = jsonParser.makeHttpPostRequest(API.DASHBOARD_TRANSFER, nameValuePairs);
-            if (jsonArray == null) {
-                return null;
+            String Response = jsonParser.makeHttpPostRequest(API.DASHBOARD_TRANSFER, nameValuePairs);
+            if (Response == null ||Response.equals("error")) {
+                return Response;
             } else {
                 try {
+                    jsonArray = new JSONArray(Response);
                     jsonResponse = jsonArray.getJSONObject(0);
                     fundTransferResponse = new FundTransferResponse(jsonResponse.getString("status"),
                             jsonResponse.getString("availableBalance"));
@@ -232,6 +233,8 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
             dialog.dismiss();
             if (Status == null) {
                 showAlertDialog();
+            } else if (Status.equals("error")) {
+                showErrorDialog();
             } else {
                 switch (Integer.parseInt(Status)) {
                     case 1:
@@ -241,7 +244,7 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
                         new AlertDialog.Builder(FundTransfer.this)
                                 .setTitle("Success").setIcon(getResources().getDrawable(R.drawable.successicon))
                                 .setMessage(" Transfer Completed. " +
-                                        "\n\nAvailable Balance: " + AvailableBalance)
+                                        "\n\nAvailable Balance Rs: " + AvailableBalance)
                                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -254,7 +257,7 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
                         new AlertDialog.Builder(FundTransfer.this)
                                 .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
                                 .setMessage("Not Enough Balance" +
-                                        "\n\n Available Balance: " + AvailableBalance)
+                                        "\n\n Available Balance Rs: " + AvailableBalance)
                                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -326,6 +329,21 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
         alert.show();
     }
 
+    private void showErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("\tThere was a problem with server " +
+                "\n \tTry again after sometime")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     private boolean isNetworkAvailable() {
 
         ConnectivityManager connectivityManager
@@ -344,6 +362,7 @@ public class FundTransfer extends ActionBarActivity implements View.OnClickListe
         }
 
     }
+
     private void clearField(EditText et) {
         et.setText("");
     }

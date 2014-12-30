@@ -4,32 +4,24 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
 public class JSONParser {
     static InputStream is;
-    static JSONArray jsonArray;
-    static JSONObject jsonObject;
-    static String json = "";
 
     public JSONParser() {
     }
 
 
-    public JSONArray makeHttpPostRequest(String url, List<NameValuePair> nameValuePairs) {
+    public String makeHttpPostRequest(String url, List<NameValuePair> nameValuePairs) {
         StringBuilder sb = new StringBuilder();
         DefaultHttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(url);
@@ -46,44 +38,50 @@ public class JSONParser {
                 while ((line = reader.readLine()) != null) {
                     sb.append(line + "\n");
                 }
+                return sb.toString();
+            } else if (statusCode == 500) {
+                sb = new StringBuilder("error");
+                return sb.toString();
             } else {
                 return null;
             }
-            is.close();
-            json = sb.toString();
-            jsonArray = new JSONArray(json);
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return jsonArray;
+        return null;
+
     }
 
-    public JSONObject makeHttpPostRequestforJsonObject(String url, List<NameValuePair> nameValuePairs) {
+    public String makeHttpPostRequestforJsonObject(String url, List<NameValuePair> nameValuePairs) {
+        StringBuilder sb = new StringBuilder();
         DefaultHttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(url);
         try {
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             HttpResponse httpresponse = httpclient.execute(httppost);
-            HttpEntity httpentity = httpresponse.getEntity();
-            is = httpentity.getContent();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
+            StatusLine statusLine = httpresponse.getStatusLine();
+            int statusCode = statusLine.getStatusCode();
+            if (statusCode == 200 || statusCode == 201) {
+                HttpEntity httpentity = httpresponse.getEntity();
+                is = httpentity.getContent();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                return sb.toString();
+            } else if (statusCode == 500) {
+                sb = new StringBuilder("error");
+                return sb.toString();
+            } else {
+                return null;
             }
-            is.close();
-            json = sb.toString();
-            jsonObject = new JSONObject(json);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return jsonObject;
+        return null;
     }
+
     public String getResponse(String address) {
         StringBuilder sb = new StringBuilder();
         DefaultHttpClient client = new DefaultHttpClient();
@@ -92,7 +90,7 @@ public class JSONParser {
             HttpResponse response = client.execute(httpGet);
             StatusLine statusLine = response.getStatusLine();
             int statusCode = statusLine.getStatusCode();
-            if (statusCode == 200) {
+            if (statusCode == 200 || statusCode == 201) {
                 HttpEntity entity = response.getEntity();
                 InputStream content = entity.getContent();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(content));
@@ -100,14 +98,16 @@ public class JSONParser {
                 while ((line = reader.readLine()) != null) {
                     sb.append(line);
                 }
+                return sb.toString();
+            } else if (statusCode == 500) {
+                sb = new StringBuilder("error");
+                return sb.toString();
             } else {
-                sb = new StringBuilder("Error");
+                return null;
             }
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return sb.toString();
+        return null;
     }
 }

@@ -79,8 +79,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     private static final String APP_VERSION = "appVersion";
     private static final String TAG = "Register Activity";*/
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
      /*//GCM SETUP
@@ -125,7 +124,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 try {
                     String regid = gcm.register(SENDER_ID);
                     hub.register(regid);
-                   Log.e("Device Registered",regid);
+                    Log.e("Device Registered", regid);
                 } catch (Exception e) {
                     return e;
                 }
@@ -245,11 +244,12 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             nameValuePairs.add(new BasicNameValuePair("Mobile", mobile));
             nameValuePairs.add(new BasicNameValuePair("Pass", pass));
             nameValuePairs.add(new BasicNameValuePair("Version", Version));
-            jsonArray = jsonParser.makeHttpPostRequest(API.DHS_LOGIN, nameValuePairs);
-            if (jsonArray == null) {
-                return null;
+            String Response = jsonParser.makeHttpPostRequest(API.DHS_LOGIN, nameValuePairs);
+            if (Response==null||Response.equals("error")) {
+                return Response;
             } else {
                 try {
+                    jsonArray = new JSONArray(Response);
                     JsonResponse = jsonArray.getJSONObject(0);
                     loginResponse = new LoginResponse(JsonResponse.getBoolean("isSupported"),
                             JsonResponse.getBoolean("isActive"),
@@ -279,6 +279,8 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             dialog.dismiss();
             if (name == null) {
                 showAlertDialog();
+            } else if (name.equals("error")) {
+                showErrorDialog();
             } else if (name.equals("null")) {
                 new AlertDialog.Builder(LoginActivity.this)
                         .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
@@ -340,6 +342,21 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         alert.show();
     }
 
+    private void showErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("\tThere was a problem with server " +
+                "\n \tTry again after sometime")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     public static class NetworkChangeReceiver extends BroadcastReceiver {
         public NetworkChangeReceiver() {
         }
@@ -354,102 +371,4 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         et.setText("");
     }
 
-
-/*    //Register with GCM Server
-    public String registerGCM() {
-
-        gcm = GoogleCloudMessaging.getInstance(this);
-        regId = getRegistrationId(context);
-
-        if (TextUtils.isEmpty(regId)) {
-
-            registerInBackground();
-
-            Log.e("RegisterActivity",
-                    "registerGCM - successfully registered with GCM server - regId: "
-                            + regId);
-        } else {
-            Toast.makeText(getApplicationContext(),
-                    "RegId already available. RegId: " + regId,
-                    Toast.LENGTH_LONG).show();
-        }
-        return regId;
-    }
-
-    //Get RegID from Shared Preferences
-    private String getRegistrationId(Context context) {
-        final SharedPreferences prefs = getSharedPreferences(
-                LoginActivity.class.getSimpleName(), Context.MODE_PRIVATE);
-        String registrationId = prefs.getString(REG_ID, "");
-        if (registrationId.isEmpty()) {
-            Log.i(TAG, "Registration not found.");
-            return "";
-        }
-        int registeredVersion = prefs.getInt(APP_VERSION, Integer.MIN_VALUE);
-        int currentVersion = getAppVersion(context);
-        if (registeredVersion != currentVersion) {
-            Log.i(TAG, "App version changed.");
-            return "";
-        }
-        return registrationId;
-    }
-
-    //Check for the current version of App
-    private static int getAppVersion(Context context) {
-        try {
-            PackageInfo packageInfo = context.getPackageManager()
-                    .getPackageInfo(context.getPackageName(), 0);
-            return packageInfo.versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.d("RegisterActivity",
-                    "I never expected this! Going down, going down!" + e);
-            throw new RuntimeException(e);
-        }
-    }
-
-    //Get REgID in background thread
-    private void registerInBackground() {
-        new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... params) {
-                String msg = "";
-                try {
-                    if (gcm == null) {
-                        gcm = GoogleCloudMessaging.getInstance(context);
-                    }
-                    regId = gcm.register(Config.GOOGLE_PROJECT_ID);
-                    Log.e("RegisterActivity", "registerInBackground - regId: "
-                            + regId);
-                    msg = "Device registered, registration ID=" + regId;
-
-                    storeRegistrationId(context, regId);
-
-                } catch (IOException ex) {
-                    msg = "Error :" + ex.getMessage();
-                    Log.d("RegisterActivity", "Error: " + msg);
-                }
-                Log.d("RegisterActivity", "AsyncTask completed: " + msg);
-                return msg;
-            }
-
-            @Override
-            protected void onPostExecute(String msg) {
-                Toast.makeText(getApplicationContext(),
-                        "Registered with GCM Server." + msg, Toast.LENGTH_LONG)
-                        .show();
-            }
-        }.execute(null, null, null);
-    }
-
-    //Store RegID in Shared preference
-    private void storeRegistrationId(Context context, String regId) {
-        final SharedPreferences prefs = getSharedPreferences(
-                LoginActivity.class.getSimpleName(), Context.MODE_PRIVATE);
-        int appVersion = getAppVersion(context);
-        Log.i(TAG, "Saving regId on app version " + appVersion);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(REG_ID, regId);
-        editor.putInt(APP_VERSION, appVersion);
-        editor.commit();
-    }*/
 }

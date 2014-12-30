@@ -191,11 +191,12 @@ public class RelianceMum extends Activity implements View.OnClickListener {
             nameValuePairs.add(new BasicNameValuePair("Number", Number));
             nameValuePairs.add(new BasicNameValuePair("Amount", String.valueOf(Amount)));
             nameValuePairs.add(new BasicNameValuePair("Source", Source));
-            jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_SERVICE, nameValuePairs);
-            if (jsonResponse == null) {
-                return null;
+            String Response = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_SERVICE, nameValuePairs);
+            if (Response == null ||Response.equals("error")) {
+                return Response;
             } else {
                 try {
+                    jsonResponse = new JSONObject(Response);
                     relianceResponse = new RelianceResponse(jsonResponse.getString("transId"),
                             jsonResponse.getString("message"),
                             jsonResponse.getInt("statusCode"),
@@ -217,6 +218,8 @@ public class RelianceMum extends Activity implements View.OnClickListener {
             dialog.dismiss();
             if (StatusCode == null) {
                 showAlertDialog();
+            } else if (StatusCode.equals("error")) {
+                showErrorDialog();
             } else if (StatusCode.equals("0") || StatusCode.equals("-1")) {
                 new AlertDialog.Builder(RelianceMum.this)
                         .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
@@ -273,6 +276,21 @@ public class RelianceMum extends Activity implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int i) {
                         dialog.dismiss();
                         startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void showErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("\tThere was a problem with server " +
+                "\n \tTry again after sometime")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
                     }
                 });
         AlertDialog alert = builder.create();

@@ -131,11 +131,12 @@ public class TranSumValueResultFragment extends Fragment {
             nameValuePairs.add(new BasicNameValuePair("UserId", UserId));
             nameValuePairs.add(new BasicNameValuePair("Key", Key));
             nameValuePairs.add(new BasicNameValuePair("Value", Value));
-            jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_TRANSEARCH, nameValuePairs);
-            if (jsonResponse == null) {
-                return null;
+            String Response = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_TRANSEARCH, nameValuePairs);
+            if (Response == null||Response.equals("error")) {
+                return Response;
             } else {
                 try {
+                    jsonResponse=new JSONObject(Response);
                     tranSumValueResponse = new TranSumResponse(jsonResponse.getDouble("totalAmount"),
                             jsonResponse.getDouble("totalProfit"), jsonResponse.getJSONArray("dL_TransactionReturns"));
 
@@ -155,6 +156,8 @@ public class TranSumValueResultFragment extends Fragment {
             // dialog.dismiss();
             if (status == null) {
                 showAlertDialog();
+            } else if (status.equals("error")) {
+                showErrorDialog();
             } else {
                 tvtotalamount.setText("Amount Rs: " + String.valueOf(TotalAmount));
                 tvtotalprofit.setText("Profit Rs: " + String.valueOf(TotalProfit));
@@ -217,6 +220,21 @@ public class TranSumValueResultFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int i) {
                         dialog.dismiss();
                         startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void showErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("\tThere was a problem with server " +
+                "\n \tTry again after sometime")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
                     }
                 });
         AlertDialog alert = builder.create();

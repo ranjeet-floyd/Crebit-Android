@@ -193,11 +193,12 @@ public class MSEB extends Activity implements View.OnClickListener {
             nameValuePairs.add(new BasicNameValuePair("serviceId", String.valueOf(ServiceId)));
             nameValuePairs.add(new BasicNameValuePair("consumerNo", CusAcc));
             nameValuePairs.add(new BasicNameValuePair("buCode", BuCode));
-            jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DHS_GET_MSEB_CUS_DETAILS, nameValuePairs);
-            if (jsonResponse == null) {
-                return null;
+            String Response = jsonParser.makeHttpPostRequestforJsonObject(API.DHS_GET_MSEB_CUS_DETAILS, nameValuePairs);
+            if (Response.equals("error") || Response == null||Response.equals("null\n")) {
+                return Response;
             } else {
                 try {
+                    jsonResponse = new JSONObject(Response);
                     msebResponse = new MsebResponse(jsonResponse.getInt("billAmount"),
                             jsonResponse.getString("dueDate"),
                             jsonResponse.getInt("consumptionUnits"), jsonResponse.getString("billMonth"));
@@ -217,6 +218,10 @@ public class MSEB extends Activity implements View.OnClickListener {
             dialog.dismiss();
             if (dueDate == null) {
                 showAlertDialog("getdetails");
+            } else if (dueDate.equals("error")) {
+                showErrorDialog();
+            } else if (dueDate.equals("null\n")) {
+                showIncorrectParamDialog();
             } else {
                 llerrorDueDate.setVisibility(View.VISIBLE);
                 if (Check.ifTodayLessThanDue(dueDate)) {
@@ -237,6 +242,19 @@ public class MSEB extends Activity implements View.OnClickListener {
                 }
             }
         }
+    }
+
+    private void showIncorrectParamDialog() {
+        new AlertDialog.Builder(MSEB.this)
+                .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
+                .setMessage("Unable To Fetch The Data\n"+
+                             "Check Whether You Have Provided Correct Account Number" )
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).create().show();
     }
 
     private class retrieveDataforPayBill extends AsyncTask<String, String, String> {
@@ -264,11 +282,12 @@ public class MSEB extends Activity implements View.OnClickListener {
             nameValuePairs.add(new BasicNameValuePair("serviceId", String.valueOf(ServiceId)));
             nameValuePairs.add(new BasicNameValuePair("userId", UserId));
 
-            jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_ELECTRICITY, nameValuePairs);
-            if (jsonResponse == null) {
-                return null;
+            String Response = jsonParser.makeHttpPostRequestforJsonObject(API.DASHBOARD_ELECTRICITY, nameValuePairs);
+            if (Response.equals("error") || Response == null) {
+                return Response;
             } else {
                 try {
+                    jsonResponse = new JSONObject(Response);
                     msebPayBllResponse = new MsebPayBllResponse(jsonResponse.getInt("avaiBal"), jsonResponse.getInt("status"));
                     Status = msebPayBllResponse.getStatus();
                     AvailBal = msebPayBllResponse.getAvaiBal();
@@ -284,6 +303,8 @@ public class MSEB extends Activity implements View.OnClickListener {
             dialog.dismiss();
             if (status == null) {
                 showAlertDialog("paybill");
+            } else if (status.equals("error")) {
+                showErrorDialog();
             } else if (status.equals("0") || status.equals("-1")) {
                 new AlertDialog.Builder(MSEB.this)
                         .setTitle("Error").setIcon(getResources().getDrawable(R.drawable.erroricon))
@@ -345,6 +366,21 @@ public class MSEB extends Activity implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int i) {
                         dialog.dismiss();
                         startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void showErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("\tThere was a problem with server " +
+                "\n \tTry again after sometime")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
                     }
                 });
         AlertDialog alert = builder.create();

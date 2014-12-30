@@ -149,11 +149,12 @@ public class ChangePassword extends ActionBarActivity implements View.OnClickLis
             nameValuePairs.add(new BasicNameValuePair("Key", key));
             nameValuePairs.add(new BasicNameValuePair("OPass", olpass));
             nameValuePairs.add(new BasicNameValuePair("NPass", nwpass));
-            jsonResponse = jsonParser.makeHttpPostRequestforJsonObject(API.DHS_CHANGE_PASSWORD, nameValuePairs);
-            if (jsonResponse == null)
-                return null;
+            String Response = jsonParser.makeHttpPostRequestforJsonObject(API.DHS_CHANGE_PASSWORD, nameValuePairs);
+            if (Response == null || Response.equals("error"))
+                return Response;
             else {
                 try {
+                    jsonResponse = new JSONObject(Response);
                     changePassResponse = new ChangePassResponse(jsonResponse.getString("status"));
                     status = changePassResponse.getStatus();
                 } catch (JSONException e) {
@@ -169,7 +170,9 @@ public class ChangePassword extends ActionBarActivity implements View.OnClickLis
             dialog.dismiss();
             if (status == null)
                 showAlertDialog();
-            if (status.equals("1")) {
+            else if (status.equals("error")) {
+                showErrorDialog();
+            } else if (status.equals("1")) {
                 clearField(et_oldPass);
                 clearField(et_newPass);
                 new AlertDialog.Builder(ChangePassword.this)
@@ -228,6 +231,21 @@ public class ChangePassword extends ActionBarActivity implements View.OnClickLis
                     public void onClick(DialogInterface dialog, int i) {
                         dialog.dismiss();
                         startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void showErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("\tThere was a problem with server " +
+                "\n \tTry again after sometime")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
                     }
                 });
         AlertDialog alert = builder.create();
